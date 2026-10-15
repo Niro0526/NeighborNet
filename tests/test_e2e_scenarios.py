@@ -1,34 +1,105 @@
 """
-End-to-End integration test suite for NeighborNet AI Phase 3.
-Tests scenarios A, B, C, and D through the Vite development proxy or Django server directly.
+End-to-End integration test suite for NeighborNet AI Phase 3 & Phase 5.
+Tests scenarios A, B, C, and D through either live Vite/Django server or isolated in-memory Django test client.
 """
+import pytest
 import requests
 import json
 import sys
+from django.core.management import call_command
+from rest_framework.test import APIClient
+from rest_framework.utils.encoders import JSONEncoder
 
-BASE_URL = "http://localhost:5173/api/v1"
+def is_live_server_up(url="http://localhost:5173/api/v1/auth/csrf/"):
+    try:
+        r = requests.get(url, timeout=0.3)
+        return r.status_code == 200
+    except Exception:
+        return False
+
+USE_LIVE = is_live_server_up()
+BASE_URL = "http://localhost:5173/api/v1" if USE_LIVE else "/api/v1"
+
+class WrappedResponse:
+    def __init__(self, res):
+        self._res = res
+        self.status_code = res.status_code
+        self.content = getattr(res, 'content', b'')
+        if isinstance(self.content, bytes):
+            self.text = self.content.decode('utf-8')
+        else:
+            self.text = str(self.content or '')
+        self.headers = getattr(res, 'headers', {})
+
+    def json(self):
+        if hasattr(self._res, 'data') and self._res.data is not None:
+            return json.loads(json.dumps(self._res.data, cls=JSONEncoder))
+        if self.text:
+            try:
+                return json.loads(self.text)
+            except Exception:
+                return {}
+        return {}
+
+class InMemoryTestSession:
+    def __init__(self):
+        self.client = APIClient(enforce_csrf_checks=True)
+        self.headers = {}
+        self.cookies = {}
+        r = self.client.get('/api/v1/auth/csrf/')
+        token = r.data.get('csrfToken', 'test-csrf-token')
+        self.headers["X-CSRFToken"] = token
+        self.cookies["csrftoken"] = token
+        # Inject csrftoken into client cookies so CSRF middleware can validate header against cookie
+        self.client.cookies['csrftoken'] = token
+
+    def get(self, url, **kwargs):
+        path = url.replace("http://localhost:5173", "").replace("http://127.0.0.1:8000", "")
+        extra = {}
+        if "X-CSRFToken" in self.headers:
+            extra["HTTP_X_CSRFTOKEN"] = self.headers["X-CSRFToken"]
+        res = self.client.get(path, **extra)
+        return WrappedResponse(res)
+
+    def post(self, url, json=None, **kwargs):
+        path = url.replace("http://localhost:5173", "").replace("http://127.0.0.1:8000", "")
+        extra = {}
+        if "X-CSRFToken" in self.headers:
+            extra["HTTP_X_CSRFTOKEN"] = self.headers["X-CSRFToken"]
+        res = self.client.post(path, data=json or {}, format='json', **extra)
+        if 'csrftoken' in self.client.cookies:
+            val = self.client.cookies['csrftoken']
+            self.cookies['csrftoken'] = val.value if hasattr(val, 'value') else str(val)
+        return WrappedResponse(res)
+
+@pytest.fixture(autouse=True)
+def setup_seed_data(db):
+    if not USE_LIVE:
+        call_command('seed_demo', force=True)
 
 def create_session():
-    s = requests.Session()
-    # Fetch CSRF token
-    r = s.get(f"{BASE_URL}/auth/csrf/")
-    assert r.status_code == 200, f"Failed to get CSRF token: {r.status_code} {r.text}"
-    csrf_token = r.cookies.get("csrftoken") or r.json().get("csrfToken")
-    s.headers.update({
-        "X-CSRFToken": csrf_token,
-        "Referer": "http://localhost:5173/",
-    })
-    return s
+    if USE_LIVE:
+        s = requests.Session()
+        r = s.get(f"{BASE_URL}/auth/csrf/")
+        assert r.status_code == 200, f"Failed to get CSRF token: {r.status_code} {r.text}"
+        csrf_token = r.cookies.get("csrftoken") or r.json().get("csrfToken")
+        s.headers.update({
+            "X-CSRFToken": csrf_token,
+            "Referer": "http://localhost:5173/",
+        })
+        return s
+    else:
+        return InMemoryTestSession()
 
 def login(session, email, password="password123"):
     r = session.post(f"{BASE_URL}/auth/login/", json={"email": email, "password": password})
     assert r.status_code == 200, f"Login failed for {email}: {r.status_code} {r.text}"
-    # Refresh CSRF token header with rotated session cookie
     new_csrf = session.cookies.get("csrftoken")
     if new_csrf:
         session.headers["X-CSRFToken"] = new_csrf
     return r.json()
 
+@pytest.mark.django_db
 def test_scenario_a_food_rescue():
     print("=== Testing Scenario A: Food Rescue Workflow ===")
     
@@ -138,6 +209,7 @@ def test_scenario_a_food_rescue():
     print(f"  [+] Volunteer Dashboard Loaded: Roles = {v_dash['user']['assignedRoles']}")
     print("  [SUCCESS] Scenario A fully verified!\n")
 
+@pytest.mark.django_db
 def test_scenario_b_multirole():
     print("=== Testing Scenario B: Multi-Role Account Workflow ===")
     s = create_session()
@@ -166,6 +238,7 @@ def test_scenario_b_multirole():
     print(f"  [+] Volunteer Delivery Tasks accessible (count: {len(r.json().get('results', r.json()))})")
     print("  [SUCCESS] Scenario B fully verified!\n")
 
+@pytest.mark.django_db
 def test_scenario_c_disaster_response():
     print("=== Testing Scenario C: Disaster Response Workflow ===")
     s_coord = create_session()
@@ -217,11 +290,15 @@ def test_scenario_c_disaster_response():
     print(f"  [+] Non-coordinator correctly rejected with HTTP {r.status_code} Forbidden")
     print("  [SUCCESS] Scenario C fully verified!\n")
 
+@pytest.mark.django_db
 def test_scenario_d_security_and_integrity():
     print("=== Testing Scenario D: Security & Constraints Integrity ===")
     
     # 1. Unauthenticated request to /auth/me/
-    s_unauth = requests.Session()
+    if USE_LIVE:
+        s_unauth = requests.Session()
+    else:
+        s_unauth = InMemoryTestSession()
     r = s_unauth.get(f"{BASE_URL}/auth/me/")
     assert r.status_code in (401, 403), f"Expected 401/403 for unauthenticated, got {r.status_code}"
     print(f"  [+] Unauthenticated /auth/me/ rejected with HTTP {r.status_code}")
@@ -229,7 +306,8 @@ def test_scenario_d_security_and_integrity():
     # 2. CSRF enforcement on authenticated POST without token
     s_auth_nocsrf = create_session()
     login(s_auth_nocsrf, "fathima@pererahotels.lk")
-    del s_auth_nocsrf.headers["X-CSRFToken"]
+    if "X-CSRFToken" in s_auth_nocsrf.headers:
+        del s_auth_nocsrf.headers["X-CSRFToken"]
     r = s_auth_nocsrf.post(f"{BASE_URL}/resources/", json={"name": "Test Lot"})
     assert r.status_code == 403, f"Expected 403 CSRF failure, got {r.status_code}"
     print(f"  [+] Authenticated request without CSRF token rejected with HTTP {r.status_code}: {r.json().get('detail')}")
