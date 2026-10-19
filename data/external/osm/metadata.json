@@ -1,0 +1,12 @@
+{
+  "source_name": "OpenStreetMap Sri Lanka (Geofabrik Extract)",
+  "source_url": "https://download.geofabrik.de/asia/sri-lanka.html",
+  "retrieved_timestamp": "2026-10-10T19:29:17.802501+00:00",
+  "snapshot_date": "2026-10-01",
+  "dataset_type": "PUBLIC_GEOSPATIAL_CONTEXT",
+  "licence": "Open Database License (ODbL) 1.0 (OpenStreetMap contributors)",
+  "geographic_coverage": "Moratuwa & Colombo South Pilot (6.750\u00b0N - 6.850\u00b0N, 79.850\u00b0E - 79.900\u00b0E)",
+  "sha256_checksum": "d52c4859c9e05ca809a1665377357eba058857b1c7bda7d2d8bf8b95535636f3",
+  "feature_count": 1528,
+  "usage_note": "Provides road-network geometry and geographic landmarks. Individual OSM amenity points are not assumed to be verified active food donor partners without organization onboarding."
+}

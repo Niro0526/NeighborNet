@@ -1,0 +1,9 @@
+{
+  "country": "Sri Lanka",
+  "iso_code": "LKA",
+  "report_title": "UNEP Food Waste Index Report 2024",
+  "household_food_waste_kg_per_capita_year": 76,
+  "total_annual_household_food_waste_tonnes": 1614050,
+  "confidence_level": "MEDIUM_ESTIMATE",
+  "distinction_note": "Household food waste estimates reflect post-consumer waste. Business surplus food rescue targets commercial bakeries, supermarkets, and catering operations prior to landfill disposal."
+}

@@ -1,0 +1,11 @@
+{
+  "source_name": "Sri Lanka Disaster Management Centre (DMC) Official Situation Reports",
+  "source_url": "https://www.dmc.gov.lk/",
+  "retrieved_timestamp": "2026-10-10T19:29:17.806109+00:00",
+  "dataset_type": "PUBLIC_OFFICIAL_DISASTER_REPORTS",
+  "licence": "Government of Sri Lanka Open Data Public Information",
+  "geographic_coverage": "Western Province / Colombo District / Moratuwa DS",
+  "record_count": 2,
+  "sha256_checksum": "7388c99280544c43a86772da1f0108c0d40fd464103fa4008ad7c136c02270ea",
+  "usage_note": "Provides historical emergency baseline data for disaster response mode initialization. Archived reports are not real-time operational commands."
+}

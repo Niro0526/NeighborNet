@@ -1,0 +1,9 @@
+{
+  "source_name": "UNEP Food Waste Index Report 2024 (Sri Lanka Data)",
+  "source_url": "https://www.unep.org/resources/global-food-waste-index-report-2024",
+  "retrieved_timestamp": "2026-10-10T19:29:17.808472+00:00",
+  "dataset_type": "PUBLIC_GLOBAL_RESEARCH_REPORT",
+  "licence": "United Nations Public Research Publication",
+  "sha256_checksum": "e0b63b97de5d22ff8597f50554cb901420440d7f1ec2dccad988a255d5c28957",
+  "usage_note": "Provides national background evidence on food waste scale. National per-capita averages are not extrapolated as verified shop-specific surplus records."
+}

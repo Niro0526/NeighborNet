@@ -1,0 +1,32 @@
+{
+  "pilot_region": "Moratuwa, Ratmalana, Dehiwala, Colombo South",
+  "bounding_box": {
+    "south": 6.75,
+    "west": 79.85,
+    "north": 6.85,
+    "east": 79.9
+  },
+  "spatial_reference": "EPSG:4326 (WGS 84)",
+  "highway_features": {
+    "primary_roads": [
+      "A2 Galle Road",
+      "Marine Drive Extension",
+      "Moratuwa Road"
+    ],
+    "secondary_connectors": [
+      "Station Road",
+      "Angulana Station Road",
+      "Rawatawatta Road"
+    ],
+    "total_extracted_ways": 1420
+  },
+  "landuse_context": {
+    "commercial_bakeries_restaurants": 84,
+    "community_shelters_ngos": 18,
+    "hospitals_first_aid": 6,
+    "coastal_flood_risk_zones": [
+      "Lunawa Lagoon Environs",
+      "Bolgoda Canal Basin"
+    ]
+  }
+}

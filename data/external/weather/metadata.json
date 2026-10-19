@@ -1,0 +1,23 @@
+{
+  "source_name": "Open-Meteo Historical Weather API",
+  "source_url": "https://archive-api.open-meteo.com/v1/archive?latitude=6.7730&longitude=79.8816&start_date=2026-09-01&end_date=2026-09-30&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,rain_sum,wind_speed_10m_max&timezone=Asia%2FColombo",
+  "doc_url": "https://open-meteo.com/en/docs/historical-weather-api",
+  "retrieved_timestamp": "2026-10-10T19:29:17.799261+00:00",
+  "dataset_type": "PUBLIC_REAL_OBSERVATIONS",
+  "licence": "Creative Commons Attribution 4.0 International (CC BY 4.0)",
+  "geographic_coverage": "Moratuwa & Colombo South Pilot (6.7730\u00b0 N, 79.8816\u00b0 E)",
+  "date_range": "2026-09-01 to 2026-09-30",
+  "record_count": 30,
+  "sha256_checksum": "8a1e2e7a24a59d70f66fb4df65602739fe05bdcb249203b268293d5cffaf73d0",
+  "variables": {
+    "time": "iso8601",
+    "weather_code": "wmo code",
+    "temperature_2m_max": "\u00b0C",
+    "temperature_2m_min": "\u00b0C",
+    "precipitation_sum": "mm",
+    "rain_sum": "mm",
+    "wind_speed_10m_max": "km/h"
+  },
+  "missing_values": 0,
+  "usage_note": "Used for historical monsoon rainfall context and weather-triggered disruption replanning simulations. Does not imply direct road inundation without localized sensor verification."
+}

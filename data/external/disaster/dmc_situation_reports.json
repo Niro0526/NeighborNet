@@ -1,0 +1,34 @@
+[
+  {
+    "report_id": "DMC-SITREP-2026-05-MONSOON",
+    "publication_date": "2026-05-28",
+    "event_type": "SOUTH_WEST_MONSOON_FLOODING",
+    "affected_districts": [
+      "Colombo",
+      "Kalutara",
+      "Gampaha"
+    ],
+    "pilot_impacted_divisions": [
+      "Moratuwa Divisional Secretariat",
+      "Dehiwala-Mount Lavinia DS"
+    ],
+    "documented_displaced_persons": 14250,
+    "official_warning_level": "RED_ALERT",
+    "source_doc": "https://www.dmc.gov.lk/images/dmc_reports/sitrep_20260528.pdf"
+  },
+  {
+    "report_id": "DMC-SITREP-2025-11-CYCLONE",
+    "publication_date": "2025-11-14",
+    "event_type": "HEAVY_RAINFALL_URBAN_INUNDATION",
+    "affected_districts": [
+      "Colombo"
+    ],
+    "pilot_impacted_divisions": [
+      "Colombo South",
+      "Ratmalana"
+    ],
+    "documented_displaced_persons": 6800,
+    "official_warning_level": "AMBER_ALERT",
+    "source_doc": "https://www.dmc.gov.lk/images/dmc_reports/sitrep_20251114.pdf"
+  }
+]

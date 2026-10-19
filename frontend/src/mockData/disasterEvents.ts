@@ -1,0 +1,102 @@
+import { DisasterEvent } from '../types';
+
+export const mockDisasterEvents: DisasterEvent[] = [
+  {
+    id: 'DIS-001',
+    title: 'Lunawa Lagoon & Moratuwa Coastal Flash Floods',
+    description: 'Heavy torrential monsoon precipitation caused flash flooding in low-lying settlements around Lunawa Lagoon and Moratuwa North. Over 1,200 households impacted with localized drinking water contamination.',
+    status: 'active',
+    severity: 'critical',
+    declaredAt: '2026-10-10T06:30:00+05:30',
+    declaredByCoordinatorId: 'USR-006',
+    affectedPopulation: 4200,
+    activeReliefRequestsCount: 8,
+    activeResponseTeamsCount: 5,
+    zones: [
+      {
+        id: 'ZONE-A',
+        name: 'Lunawa Lagoon West Settlement',
+        severity: 'critical',
+        centerCoordinates: { latitude: 6.7845, longitude: 79.8780 },
+        radiusKm: 1.5,
+        affectedPopulation: 2500,
+        urgentNeeds: ['Drinking Water', 'Ready-to-eat Meals', 'Sanitation Kits'],
+        assignedDistributionHubs: ['LOC-007'],
+      },
+      {
+        id: 'ZONE-B',
+        name: 'Angulana Lowlands & Station Perimeter',
+        severity: 'high',
+        centerCoordinates: { latitude: 6.7925, longitude: 79.8850 },
+        radiusKm: 1.2,
+        affectedPopulation: 1700,
+        urgentNeeds: ['Dry Rations', 'Baby Nutrition', 'Blankets'],
+        assignedDistributionHubs: ['LOC-004', 'LOC-008'],
+      },
+    ],
+    requiredResourcesSummary: [
+      {
+        category: 'Drinking Water (5L)',
+        needed: 500,
+        collected: 180,
+        unit: 'cans',
+      },
+      {
+        category: 'Cooked Meals',
+        needed: 1200,
+        collected: 650,
+        unit: 'meals',
+      },
+      {
+        category: 'Emergency Hygiene Kits',
+        needed: 350,
+        collected: 120,
+        unit: 'kits',
+      },
+      {
+        category: 'Blankets & Bedding',
+        needed: 400,
+        collected: 210,
+        unit: 'sets',
+      },
+    ],
+  },
+  {
+    id: 'DIS-002',
+    title: 'Dehiwala Canal Drainage Overflow Advisory',
+    description: 'High tide combined with urban drainage congestion caused minor street waterlogging in lower canal banks. Monitored for potential escalation.',
+    status: 'monitoring',
+    severity: 'medium',
+    declaredAt: '2026-10-09T18:00:00+05:30',
+    declaredByCoordinatorId: 'USR-006',
+    affectedPopulation: 850,
+    activeReliefRequestsCount: 2,
+    activeResponseTeamsCount: 2,
+    zones: [
+      {
+        id: 'ZONE-C',
+        name: 'Dehiwala Canal Embankment',
+        severity: 'medium',
+        centerCoordinates: { latitude: 6.8524, longitude: 79.8654 },
+        radiusKm: 0.8,
+        affectedPopulation: 850,
+        urgentNeeds: ['Tarpaulins', 'Dry Biscuits'],
+        assignedDistributionHubs: ['LOC-006'],
+      },
+    ],
+    requiredResourcesSummary: [
+      {
+        category: 'Dry Biscuits & Rations',
+        needed: 150,
+        collected: 150,
+        unit: 'packs',
+      },
+      {
+        category: 'Tarpaulin Sheets',
+        needed: 80,
+        collected: 60,
+        unit: 'sheets',
+      },
+    ],
+  },
+];
