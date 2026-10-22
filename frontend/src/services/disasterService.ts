@@ -1,6 +1,6 @@
 import { DisasterEvent, OperationalMode } from '../types';
 import { mockRepository } from './mockRepository';
-import { apiClient, isApiMode } from './apiClient';
+import { apiClient, isApiMode, getAllPages } from './apiClient';
 import { adaptDisasterEvent } from './apiAdapters';
 
 export const disasterService = {
@@ -12,8 +12,7 @@ export const disasterService = {
       return mockRepository.getDisasterEvents();
     }
 
-    const res = await apiClient.get<{ count: number; results: any[] } | any[]>('/disasters/');
-    const rawList = Array.isArray(res.data) ? res.data : (res.data?.results || []);
+    const rawList = await getAllPages('/disasters/');
     return rawList.map(adaptDisasterEvent);
   },
 
@@ -32,8 +31,9 @@ export const disasterService = {
         return adaptDisasterEvent(res.data);
       }
       return undefined;
-    } catch {
-      return undefined;
+    } catch (error: any) {
+      if (error.statusCode === 401 || error.statusCode === 403) return undefined;
+      throw error;
     }
   },
 
@@ -52,6 +52,27 @@ export const disasterService = {
   async setOperationalMode(mode: OperationalMode): Promise<void> {
     if (!isApiMode()) {
       mockRepository.setOperationalMode(mode);
+      return;
+    }
+    const events = await this.getDisasterEvents();
+    if (mode === 'NORMAL') {
+      for (const event of events.filter((event) => event.status === 'active')) {
+        await this.resolveDisaster(event.id);
+      }
+    } else {
+      if (events.some((event) => event.status === 'active')) return;
+      const draft = events.find((event) => event.status === 'monitoring');
+      if (draft) {
+        await this.activateDisaster(draft.id);
+      } else {
+        const res = await apiClient.post('/disasters/', {
+          title: 'Emergency Response — Moratuwa & Colombo South',
+          description: 'Emergency response activated by the coordinator.',
+          disasterType: 'flood', severity: 'high', status: 'DRAFT',
+          affectedLocation: 'Moratuwa & Colombo South', affectedPopulation: 0,
+        });
+        await this.activateDisaster(res.data.id);
+      }
     }
   },
 

@@ -1,0 +1,1060 @@
+{
+  "backup": "C:\\Users\\nirov\\OneDrive\\Desktop\\Projects\\Neigh\\backups\\cleanup-20261022-071517\\before-cleanup.dump",
+  "rule": "Exact deleted-resource/request name, expected action and timestamp within 2 seconds of original creation/transition; creator required for creation events. No login/logout activity deleted.",
+  "deletedCount": 105,
+  "deletedByModel": {
+    "audit.ActivityLog": 105
+  },
+  "deletedRows": [
+    {
+      "id": "LOG-7CF2CE9A",
+      "user_id": "USR-003",
+      "user_name": "Sister Mary Teresa",
+      "user_role": "RECIPIENT",
+      "action": "RESOURCE_REQUESTED",
+      "details": "Created requisition: Emergency Drinking Water Supply (500.0 liters) for Grace Home for the Elderly [urgent].",
+      "category": "REQUEST",
+      "timestamp": "2026-10-22T06:17:15.141Z"
+    },
+    {
+      "id": "LOG-58533AEE",
+      "user_id": "USR-003",
+      "user_name": "Sister Mary Teresa",
+      "user_role": "RECIPIENT",
+      "action": "RESOURCE_REQUESTED",
+      "details": "Created requisition: Elderly Care Lunch Supplies (20.0 kg) for Grace Home for the Elderly [high].",
+      "category": "REQUEST",
+      "timestamp": "2026-10-22T06:16:58.168Z"
+    },
+    {
+      "id": "LOG-E195AFC8",
+      "user_id": "USR-002",
+      "user_name": "Fathima Rizwan",
+      "user_role": "FOOD_PROVIDER",
+      "action": "FOOD_SURPLUS_REGISTERED",
+      "details": "Listed surplus: Fresh Surplus Veg Meal Packs (25.0 kg) from Perera Grand Catering & Hotel.",
+      "category": "FOOD",
+      "timestamp": "2026-10-22T06:16:54.124Z"
+    },
+    {
+      "id": "LOG-615704E0",
+      "user_id": "USR-003",
+      "user_name": "Sister Mary Teresa",
+      "user_role": "RECIPIENT",
+      "action": "RESOURCE_REQUESTED",
+      "details": "Created requisition: Emergency Drinking Water Supply (500.0 liters) for Grace Home for the Elderly [urgent].",
+      "category": "REQUEST",
+      "timestamp": "2026-10-21T16:26:29.009Z"
+    },
+    {
+      "id": "LOG-2ECC3F84",
+      "user_id": "USR-004",
+      "user_name": "Dinesh Mendis",
+      "user_role": "VOLUNTEER",
+      "action": "DELIVERY_COMPLETED",
+      "details": "Safe delivery confirmed for Delivery: Fresh Surplus Veg Meal Packs (20.0 kg) to 84 Lunawa Station Road, Moratuwa.",
+      "category": "DELIVERY",
+      "timestamp": "2026-10-21T16:26:14.170Z"
+    },
+    {
+      "id": "LOG-B28AF291",
+      "user_id": "USR-004",
+      "user_name": "Dinesh Mendis",
+      "user_role": "VOLUNTEER",
+      "action": "FOOD_PICKED_UP",
+      "details": "Courier picked up Fresh Surplus Veg Meal Packs - cooked_meals from donor kitchen.",
+      "category": "DELIVERY",
+      "timestamp": "2026-10-21T16:26:13.586Z"
+    },
+    {
+      "id": "LOG-A1A19359",
+      "user_id": "USR-004",
+      "user_name": "Dinesh Mendis",
+      "user_role": "VOLUNTEER",
+      "action": "TASK_ACCEPTED",
+      "details": "Volunteer Dinesh Mendis accepted mission Delivery: Fresh Surplus Veg Meal Packs (20.0 kg).",
+      "category": "DELIVERY",
+      "timestamp": "2026-10-21T16:26:12.997Z"
+    },
+    {
+      "id": "LOG-537398FE",
+      "user_id": "USR-003",
+      "user_name": "Sister Mary Teresa",
+      "user_role": "RECIPIENT",
+      "action": "RESOURCE_REQUESTED",
+      "details": "Created requisition: Elderly Care Lunch Supplies (20.0 kg) for Grace Home for the Elderly [high].",
+      "category": "REQUEST",
+      "timestamp": "2026-10-21T16:26:03.787Z"
+    },
+    {
+      "id": "LOG-C7257973",
+      "user_id": "USR-002",
+      "user_name": "Fathima Rizwan",
+      "user_role": "FOOD_PROVIDER",
+      "action": "FOOD_SURPLUS_REGISTERED",
+      "details": "Listed surplus: Fresh Surplus Veg Meal Packs (25.0 kg) from Perera Grand Catering & Hotel.",
+      "category": "FOOD",
+      "timestamp": "2026-10-21T16:25:59.302Z"
+    },
+    {
+      "id": "LOG-E30D7E4A",
+      "user_id": "USR-003",
+      "user_name": "Sister Mary Teresa",
+      "user_role": "RECIPIENT",
+      "action": "RESOURCE_REQUESTED",
+      "details": "Created requisition: Emergency Drinking Water Supply (500.0 liters) for Grace Home for the Elderly [urgent].",
+      "category": "REQUEST",
+      "timestamp": "2026-10-21T16:12:37.575Z"
+    },
+    {
+      "id": "LOG-E3D6BFB1",
+      "user_id": "USR-004",
+      "user_name": "Dinesh Mendis",
+      "user_role": "VOLUNTEER",
+      "action": "DELIVERY_COMPLETED",
+      "details": "Safe delivery confirmed for Delivery: Fresh Surplus Veg Meal Packs (20.0 kg) to 84 Lunawa Station Road, Moratuwa.",
+      "category": "DELIVERY",
+      "timestamp": "2026-10-21T16:12:23.524Z"
+    },
+    {
+      "id": "LOG-C9A8ECEE",
+      "user_id": "USR-004",
+      "user_name": "Dinesh Mendis",
+      "user_role": "VOLUNTEER",
+      "action": "FOOD_PICKED_UP",
+      "details": "Courier picked up Fresh Surplus Veg Meal Packs - cooked_meals from donor kitchen.",
+      "category": "DELIVERY",
+      "timestamp": "2026-10-21T16:12:22.986Z"
+    },
+    {
+      "id": "LOG-E802529E",
+      "user_id": "USR-004",
+      "user_name": "Dinesh Mendis",
+      "user_role": "VOLUNTEER",
+      "action": "TASK_ACCEPTED",
+      "details": "Volunteer Dinesh Mendis accepted mission Delivery: Fresh Surplus Veg Meal Packs (20.0 kg).",
+      "category": "DELIVERY",
+      "timestamp": "2026-10-21T16:12:22.433Z"
+    },
+    {
+      "id": "LOG-EF00E910",
+      "user_id": "USR-003",
+      "user_name": "Sister Mary Teresa",
+      "user_role": "RECIPIENT",
+      "action": "RESOURCE_REQUESTED",
+      "details": "Created requisition: Elderly Care Lunch Supplies (20.0 kg) for Grace Home for the Elderly [high].",
+      "category": "REQUEST",
+      "timestamp": "2026-10-21T16:12:13.869Z"
+    },
+    {
+      "id": "LOG-46098599",
+      "user_id": "USR-002",
+      "user_name": "Fathima Rizwan",
+      "user_role": "FOOD_PROVIDER",
+      "action": "FOOD_SURPLUS_REGISTERED",
+      "details": "Listed surplus: Fresh Surplus Veg Meal Packs (25.0 kg) from Perera Grand Catering & Hotel.",
+      "category": "FOOD",
+      "timestamp": "2026-10-21T16:12:09.747Z"
+    },
+    {
+      "id": "LOG-44F4F979",
+      "user_id": "USR-003",
+      "user_name": "Sister Mary Teresa",
+      "user_role": "RECIPIENT",
+      "action": "RESOURCE_REQUESTED",
+      "details": "Created requisition: Emergency Drinking Water Supply (500.0 liters) for Grace Home for the Elderly [urgent].",
+      "category": "REQUEST",
+      "timestamp": "2026-10-20T18:15:13.518Z"
+    },
+    {
+      "id": "LOG-5BBB82A4",
+      "user_id": "USR-004",
+      "user_name": "Dinesh Mendis",
+      "user_role": "VOLUNTEER",
+      "action": "DELIVERY_COMPLETED",
+      "details": "Safe delivery confirmed for Delivery: Fresh Surplus Veg Meal Packs (20.0 kg) to 84 Lunawa Station Road, Moratuwa.",
+      "category": "DELIVERY",
+      "timestamp": "2026-10-20T18:15:02.342Z"
+    },
+    {
+      "id": "LOG-49C45BE6",
+      "user_id": "USR-004",
+      "user_name": "Dinesh Mendis",
+      "user_role": "VOLUNTEER",
+      "action": "FOOD_PICKED_UP",
+      "details": "Courier picked up Fresh Surplus Veg Meal Packs - cooked_meals from donor kitchen.",
+      "category": "DELIVERY",
+      "timestamp": "2026-10-20T18:15:01.940Z"
+    },
+    {
+      "id": "LOG-8038D9F1",
+      "user_id": "USR-004",
+      "user_name": "Dinesh Mendis",
+      "user_role": "VOLUNTEER",
+      "action": "TASK_ACCEPTED",
+      "details": "Volunteer Dinesh Mendis accepted mission Delivery: Fresh Surplus Veg Meal Packs (20.0 kg).",
+      "category": "DELIVERY",
+      "timestamp": "2026-10-20T18:15:01.592Z"
+    },
+    {
+      "id": "LOG-BE8CE4B0",
+      "user_id": "USR-003",
+      "user_name": "Sister Mary Teresa",
+      "user_role": "RECIPIENT",
+      "action": "RESOURCE_REQUESTED",
+      "details": "Created requisition: Elderly Care Lunch Supplies (20.0 kg) for Grace Home for the Elderly [high].",
+      "category": "REQUEST",
+      "timestamp": "2026-10-20T18:14:54.571Z"
+    },
+    {
+      "id": "LOG-DB2B8E8C",
+      "user_id": "USR-002",
+      "user_name": "Fathima Rizwan",
+      "user_role": "FOOD_PROVIDER",
+      "action": "FOOD_SURPLUS_REGISTERED",
+      "details": "Listed surplus: Fresh Surplus Veg Meal Packs (25.0 kg) from Perera Grand Catering & Hotel.",
+      "category": "FOOD",
+      "timestamp": "2026-10-20T18:14:51.242Z"
+    },
+    {
+      "id": "LOG-9E31A9E2",
+      "user_id": "USR-003",
+      "user_name": "Sister Mary Teresa",
+      "user_role": "RECIPIENT",
+      "action": "RESOURCE_REQUESTED",
+      "details": "Created requisition: Emergency Drinking Water Supply (500.0 liters) for Grace Home for the Elderly [urgent].",
+      "category": "REQUEST",
+      "timestamp": "2026-10-20T18:07:49.281Z"
+    },
+    {
+      "id": "LOG-489B2385",
+      "user_id": "USR-004",
+      "user_name": "Dinesh Mendis",
+      "user_role": "VOLUNTEER",
+      "action": "DELIVERY_COMPLETED",
+      "details": "Safe delivery confirmed for Delivery: Fresh Surplus Veg Meal Packs (20.0 kg) to 84 Lunawa Station Road, Moratuwa.",
+      "category": "DELIVERY",
+      "timestamp": "2026-10-20T18:07:38.013Z"
+    },
+    {
+      "id": "LOG-315835D3",
+      "user_id": "USR-004",
+      "user_name": "Dinesh Mendis",
+      "user_role": "VOLUNTEER",
+      "action": "FOOD_PICKED_UP",
+      "details": "Courier picked up Fresh Surplus Veg Meal Packs - cooked_meals from donor kitchen.",
+      "category": "DELIVERY",
+      "timestamp": "2026-10-20T18:07:37.468Z"
+    },
+    {
+      "id": "LOG-DC1994BD",
+      "user_id": "USR-004",
+      "user_name": "Dinesh Mendis",
+      "user_role": "VOLUNTEER",
+      "action": "TASK_ACCEPTED",
+      "details": "Volunteer Dinesh Mendis accepted mission Delivery: Fresh Surplus Veg Meal Packs (20.0 kg).",
+      "category": "DELIVERY",
+      "timestamp": "2026-10-20T18:07:36.999Z"
+    },
+    {
+      "id": "LOG-A17230D0",
+      "user_id": "USR-003",
+      "user_name": "Sister Mary Teresa",
+      "user_role": "RECIPIENT",
+      "action": "RESOURCE_REQUESTED",
+      "details": "Created requisition: Elderly Care Lunch Supplies (20.0 kg) for Grace Home for the Elderly [high].",
+      "category": "REQUEST",
+      "timestamp": "2026-10-20T18:07:30.007Z"
+    },
+    {
+      "id": "LOG-31DC7655",
+      "user_id": "USR-002",
+      "user_name": "Fathima Rizwan",
+      "user_role": "FOOD_PROVIDER",
+      "action": "FOOD_SURPLUS_REGISTERED",
+      "details": "Listed surplus: Fresh Surplus Veg Meal Packs (25.0 kg) from Perera Grand Catering & Hotel.",
+      "category": "FOOD",
+      "timestamp": "2026-10-20T18:07:26.704Z"
+    },
+    {
+      "id": "LOG-D3BEE7D3",
+      "user_id": "USR-004",
+      "user_name": "Dinesh Mendis",
+      "user_role": "VOLUNTEER",
+      "action": "DELIVERY_COMPLETED",
+      "details": "Safe delivery confirmed for Delivery: Fresh Surplus Veg Meal Packs (20.0 kg) to 84 Lunawa Station Road, Moratuwa.",
+      "category": "DELIVERY",
+      "timestamp": "2026-10-20T18:06:55.726Z"
+    },
+    {
+      "id": "LOG-63464B86",
+      "user_id": "USR-004",
+      "user_name": "Dinesh Mendis",
+      "user_role": "VOLUNTEER",
+      "action": "FOOD_PICKED_UP",
+      "details": "Courier picked up Fresh Surplus Veg Meal Packs - cooked_meals from donor kitchen.",
+      "category": "DELIVERY",
+      "timestamp": "2026-10-20T18:06:55.367Z"
+    },
+    {
+      "id": "LOG-37407446",
+      "user_id": "USR-004",
+      "user_name": "Dinesh Mendis",
+      "user_role": "VOLUNTEER",
+      "action": "TASK_ACCEPTED",
+      "details": "Volunteer Dinesh Mendis accepted mission Delivery: Fresh Surplus Veg Meal Packs (20.0 kg).",
+      "category": "DELIVERY",
+      "timestamp": "2026-10-20T18:06:54.987Z"
+    },
+    {
+      "id": "LOG-1D0F4DAD",
+      "user_id": "USR-003",
+      "user_name": "Sister Mary Teresa",
+      "user_role": "RECIPIENT",
+      "action": "RESOURCE_REQUESTED",
+      "details": "Created requisition: Elderly Care Lunch Supplies (20.0 kg) for Grace Home for the Elderly [high].",
+      "category": "REQUEST",
+      "timestamp": "2026-10-20T18:06:47.981Z"
+    },
+    {
+      "id": "LOG-2179FDB6",
+      "user_id": "USR-002",
+      "user_name": "Fathima Rizwan",
+      "user_role": "FOOD_PROVIDER",
+      "action": "FOOD_SURPLUS_REGISTERED",
+      "details": "Listed surplus: Fresh Surplus Veg Meal Packs (25.0 kg) from Perera Grand Catering & Hotel.",
+      "category": "FOOD",
+      "timestamp": "2026-10-20T18:06:44.525Z"
+    },
+    {
+      "id": "LOG-83217987",
+      "user_id": "USR-003",
+      "user_name": "Sister Mary Teresa",
+      "user_role": "RECIPIENT",
+      "action": "RESOURCE_REQUESTED",
+      "details": "Created requisition: Emergency Drinking Water Supply (500.0 liters) for Grace Home for the Elderly [urgent].",
+      "category": "REQUEST",
+      "timestamp": "2026-10-20T18:04:19.673Z"
+    },
+    {
+      "id": "LOG-13950F70",
+      "user_id": "USR-003",
+      "user_name": "Sister Mary Teresa",
+      "user_role": "RECIPIENT",
+      "action": "RESOURCE_REQUESTED",
+      "details": "Created requisition: Emergency Drinking Water Supply (500.0 liters) for Grace Home for the Elderly [urgent].",
+      "category": "REQUEST",
+      "timestamp": "2026-10-20T18:00:30.342Z"
+    },
+    {
+      "id": "LOG-83C2E957",
+      "user_id": "USR-001",
+      "user_name": "Ravi Mendis",
+      "user_role": "VOLUNTEER",
+      "action": "TASK_ACCEPTED",
+      "details": "Volunteer Ravi Mendis accepted mission Delivery: Steamed Rice & Dhal Banquet Packs (5.0 meals).",
+      "category": "DELIVERY",
+      "timestamp": "2026-10-15T19:17:31.208Z"
+    },
+    {
+      "id": "LOG-2305FDB3",
+      "user_id": "USR-003",
+      "user_name": "Sister Mary Teresa",
+      "user_role": "RECIPIENT",
+      "action": "RESOURCE_REQUESTED",
+      "details": "Created requisition: Emergency Drinking Water Supply (500.0 liters) for Grace Home for the Elderly [urgent].",
+      "category": "REQUEST",
+      "timestamp": "2026-10-10T19:31:12.326Z"
+    },
+    {
+      "id": "LOG-3D203458",
+      "user_id": "USR-004",
+      "user_name": "Dinesh Mendis",
+      "user_role": "VOLUNTEER",
+      "action": "DELIVERY_COMPLETED",
+      "details": "Safe delivery confirmed for Delivery: Fresh Surplus Veg Meal Packs (20.0 kg) to 84 Lunawa Station Road, Moratuwa.",
+      "category": "DELIVERY",
+      "timestamp": "2026-10-10T19:31:02.118Z"
+    },
+    {
+      "id": "LOG-9DF16AAC",
+      "user_id": "USR-004",
+      "user_name": "Dinesh Mendis",
+      "user_role": "VOLUNTEER",
+      "action": "FOOD_PICKED_UP",
+      "details": "Courier picked up Fresh Surplus Veg Meal Packs - cooked_meals from donor kitchen.",
+      "category": "DELIVERY",
+      "timestamp": "2026-10-10T19:31:01.591Z"
+    },
+    {
+      "id": "LOG-EB62F2E0",
+      "user_id": "USR-004",
+      "user_name": "Dinesh Mendis",
+      "user_role": "VOLUNTEER",
+      "action": "TASK_ACCEPTED",
+      "details": "Volunteer Dinesh Mendis accepted mission Delivery: Fresh Surplus Veg Meal Packs (20.0 kg).",
+      "category": "DELIVERY",
+      "timestamp": "2026-10-10T19:31:01.009Z"
+    },
+    {
+      "id": "LOG-A739C334",
+      "user_id": "USR-003",
+      "user_name": "Sister Mary Teresa",
+      "user_role": "RECIPIENT",
+      "action": "RESOURCE_REQUESTED",
+      "details": "Created requisition: Elderly Care Lunch Supplies (20.0 kg) for Grace Home for the Elderly [high].",
+      "category": "REQUEST",
+      "timestamp": "2026-10-10T19:30:55.463Z"
+    },
+    {
+      "id": "LOG-61CF1F7B",
+      "user_id": "USR-002",
+      "user_name": "Fathima Rizwan",
+      "user_role": "FOOD_PROVIDER",
+      "action": "FOOD_SURPLUS_REGISTERED",
+      "details": "Listed surplus: Fresh Surplus Veg Meal Packs (25.0 kg) from Perera Grand Catering & Hotel.",
+      "category": "FOOD",
+      "timestamp": "2026-10-10T19:30:54.282Z"
+    },
+    {
+      "id": "LOG-D9893587",
+      "user_id": "USR-003",
+      "user_name": "Sister Mary Teresa",
+      "user_role": "RECIPIENT",
+      "action": "RESOURCE_REQUESTED",
+      "details": "Created requisition: Emergency Drinking Water Supply (500.0 liters) for Grace Home for the Elderly [urgent].",
+      "category": "REQUEST",
+      "timestamp": "2026-10-10T19:14:44.326Z"
+    },
+    {
+      "id": "LOG-697186A2",
+      "user_id": "USR-004",
+      "user_name": "Dinesh Mendis",
+      "user_role": "VOLUNTEER",
+      "action": "DELIVERY_COMPLETED",
+      "details": "Safe delivery confirmed for Delivery: Fresh Surplus Veg Meal Packs (20.0 kg) to 84 Lunawa Station Road, Moratuwa.",
+      "category": "DELIVERY",
+      "timestamp": "2026-10-10T19:14:36.675Z"
+    },
+    {
+      "id": "LOG-47510225",
+      "user_id": "USR-004",
+      "user_name": "Dinesh Mendis",
+      "user_role": "VOLUNTEER",
+      "action": "FOOD_PICKED_UP",
+      "details": "Courier picked up Fresh Surplus Veg Meal Packs - cooked_meals from donor kitchen.",
+      "category": "DELIVERY",
+      "timestamp": "2026-10-10T19:14:36.280Z"
+    },
+    {
+      "id": "LOG-27C5349A",
+      "user_id": "USR-004",
+      "user_name": "Dinesh Mendis",
+      "user_role": "VOLUNTEER",
+      "action": "TASK_ACCEPTED",
+      "details": "Volunteer Dinesh Mendis accepted mission Delivery: Fresh Surplus Veg Meal Packs (20.0 kg).",
+      "category": "DELIVERY",
+      "timestamp": "2026-10-10T19:14:35.849Z"
+    },
+    {
+      "id": "LOG-1A3EB00A",
+      "user_id": "USR-003",
+      "user_name": "Sister Mary Teresa",
+      "user_role": "RECIPIENT",
+      "action": "RESOURCE_REQUESTED",
+      "details": "Created requisition: Elderly Care Lunch Supplies (20.0 kg) for Grace Home for the Elderly [high].",
+      "category": "REQUEST",
+      "timestamp": "2026-10-10T19:14:31.225Z"
+    },
+    {
+      "id": "LOG-D809DF4B",
+      "user_id": "USR-002",
+      "user_name": "Fathima Rizwan",
+      "user_role": "FOOD_PROVIDER",
+      "action": "FOOD_SURPLUS_REGISTERED",
+      "details": "Listed surplus: Fresh Surplus Veg Meal Packs (25.0 kg) from Perera Grand Catering & Hotel.",
+      "category": "FOOD",
+      "timestamp": "2026-10-10T19:14:28.918Z"
+    },
+    {
+      "id": "LOG-60E7267F",
+      "user_id": "USR-003",
+      "user_name": "Sister Mary Teresa",
+      "user_role": "RECIPIENT",
+      "action": "RESOURCE_REQUESTED",
+      "details": "Created requisition: Emergency Drinking Water Supply (500.0 liters) for Grace Home for the Elderly [urgent].",
+      "category": "REQUEST",
+      "timestamp": "2026-10-10T19:07:50.672Z"
+    },
+    {
+      "id": "LOG-B67DDD83",
+      "user_id": "USR-004",
+      "user_name": "Dinesh Mendis",
+      "user_role": "VOLUNTEER",
+      "action": "DELIVERY_COMPLETED",
+      "details": "Safe delivery confirmed for Delivery: Fresh Surplus Veg Meal Packs (20.0 kg) to 84 Lunawa Station Road, Moratuwa.",
+      "category": "DELIVERY",
+      "timestamp": "2026-10-10T19:07:28.404Z"
+    },
+    {
+      "id": "LOG-5DF8438A",
+      "user_id": "USR-004",
+      "user_name": "Dinesh Mendis",
+      "user_role": "VOLUNTEER",
+      "action": "FOOD_PICKED_UP",
+      "details": "Courier picked up Fresh Surplus Veg Meal Packs - cooked_meals from donor kitchen.",
+      "category": "DELIVERY",
+      "timestamp": "2026-10-10T19:07:27.691Z"
+    },
+    {
+      "id": "LOG-BD5C0EF8",
+      "user_id": "USR-004",
+      "user_name": "Dinesh Mendis",
+      "user_role": "VOLUNTEER",
+      "action": "TASK_ACCEPTED",
+      "details": "Volunteer Dinesh Mendis accepted mission Delivery: Fresh Surplus Veg Meal Packs (20.0 kg).",
+      "category": "DELIVERY",
+      "timestamp": "2026-10-10T19:07:27.120Z"
+    },
+    {
+      "id": "LOG-E8F6D056",
+      "user_id": "USR-003",
+      "user_name": "Sister Mary Teresa",
+      "user_role": "RECIPIENT",
+      "action": "RESOURCE_REQUESTED",
+      "details": "Created requisition: Elderly Care Lunch Supplies (20.0 kg) for Grace Home for the Elderly [high].",
+      "category": "REQUEST",
+      "timestamp": "2026-10-10T19:07:22.037Z"
+    },
+    {
+      "id": "LOG-FB0D07E1",
+      "user_id": "USR-002",
+      "user_name": "Fathima Rizwan",
+      "user_role": "FOOD_PROVIDER",
+      "action": "FOOD_SURPLUS_REGISTERED",
+      "details": "Listed surplus: Fresh Surplus Veg Meal Packs (25.0 kg) from Perera Grand Catering & Hotel.",
+      "category": "FOOD",
+      "timestamp": "2026-10-10T19:07:17.768Z"
+    },
+    {
+      "id": "LOG-E8ADDFDF",
+      "user_id": "USR-003",
+      "user_name": "Sister Mary Teresa",
+      "user_role": "RECIPIENT",
+      "action": "RESOURCE_REQUESTED",
+      "details": "Created requisition: Emergency Drinking Water Supply (500.0 liters) for Grace Home for the Elderly [urgent].",
+      "category": "REQUEST",
+      "timestamp": "2026-10-10T19:04:19.260Z"
+    },
+    {
+      "id": "LOG-2B8CF074",
+      "user_id": "USR-004",
+      "user_name": "Dinesh Mendis",
+      "user_role": "VOLUNTEER",
+      "action": "DELIVERY_COMPLETED",
+      "details": "Safe delivery confirmed for Delivery: Fresh Surplus Veg Meal Packs (20.0 kg) to 84 Lunawa Station Road, Moratuwa.",
+      "category": "DELIVERY",
+      "timestamp": "2026-10-10T19:04:11.060Z"
+    },
+    {
+      "id": "LOG-E91EF770",
+      "user_id": "USR-004",
+      "user_name": "Dinesh Mendis",
+      "user_role": "VOLUNTEER",
+      "action": "FOOD_PICKED_UP",
+      "details": "Courier picked up Fresh Surplus Veg Meal Packs - cooked_meals from donor kitchen.",
+      "category": "DELIVERY",
+      "timestamp": "2026-10-10T19:04:10.581Z"
+    },
+    {
+      "id": "LOG-3C07784A",
+      "user_id": "USR-004",
+      "user_name": "Dinesh Mendis",
+      "user_role": "VOLUNTEER",
+      "action": "TASK_ACCEPTED",
+      "details": "Volunteer Dinesh Mendis accepted mission Delivery: Fresh Surplus Veg Meal Packs (20.0 kg).",
+      "category": "DELIVERY",
+      "timestamp": "2026-10-10T19:04:10.051Z"
+    },
+    {
+      "id": "LOG-371D007F",
+      "user_id": "USR-003",
+      "user_name": "Sister Mary Teresa",
+      "user_role": "RECIPIENT",
+      "action": "RESOURCE_REQUESTED",
+      "details": "Created requisition: Elderly Care Lunch Supplies (20.0 kg) for Grace Home for the Elderly [high].",
+      "category": "REQUEST",
+      "timestamp": "2026-10-10T19:04:04.844Z"
+    },
+    {
+      "id": "LOG-C1A620A3",
+      "user_id": "USR-002",
+      "user_name": "Fathima Rizwan",
+      "user_role": "FOOD_PROVIDER",
+      "action": "FOOD_SURPLUS_REGISTERED",
+      "details": "Listed surplus: Fresh Surplus Veg Meal Packs (25.0 kg) from Perera Grand Catering & Hotel.",
+      "category": "FOOD",
+      "timestamp": "2026-10-10T19:04:02.099Z"
+    },
+    {
+      "id": "LOG-C89259C0",
+      "user_id": "USR-003",
+      "user_name": "Sister Mary Teresa",
+      "user_role": "RECIPIENT",
+      "action": "RESOURCE_REQUESTED",
+      "details": "Created requisition: Emergency Drinking Water Supply (500.0 liters) for Grace Home for the Elderly [urgent].",
+      "category": "REQUEST",
+      "timestamp": "2026-10-10T19:01:02.408Z"
+    },
+    {
+      "id": "LOG-6E1C76E2",
+      "user_id": "USR-004",
+      "user_name": "Dinesh Mendis",
+      "user_role": "VOLUNTEER",
+      "action": "DELIVERY_COMPLETED",
+      "details": "Safe delivery confirmed for Delivery: Fresh Surplus Veg Meal Packs (20.0 kg) to 84 Lunawa Station Road, Moratuwa.",
+      "category": "DELIVERY",
+      "timestamp": "2026-10-10T19:00:54.820Z"
+    },
+    {
+      "id": "LOG-9AAEF90A",
+      "user_id": "USR-004",
+      "user_name": "Dinesh Mendis",
+      "user_role": "VOLUNTEER",
+      "action": "FOOD_PICKED_UP",
+      "details": "Courier picked up Fresh Surplus Veg Meal Packs - cooked_meals from donor kitchen.",
+      "category": "DELIVERY",
+      "timestamp": "2026-10-10T19:00:54.398Z"
+    },
+    {
+      "id": "LOG-11941410",
+      "user_id": "USR-004",
+      "user_name": "Dinesh Mendis",
+      "user_role": "VOLUNTEER",
+      "action": "TASK_ACCEPTED",
+      "details": "Volunteer Dinesh Mendis accepted mission Delivery: Fresh Surplus Veg Meal Packs (20.0 kg).",
+      "category": "DELIVERY",
+      "timestamp": "2026-10-10T19:00:54.013Z"
+    },
+    {
+      "id": "LOG-80F6477F",
+      "user_id": "USR-003",
+      "user_name": "Sister Mary Teresa",
+      "user_role": "RECIPIENT",
+      "action": "RESOURCE_REQUESTED",
+      "details": "Created requisition: Elderly Care Lunch Supplies (20.0 kg) for Grace Home for the Elderly [high].",
+      "category": "REQUEST",
+      "timestamp": "2026-10-10T19:00:52.511Z"
+    },
+    {
+      "id": "LOG-3873C063",
+      "user_id": "USR-002",
+      "user_name": "Fathima Rizwan",
+      "user_role": "FOOD_PROVIDER",
+      "action": "FOOD_SURPLUS_REGISTERED",
+      "details": "Listed surplus: Fresh Surplus Veg Meal Packs (25.0 kg) from Perera Grand Catering & Hotel.",
+      "category": "FOOD",
+      "timestamp": "2026-10-10T19:00:51.823Z"
+    },
+    {
+      "id": "LOG-BC5FB1B7",
+      "user_id": "USR-003",
+      "user_name": "Sister Mary Teresa",
+      "user_role": "RECIPIENT",
+      "action": "RESOURCE_REQUESTED",
+      "details": "Created requisition: Emergency Drinking Water Supply (500.0 liters) for Grace Home for the Elderly [urgent].",
+      "category": "REQUEST",
+      "timestamp": "2026-10-10T18:23:54.649Z"
+    },
+    {
+      "id": "LOG-31FE64FD",
+      "user_id": "USR-004",
+      "user_name": "Dinesh Mendis",
+      "user_role": "VOLUNTEER",
+      "action": "DELIVERY_COMPLETED",
+      "details": "Safe delivery confirmed for Delivery: Fresh Surplus Veg Meal Packs (20.0 kg) to 84 Lunawa Station Road, Moratuwa.",
+      "category": "DELIVERY",
+      "timestamp": "2026-10-10T18:23:50.502Z"
+    },
+    {
+      "id": "LOG-928FE914",
+      "user_id": "USR-004",
+      "user_name": "Dinesh Mendis",
+      "user_role": "VOLUNTEER",
+      "action": "FOOD_PICKED_UP",
+      "details": "Courier picked up Fresh Surplus Veg Meal Packs - cooked_meals from donor kitchen.",
+      "category": "DELIVERY",
+      "timestamp": "2026-10-10T18:23:50.126Z"
+    },
+    {
+      "id": "LOG-99A72702",
+      "user_id": "USR-004",
+      "user_name": "Dinesh Mendis",
+      "user_role": "VOLUNTEER",
+      "action": "TASK_ACCEPTED",
+      "details": "Volunteer Dinesh Mendis accepted mission Delivery: Fresh Surplus Veg Meal Packs (20.0 kg).",
+      "category": "DELIVERY",
+      "timestamp": "2026-10-10T18:23:49.880Z"
+    },
+    {
+      "id": "LOG-3E8C553A",
+      "user_id": "USR-003",
+      "user_name": "Sister Mary Teresa",
+      "user_role": "RECIPIENT",
+      "action": "RESOURCE_REQUESTED",
+      "details": "Created requisition: Elderly Care Lunch Supplies (20.0 kg) for Grace Home for the Elderly [high].",
+      "category": "REQUEST",
+      "timestamp": "2026-10-10T18:23:47.312Z"
+    },
+    {
+      "id": "LOG-701A0BE1",
+      "user_id": "USR-002",
+      "user_name": "Fathima Rizwan",
+      "user_role": "FOOD_PROVIDER",
+      "action": "FOOD_SURPLUS_REGISTERED",
+      "details": "Listed surplus: Fresh Surplus Veg Meal Packs (25.0 kg) from Perera Grand Catering & Hotel.",
+      "category": "FOOD",
+      "timestamp": "2026-10-10T18:23:46.162Z"
+    },
+    {
+      "id": "LOG-FF049604",
+      "user_id": "USR-003",
+      "user_name": "Sister Mary Teresa",
+      "user_role": "RECIPIENT",
+      "action": "RESOURCE_REQUESTED",
+      "details": "Created requisition: Emergency Drinking Water Supply (500.0 liters) for Grace Home for the Elderly [urgent].",
+      "category": "REQUEST",
+      "timestamp": "2026-10-10T18:04:59.216Z"
+    },
+    {
+      "id": "LOG-100AEA13",
+      "user_id": "USR-004",
+      "user_name": "Dinesh Mendis",
+      "user_role": "VOLUNTEER",
+      "action": "DELIVERY_COMPLETED",
+      "details": "Safe delivery confirmed for Delivery: Fresh Surplus Veg Meal Packs (20.0 kg) to 84 Lunawa Station Road, Moratuwa.",
+      "category": "DELIVERY",
+      "timestamp": "2026-10-10T18:04:53.577Z"
+    },
+    {
+      "id": "LOG-51BDAA01",
+      "user_id": "USR-004",
+      "user_name": "Dinesh Mendis",
+      "user_role": "VOLUNTEER",
+      "action": "FOOD_PICKED_UP",
+      "details": "Courier picked up Fresh Surplus Veg Meal Packs - cooked_meals from donor kitchen.",
+      "category": "DELIVERY",
+      "timestamp": "2026-10-10T18:04:53.196Z"
+    },
+    {
+      "id": "LOG-B97DD827",
+      "user_id": "USR-004",
+      "user_name": "Dinesh Mendis",
+      "user_role": "VOLUNTEER",
+      "action": "TASK_ACCEPTED",
+      "details": "Volunteer Dinesh Mendis accepted mission Delivery: Fresh Surplus Veg Meal Packs (20.0 kg).",
+      "category": "DELIVERY",
+      "timestamp": "2026-10-10T18:04:52.857Z"
+    },
+    {
+      "id": "LOG-418FFF24",
+      "user_id": "USR-003",
+      "user_name": "Sister Mary Teresa",
+      "user_role": "RECIPIENT",
+      "action": "RESOURCE_REQUESTED",
+      "details": "Created requisition: Elderly Care Lunch Supplies (20.0 kg) for Grace Home for the Elderly [high].",
+      "category": "REQUEST",
+      "timestamp": "2026-10-10T18:04:49.157Z"
+    },
+    {
+      "id": "LOG-6C1DFEBF",
+      "user_id": "USR-002",
+      "user_name": "Fathima Rizwan",
+      "user_role": "FOOD_PROVIDER",
+      "action": "FOOD_SURPLUS_REGISTERED",
+      "details": "Listed surplus: Fresh Surplus Veg Meal Packs (25.0 kg) from Perera Grand Catering & Hotel.",
+      "category": "FOOD",
+      "timestamp": "2026-10-10T18:04:47.142Z"
+    },
+    {
+      "id": "LOG-72504E18",
+      "user_id": "USR-003",
+      "user_name": "Sister Mary Teresa",
+      "user_role": "RECIPIENT",
+      "action": "RESOURCE_REQUESTED",
+      "details": "Created requisition: Emergency Drinking Water Supply (500.0 liters) for Grace Home for the Elderly [urgent].",
+      "category": "REQUEST",
+      "timestamp": "2026-10-10T16:50:46.856Z"
+    },
+    {
+      "id": "LOG-EF91564B",
+      "user_id": "USR-004",
+      "user_name": "Dinesh Mendis",
+      "user_role": "VOLUNTEER",
+      "action": "DELIVERY_COMPLETED",
+      "details": "Safe delivery confirmed for Delivery: Fresh Surplus Veg Meal Packs (20.0 kg) to 84 Lunawa Station Road, Moratuwa.",
+      "category": "DELIVERY",
+      "timestamp": "2026-10-10T16:50:39.986Z"
+    },
+    {
+      "id": "LOG-17CA3E74",
+      "user_id": "USR-004",
+      "user_name": "Dinesh Mendis",
+      "user_role": "VOLUNTEER",
+      "action": "FOOD_PICKED_UP",
+      "details": "Courier picked up Fresh Surplus Veg Meal Packs - cooked_meals from donor kitchen.",
+      "category": "DELIVERY",
+      "timestamp": "2026-10-10T16:50:39.648Z"
+    },
+    {
+      "id": "LOG-FA78E553",
+      "user_id": "USR-004",
+      "user_name": "Dinesh Mendis",
+      "user_role": "VOLUNTEER",
+      "action": "TASK_ACCEPTED",
+      "details": "Volunteer Dinesh Mendis accepted mission Delivery: Fresh Surplus Veg Meal Packs (20.0 kg).",
+      "category": "DELIVERY",
+      "timestamp": "2026-10-10T16:50:39.291Z"
+    },
+    {
+      "id": "LOG-0F7676D2",
+      "user_id": "USR-003",
+      "user_name": "Sister Mary Teresa",
+      "user_role": "RECIPIENT",
+      "action": "RESOURCE_REQUESTED",
+      "details": "Created requisition: Elderly Care Lunch Supplies (20.0 kg) for Grace Home for the Elderly [high].",
+      "category": "REQUEST",
+      "timestamp": "2026-10-10T16:50:34.843Z"
+    },
+    {
+      "id": "LOG-22550337",
+      "user_id": "USR-002",
+      "user_name": "Fathima Rizwan",
+      "user_role": "FOOD_PROVIDER",
+      "action": "FOOD_SURPLUS_REGISTERED",
+      "details": "Listed surplus: Fresh Surplus Veg Meal Packs (25.0 kg) from Perera Grand Catering & Hotel.",
+      "category": "FOOD",
+      "timestamp": "2026-10-10T16:50:33.091Z"
+    },
+    {
+      "id": "LOG-1D4DF860",
+      "user_id": "USR-003",
+      "user_name": "Sister Mary Teresa",
+      "user_role": "RECIPIENT",
+      "action": "RESOURCE_REQUESTED",
+      "details": "Created requisition: Emergency Drinking Water Supply (500.0 liters) for Grace Home for the Elderly [urgent].",
+      "category": "REQUEST",
+      "timestamp": "2026-10-10T16:50:00.732Z"
+    },
+    {
+      "id": "LOG-5BAC5AC5",
+      "user_id": "USR-004",
+      "user_name": "Dinesh Mendis",
+      "user_role": "VOLUNTEER",
+      "action": "DELIVERY_COMPLETED",
+      "details": "Safe delivery confirmed for Delivery: Fresh Surplus Veg Meal Packs (20.0 kg) to 84 Lunawa Station Road, Moratuwa.",
+      "category": "DELIVERY",
+      "timestamp": "2026-10-10T16:49:56.605Z"
+    },
+    {
+      "id": "LOG-76751F95",
+      "user_id": "USR-004",
+      "user_name": "Dinesh Mendis",
+      "user_role": "VOLUNTEER",
+      "action": "FOOD_PICKED_UP",
+      "details": "Courier picked up Fresh Surplus Veg Meal Packs - cooked_meals from donor kitchen.",
+      "category": "DELIVERY",
+      "timestamp": "2026-10-10T16:49:56.293Z"
+    },
+    {
+      "id": "LOG-F3F33BF9",
+      "user_id": "USR-004",
+      "user_name": "Dinesh Mendis",
+      "user_role": "VOLUNTEER",
+      "action": "TASK_ACCEPTED",
+      "details": "Volunteer Dinesh Mendis accepted mission Delivery: Fresh Surplus Veg Meal Packs (20.0 kg).",
+      "category": "DELIVERY",
+      "timestamp": "2026-10-10T16:49:55.929Z"
+    },
+    {
+      "id": "LOG-232E5C61",
+      "user_id": "USR-003",
+      "user_name": "Sister Mary Teresa",
+      "user_role": "RECIPIENT",
+      "action": "RESOURCE_REQUESTED",
+      "details": "Created requisition: Elderly Care Lunch Supplies (20.0 kg) for Grace Home for the Elderly [high].",
+      "category": "REQUEST",
+      "timestamp": "2026-10-10T16:49:51.067Z"
+    },
+    {
+      "id": "LOG-2265C60F",
+      "user_id": "USR-002",
+      "user_name": "Fathima Rizwan",
+      "user_role": "FOOD_PROVIDER",
+      "action": "FOOD_SURPLUS_REGISTERED",
+      "details": "Listed surplus: Fresh Surplus Veg Meal Packs (25.0 kg) from Perera Grand Catering & Hotel.",
+      "category": "FOOD",
+      "timestamp": "2026-10-10T16:49:49.525Z"
+    },
+    {
+      "id": "LOG-A477773E",
+      "user_id": "USR-003",
+      "user_name": "Sister Mary Teresa",
+      "user_role": "RECIPIENT",
+      "action": "RESOURCE_REQUESTED",
+      "details": "Created requisition: Emergency Drinking Water Supply (500.0 liters) for Grace Home for the Elderly [urgent].",
+      "category": "REQUEST",
+      "timestamp": "2026-10-10T16:48:48.757Z"
+    },
+    {
+      "id": "LOG-2142BE54",
+      "user_id": "USR-004",
+      "user_name": "Dinesh Mendis",
+      "user_role": "VOLUNTEER",
+      "action": "DELIVERY_COMPLETED",
+      "details": "Safe delivery confirmed for Delivery: Fresh Surplus Veg Meal Packs (20.0 kg) to 84 Lunawa Station Road, Moratuwa.",
+      "category": "DELIVERY",
+      "timestamp": "2026-10-10T16:48:41.010Z"
+    },
+    {
+      "id": "LOG-282F9185",
+      "user_id": "USR-004",
+      "user_name": "Dinesh Mendis",
+      "user_role": "VOLUNTEER",
+      "action": "FOOD_PICKED_UP",
+      "details": "Courier picked up Fresh Surplus Veg Meal Packs - cooked_meals from donor kitchen.",
+      "category": "DELIVERY",
+      "timestamp": "2026-10-10T16:48:40.400Z"
+    },
+    {
+      "id": "LOG-20CED0CB",
+      "user_id": "USR-004",
+      "user_name": "Dinesh Mendis",
+      "user_role": "VOLUNTEER",
+      "action": "TASK_ACCEPTED",
+      "details": "Volunteer Dinesh Mendis accepted mission Delivery: Fresh Surplus Veg Meal Packs (20.0 kg).",
+      "category": "DELIVERY",
+      "timestamp": "2026-10-10T16:48:39.928Z"
+    },
+    {
+      "id": "LOG-CF04D494",
+      "user_id": "USR-003",
+      "user_name": "Sister Mary Teresa",
+      "user_role": "RECIPIENT",
+      "action": "RESOURCE_REQUESTED",
+      "details": "Created requisition: Elderly Care Lunch Supplies (20.0 kg) for Grace Home for the Elderly [high].",
+      "category": "REQUEST",
+      "timestamp": "2026-10-10T16:48:35.237Z"
+    },
+    {
+      "id": "LOG-6FFEE9F0",
+      "user_id": "USR-002",
+      "user_name": "Fathima Rizwan",
+      "user_role": "FOOD_PROVIDER",
+      "action": "FOOD_SURPLUS_REGISTERED",
+      "details": "Listed surplus: Fresh Surplus Veg Meal Packs (25.0 kg) from Perera Grand Catering & Hotel.",
+      "category": "FOOD",
+      "timestamp": "2026-10-10T16:48:33.069Z"
+    },
+    {
+      "id": "LOG-DABDF656",
+      "user_id": "USR-004",
+      "user_name": "Dinesh Mendis",
+      "user_role": "VOLUNTEER",
+      "action": "DELIVERY_COMPLETED",
+      "details": "Safe delivery confirmed for Delivery: Fresh Surplus Veg Meal Packs (20.0 kg) to 84 Lunawa Station Road, Moratuwa.",
+      "category": "DELIVERY",
+      "timestamp": "2026-10-10T16:47:54.383Z"
+    },
+    {
+      "id": "LOG-95C13658",
+      "user_id": "USR-004",
+      "user_name": "Dinesh Mendis",
+      "user_role": "VOLUNTEER",
+      "action": "FOOD_PICKED_UP",
+      "details": "Courier picked up Fresh Surplus Veg Meal Packs - cooked_meals from donor kitchen.",
+      "category": "DELIVERY",
+      "timestamp": "2026-10-10T16:47:53.860Z"
+    },
+    {
+      "id": "LOG-E8962233",
+      "user_id": "USR-004",
+      "user_name": "Dinesh Mendis",
+      "user_role": "VOLUNTEER",
+      "action": "TASK_ACCEPTED",
+      "details": "Volunteer Dinesh Mendis accepted mission Delivery: Fresh Surplus Veg Meal Packs (20.0 kg).",
+      "category": "DELIVERY",
+      "timestamp": "2026-10-10T16:47:53.369Z"
+    },
+    {
+      "id": "LOG-132234C8",
+      "user_id": "USR-003",
+      "user_name": "Sister Mary Teresa",
+      "user_role": "RECIPIENT",
+      "action": "RESOURCE_REQUESTED",
+      "details": "Created requisition: Elderly Care Lunch Supplies (20.0 kg) for Grace Home for the Elderly [high].",
+      "category": "REQUEST",
+      "timestamp": "2026-10-10T16:47:48.723Z"
+    },
+    {
+      "id": "LOG-4F342DDB",
+      "user_id": "USR-002",
+      "user_name": "Fathima Rizwan",
+      "user_role": "FOOD_PROVIDER",
+      "action": "FOOD_SURPLUS_REGISTERED",
+      "details": "Listed surplus: Fresh Surplus Veg Meal Packs (25.0 kg) from Perera Grand Catering & Hotel.",
+      "category": "FOOD",
+      "timestamp": "2026-10-10T16:47:46.634Z"
+    },
+    {
+      "id": "LOG-25570C22",
+      "user_id": "USR-004",
+      "user_name": "Dinesh Mendis",
+      "user_role": "VOLUNTEER",
+      "action": "TASK_ACCEPTED",
+      "details": "Volunteer Dinesh Mendis accepted mission Delivery: Fresh Surplus Veg Meal Packs (20.0 kg).",
+      "category": "DELIVERY",
+      "timestamp": "2026-10-10T16:45:53.032Z"
+    },
+    {
+      "id": "LOG-7E64D514",
+      "user_id": "USR-003",
+      "user_name": "Sister Mary Teresa",
+      "user_role": "RECIPIENT",
+      "action": "RESOURCE_REQUESTED",
+      "details": "Created requisition: Elderly Care Lunch Supplies (20.0 kg) for Grace Home for the Elderly [high].",
+      "category": "REQUEST",
+      "timestamp": "2026-10-10T16:45:48.270Z"
+    },
+    {
+      "id": "LOG-7CD445C0",
+      "user_id": "USR-002",
+      "user_name": "Fathima Rizwan",
+      "user_role": "FOOD_PROVIDER",
+      "action": "FOOD_SURPLUS_REGISTERED",
+      "details": "Listed surplus: Fresh Surplus Veg Meal Packs (25.0 kg) from Perera Grand Catering & Hotel.",
+      "category": "FOOD",
+      "timestamp": "2026-10-10T16:45:46.146Z"
+    },
+    {
+      "id": "LOG-4A1C49F7",
+      "user_id": "USR-003",
+      "user_name": "Sister Mary Teresa",
+      "user_role": "RECIPIENT",
+      "action": "RESOURCE_REQUESTED",
+      "details": "Created requisition: Elderly Care Lunch Supplies (20.0 kg) for Grace Home for the Elderly [high].",
+      "category": "REQUEST",
+      "timestamp": "2026-10-10T16:43:18.959Z"
+    },
+    {
+      "id": "LOG-99C0FAE9",
+      "user_id": "USR-002",
+      "user_name": "Fathima Rizwan",
+      "user_role": "FOOD_PROVIDER",
+      "action": "FOOD_SURPLUS_REGISTERED",
+      "details": "Listed surplus: Fresh Surplus Veg Meal Packs (25.0 kg) from Perera Grand Catering & Hotel.",
+      "category": "FOOD",
+      "timestamp": "2026-10-10T16:43:16.797Z"
+    }
+  ]
+}

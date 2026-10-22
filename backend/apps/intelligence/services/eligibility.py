@@ -1,186 +1,120 @@
-from datetime import timedelta
-from typing import Dict, Any, List, Tuple
+"""Deterministic screening against recorded supply, NGO demand and verified preferences."""
+import math
+import re
+from datetime import timedelta, datetime, time
 from django.utils import timezone
-from apps.resources.models import Resource, ResourceStatusChoices, ResourceCategoryChoices
-from apps.requests.models import ResourceRequest, RequestStatusChoices
-from apps.disasters.models import DisasterEvent, DisasterStatusChoices
-from .distance import calculate_haversine_distance, MAX_SERVICE_RADIUS_KM
+from apps.disasters.models import DisasterEvent
+from .distance import recorded_distance, resource_coordinates, request_coordinates, MAX_SERVICE_RADIUS_KM
 
-# Category Compatibility Matrix: What resource categories can safely satisfy request categories
-COMPATIBILITY_MATRIX: Dict[str, List[str]] = {
-    ResourceCategoryChoices.COOKED_MEALS: [
-        ResourceCategoryChoices.COOKED_MEALS,
-        ResourceCategoryChoices.BAKERY,  # Bakery bread/pastries can support meal feeding
-    ],
-    ResourceCategoryChoices.BAKERY: [
-        ResourceCategoryChoices.BAKERY,
-    ],
-    ResourceCategoryChoices.FRESH_PRODUCE: [
-        ResourceCategoryChoices.FRESH_PRODUCE,
-    ],
-    ResourceCategoryChoices.DAIRY: [
-        ResourceCategoryChoices.DAIRY,
-    ],
-    ResourceCategoryChoices.CANNED_PACKAGED: [
-        ResourceCategoryChoices.CANNED_PACKAGED,
-    ],
-    ResourceCategoryChoices.DRINKING_WATER: [
-        ResourceCategoryChoices.DRINKING_WATER,
-    ],
-    ResourceCategoryChoices.BEVERAGES: [
-        ResourceCategoryChoices.BEVERAGES,
-    ],
-    ResourceCategoryChoices.HYGIENE_KITS: [
-        ResourceCategoryChoices.HYGIENE_KITS,
-    ],
-    ResourceCategoryChoices.BLANKETS_BEDDING: [
-        ResourceCategoryChoices.BLANKETS_BEDDING,
-    ],
-    ResourceCategoryChoices.MEDICAL_SUPPLIES: [
-        ResourceCategoryChoices.MEDICAL_SUPPLIES,
-    ],
-}
-
-def is_category_compatible(resource_category: str, request_category: str) -> bool:
-    """Checks if a resource category is compatible with a requested category."""
-    if resource_category == request_category:
-        return True
-    compatible = COMPATIBILITY_MATRIX.get(request_category, [request_category])
-    return resource_category in compatible
+# Cross-category substitutions require an explicit domain policy; none is recorded.
+COMPATIBILITY_MATRIX = {}
+def is_category_compatible(resource_category, request_category):
+    return resource_category == request_category
 
 class EligibilityResult:
-    def __init__(
-        self,
-        is_eligible: bool,
-        reasons_rejected: List[str],
-        constraints_satisfied: List[str],
-        distance_km: float,
-        compatible_quantity: float,
-    ):
+    def __init__(self, is_eligible, reasons_rejected, constraints_satisfied, distance_km, compatible_quantity, missing_information=None, distance_type='unknown', pickup_at=None, delivery_by=None):
         self.is_eligible = is_eligible
         self.reasons_rejected = reasons_rejected
         self.constraints_satisfied = constraints_satisfied
         self.distance_km = distance_km
         self.compatible_quantity = compatible_quantity
+        self.missing_information = missing_information or []
+        self.distance_type = distance_type
+        self.pickup_at = pickup_at
+        self.delivery_by = delivery_by
+    def to_dict(self):
+        return {key: getattr(self,key) for key in ['is_eligible','reasons_rejected','constraints_satisfied','distance_km','compatible_quantity','missing_information','distance_type']}
 
-    def to_dict(self) -> Dict[str, Any]:
-        return {
-            'is_eligible': self.is_eligible,
-            'reasons_rejected': self.reasons_rejected,
-            'constraints_satisfied': self.constraints_satisfied,
-            'distance_km': self.distance_km,
-            'compatible_quantity': self.compatible_quantity,
-        }
+def receiving_intervals(organization, start, end):
+    text = organization.operating_hours.strip()
+    if text.lower().startswith('24 hour') or text.lower() in ['24/7','24 hours','24h']:
+        return [(start,end)]
+    match = re.fullmatch(r'(\d{2}):(\d{2})\s*[-–]\s*(\d{2}):(\d{2})', text)
+    if not match:
+        return None
+    h1,m1,h2,m2 = map(int,match.groups())
+    if h1>23 or h2>23 or m1>59 or m2>59:
+        return None
+    local = timezone.localtime(start)
+    tz = local.tzinfo
+    windows=[]
+    for offset in range(-1, min(370, (end-start).days+2)):
+        day=local.date()+timedelta(days=offset)
+        a=datetime.combine(day,time(h1,m1),tzinfo=tz)
+        b=datetime.combine(day,time(h2,m2),tzinfo=tz)
+        if b<=a: b+=timedelta(days=1)
+        if max(a,start)<min(b,end): windows.append((max(a,start),min(b,end)))
+    return windows
 
-def evaluate_resource_request_eligibility(
-    resource: Resource,
-    request: ResourceRequest,
-    now=None
-) -> EligibilityResult:
-    """
-    Evaluates mandatory hard constraints for matching an available resource lot to a recipient request.
-    Strictly deterministic. Does not use LLMs or heuristic guesses for food safety.
-    """
-    if now is None:
-        now = timezone.now()
-
-    reasons: List[str] = []
-    satisfied: List[str] = []
-
-    # 1. Resource Availability & State
-    if resource.status != ResourceStatusChoices.AVAILABLE:
-        reasons.append(f"Resource status is '{resource.status}' (must be AVAILABLE).")
+def evaluate_resource_request_eligibility(resource, request, now=None):
+    now=now or timezone.now()
+    reasons=[]; satisfied=[]; missing=[]
+    if resource.status!='AVAILABLE': reasons.append(f'Resource status is {resource.status}; must be AVAILABLE.')
+    if request.status not in ['OPEN','PARTIALLY_ALLOCATED']: reasons.append(f'Request status is {request.status}; no open demand.')
+    quantities=[resource.quantity,resource.allocated_quantity,request.requested_quantity,request.fulfilled_quantity]
+    if not all(math.isfinite(q) and q>=0 for q in quantities) or resource.allocated_quantity>resource.quantity or request.fulfilled_quantity>request.requested_quantity:
+        reasons.append('Invalid recorded inventory or demand quantities.')
+    elif any(abs(q-round(q,2))>1e-9 for q in quantities):
+        reasons.append('Recorded quantities exceed the supported two decimal places; correct measurement precision before allocation.')
+    quantity=min(resource.available_quantity,request.remaining_quantity)
+    if not (resource.pickup_address or resource.provider.address).strip():
+        missing.append('Provider pickup address is missing; coordinates are used for distance only.')
+    if not (request.delivery_address or request.recipient.address).strip():
+        missing.append('Recipient delivery address is missing; coordinates are used for distance only.')
+    if quantity<=0: reasons.append('No mutually compatible quantity available.')
+    if not request.allow_partial:
+        satisfied.append('All-or-nothing demand: optimizer must fulfill the entire remaining request across its selected allocations.')
+    if resource.category!=request.category: reasons.append(f'Category mismatch: {resource.category} cannot satisfy {request.category}.')
+    else: satisfied.append(f'Exact food category: {resource.category}.')
+    if resource.unit!=request.unit: reasons.append(f'Unit mismatch: {resource.unit} versus {request.unit}; no conversion inferred.')
+    else: satisfied.append(f'Consistent recorded unit: {resource.unit}.')
+    if not resource.provider.verified: reasons.append('Provider organization is unverified.')
+    if not request.recipient.verified and not request.is_disaster_relief: reasons.append('Recipient organization is unverified.')
+    if resource.provider_id==request.recipient_id: reasons.append('Provider cannot satisfy its own organization request.')
+    if request.created_by_id and (not request.created_by.is_active or request.created_by.status!='active'):
+        reasons.append('Request creator account is inactive or suspended.')
+    if resource.is_disaster_relief!=request.is_disaster_relief or resource.disaster_event_id!=request.disaster_event_id:
+        reasons.append('Resource and request operating mode / disaster event mismatch.')
+    if not request.is_disaster_relief and (resource.disaster_event_id or request.disaster_event_id):
+        reasons.append('Normal community matching cannot allocate event-linked disaster supplies or demand.')
+    if request.is_disaster_relief and not DisasterEvent.objects.filter(pk=request.disaster_event_id,status='ACTIVE').exists():
+        reasons.append('Disaster Event is not currently ACTIVE.')
+    if resource.pickup_end<=now or resource.pickup_end<=resource.pickup_start: reasons.append('Pickup window is closed or invalid.')
+    if resource.safe_until and resource.pickup_start >= resource.safe_until:
+        reasons.append('Pickup begins after the safe-consumption deadline.')
+    if request.urgency_deadline<=now: reasons.append('Request delivery deadline has expired.')
+    if resource.is_food and not resource.safe_until:
+        missing.append('Food safe-consumption deadline is missing.'); reasons.append('Food safety cannot be verified without a safe-consumption deadline.')
+    if resource.safe_until and resource.safe_until<=now+timedelta(hours=2): reasons.append('Food is expired or has less than two hours of safe shelf life remaining.')
+    if not resource.storage_requirements: missing.append('Provider storage instructions are missing.'); reasons.append('Food storage instructions are missing.')
+    else: satisfied.append(f'Recorded handling requirement: {resource.storage_requirements}.')
+    org=request.recipient
+    if not org.matching_preferences_verified:
+        missing.append('NGO dietary and storage preferences have not been verified; no preferences inferred.')
     else:
-        satisfied.append("Resource status is AVAILABLE.")
-
-    if resource.available_quantity <= 0:
-        reasons.append(f"Resource has 0 available inventory (allocated: {resource.allocated_quantity}/{resource.quantity}).")
-    else:
-        satisfied.append(f"Resource has {resource.available_quantity} {resource.unit} available.")
-
-    # 2. Food Safety & Expiry Deadlines
-    if resource.safe_until and resource.safe_until <= now + timedelta(hours=2):
-        reasons.append(f"Resource expired or safe-use deadline expires in less than 2 hours (deadline: {resource.safe_until.strftime('%Y-%m-%d %H:%M')}).")
-    else:
-        satisfied.append("Resource safe-use deadline is unexpired (>= 2h remaining).")
-
-    if resource.pickup_end and resource.pickup_end <= now:
-        reasons.append(f"Pickup window closed on {resource.pickup_end.strftime('%Y-%m-%d %H:%M')}.")
-    else:
-        satisfied.append("Pickup window is currently open.")
-
-    if not resource.storage_requirements:
-        reasons.append("Missing food storage requirements information.")
-    else:
-        satisfied.append(f"Food safety storage condition documented: {resource.storage_requirements}.")
-
-    # 3. Category & Unit Compatibility
-    if not is_category_compatible(resource.category, request.category):
-        reasons.append(f"Category mismatch: Resource is '{resource.category}' while Request needs '{request.category}'.")
-    else:
-        satisfied.append(f"Category compatible ({resource.category} -> {request.category}).")
-
-    if resource.unit != request.unit:
-        reasons.append(f"Unit mismatch: Resource uses '{resource.unit}' while Request uses '{request.unit}'.")
-    else:
-        satisfied.append(f"Units matched ({resource.unit}).")
-
-    # 4. Organization Verification Requirements
-    if not resource.provider.verified:
-        reasons.append(f"Provider organization '{resource.provider.name}' is unverified.")
-    else:
-        satisfied.append("Provider organization is officially verified.")
-
-    if not request.recipient.verified:
-        # Emergency relief exemption only if explicitly marked and emergency
-        if request.is_disaster_relief:
-            satisfied.append("Recipient unverified but granted temporary disaster shelter clearance.")
+        if org.dietary_requirements is None: missing.append('NGO dietary requirements are not recorded.')
         else:
-            reasons.append(f"Recipient organization '{request.recipient.name}' is unverified.")
+            required={s.strip().casefold() for s in org.dietary_requirements}
+            supplied={s.strip().casefold() for s in resource.dietary_tags}
+            if not required.issubset(supplied): reasons.append('Dietary mismatch: missing required tags '+', '.join(sorted(required-supplied))+'.')
+            else: satisfied.append('Verified recorded dietary requirements satisfied.')
+        if org.storage_capabilities is None: missing.append('NGO storage capabilities are not recorded.')
+        elif resource.storage_requirements not in org.storage_capabilities: reasons.append(f'Storage mismatch: recipient cannot handle {resource.storage_requirements}.')
+        else: satisfied.append('Verified recipient storage capability matches.')
+    distance,kind=recorded_distance(*resource_coordinates(resource),*request_coordinates(request))
+    if distance is None:
+        missing.append('Valid pickup or recipient delivery coordinates are missing.'); reasons.append('Geographic eligibility cannot be verified from recorded delivery locations.')
+    elif distance>MAX_SERVICE_RADIUS_KM: reasons.append(f'Geographic distance {distance} km exceeds {MAX_SERVICE_RADIUS_KM} km service radius.')
+    else: satisfied.append(f'{kind}: {distance} km within service radius; not a road route.')
+    pickup_at=max(now,resource.pickup_start)
+    delivery_by=min(request.urgency_deadline,resource.safe_until or request.urgency_deadline)
+    intervals=receiving_intervals(org,pickup_at,delivery_by) if delivery_by>pickup_at else []
+    if intervals is None:
+        missing.append('Recipient receiving hours are missing or not a supported HH:MM - HH:MM / 24 Hours record.')
+    elif not intervals: reasons.append('Pickup time, recipient receiving hours and safe delivery deadline do not overlap.')
     else:
-        satisfied.append("Recipient organization is officially verified.")
-
-    # 5. Timing Feasibility
-    if resource.pickup_start > request.urgency_deadline:
-        reasons.append(
-            f"Pickup start ({resource.pickup_start.strftime('%H:%M')}) is after request urgency deadline ({request.urgency_deadline.strftime('%H:%M')})."
-        )
-    else:
-        satisfied.append("Pickup start is feasible within recipient deadline.")
-
-    # 6. Disaster Mode Constraints
-    if request.is_disaster_relief:
-        if not request.disaster_event_id:
-            reasons.append("Disaster relief request is missing linked Disaster Event ID.")
-        else:
-            event = DisasterEvent.objects.filter(id=request.disaster_event_id).first()
-            if not event or event.status != DisasterStatusChoices.ACTIVE:
-                reasons.append("Referenced Disaster Event is not currently ACTIVE.")
-            else:
-                satisfied.append(f"Disaster Event '{event.title}' is verified ACTIVE.")
-
-    # 7. Geographic Distance Check
-    prov_lat = getattr(resource.provider, 'latitude', None)
-    prov_lon = getattr(resource.provider, 'longitude', None)
-    rec_lat = getattr(request.recipient, 'latitude', None)
-    rec_lon = getattr(request.recipient, 'longitude', None)
-
-    distance_km = calculate_haversine_distance(prov_lat, prov_lon, rec_lat, rec_lon)
-    if distance_km > MAX_SERVICE_RADIUS_KM:
-        reasons.append(f"Geographic distance ({distance_km} km) exceeds maximum pilot delivery radius ({MAX_SERVICE_RADIUS_KM} km).")
-    else:
-        satisfied.append(f"Geographic distance ({distance_km} km) is within service zone ({MAX_SERVICE_RADIUS_KM} km).")
-
-    # 8. Quantity Eligibility
-    compatible_quantity = min(resource.available_quantity, request.remaining_quantity)
-    if compatible_quantity <= 0:
-        reasons.append("No mutually compatible quantity available.")
-
-    is_eligible = len(reasons) == 0
-    return EligibilityResult(
-        is_eligible=is_eligible,
-        reasons_rejected=reasons,
-        constraints_satisfied=satisfied,
-        distance_km=distance_km,
-        compatible_quantity=compatible_quantity,
-    )
+        first=intervals[0]
+        delivery_by=intervals[-1][1]
+        satisfied.append('Recorded receiving hours overlap the pickup/delivery window (Asia/Colombo).')
+    if pickup_at>=delivery_by: reasons.append('No time remains between feasible pickup and the delivery deadline.')
+    return EligibilityResult(not reasons,reasons,satisfied,distance,quantity,missing,kind,pickup_at,delivery_by)

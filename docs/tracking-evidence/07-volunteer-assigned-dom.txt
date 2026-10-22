@@ -1,0 +1,94 @@
+- banner:
+  - link:
+    - /url: /dashboard
+  - heading "My Tasks" [level=1]
+  - button "Notifications":
+    - generic: "4"
+  - button "Kasun Perera":
+    - generic: Kasun Perera
+- main:
+  - heading "Hello, Kasun Perera!" [level=1]
+  - generic: Top Responder
+  - paragraph: "Vehicle: motorcycle (25 kg max)"
+  - generic: Busy — Delivery in Progress
+  - button [disabled]
+  - generic: Completed
+  - generic: "0"
+  - paragraph: Total successful runs
+  - generic: Courier Rating
+  - generic: 4.9 ★
+  - paragraph: Verified responder
+  - generic: Current Tasks
+  - generic: 1 Active
+  - paragraph: ACCEPTED
+  - generic: Available Tasks
+  - generic: "1"
+  - paragraph: In your radius
+  - 'heading "Delivery: TRACK-20261022 Shared Bread (4.0 kg)" [level=3]'
+  - generic: ACCEPTED
+  - paragraph: "Tracking ID: TSK-5FAC09 • Cargo: TRACK-20261022 Shared Bread - bakery (4.0 kg)"
+  - generic: Assigned Courier
+  - text: Kasun Perera
+  - heading "Lifecycle Timeline (Recorded Timestamps)" [level=4]:
+    - generic: Lifecycle Timeline (Recorded Timestamps)
+  - heading "Mission Created" [level=5]
+  - paragraph: Allocation generated and published
+  - generic: 01:42 PM Oct 22
+  - heading "Courier Assigned" [level=5]
+  - paragraph: Assigned to Kasun Perera
+  - generic: 01:52 PM Oct 22
+  - generic: "3"
+  - heading "Arrived at Pickup" [level=5]
+  - paragraph: Perera Grand Catering & Hotel
+  - generic: Pending
+  - generic: "4"
+  - heading "Cargo Loaded & In Transit" [level=5]
+  - paragraph: TRACK-20261022 Shared Bread - bakery
+  - generic: Pending
+  - generic: "5"
+  - heading "Arrived at Recipient" [level=5]
+  - paragraph: Grace Home for the Elderly
+  - generic: Pending
+  - generic: "6"
+  - heading "Delivered" [level=5]
+  - paragraph: Delivery recorded; NGO receipt is confirmed separately
+  - generic: Pending
+  - text: Pickup Point
+  - paragraph: Perera Grand Catering & Hotel
+  - paragraph: Provider kitchen handover desk — tracking verification
+  - generic: +94 11 243 8900
+  - text: Dropoff Destination
+  - paragraph: Grace Home for the Elderly
+  - paragraph: 84 Lunawa Station Road, Moratuwa
+  - generic: +94 11 264 5589
+  - button "Report Road Hazard / Disruption":
+    - generic: Report Road Hazard / Disruption
+  - button "1. Confirm Arrived at Pickup"
+  - generic "Append-Only Transition Audit History (2 events)":
+    - generic: Append-Only Transition Audit History (2 events)
+  - heading "Available Volunteer Runs" [level=3]
+  - paragraph: Nearby requests matching your vehicle capacity
+  - link "View All (1)":
+    - /url: /volunteer/tasks
+  - generic: high
+  - generic: 3.0 kg
+  - 'heading "Delivery: TRACK-20261022 Shared Bread (3.0 kg)" [level=4]'
+  - paragraph: "Pickup: Perera Grand Catering & Hotel ➔ Delivery: Suwasetha Child Development Center"
+  - generic: Distance not recorded
+  - generic: •
+  - generic: ~25 mins transit
+  - button "Accept Mission"
+- navigation:
+  - link "Overview":
+    - /url: /dashboard
+    - generic: Overview
+  - link "My Tasks":
+    - /url: /volunteer/tasks
+    - generic: My Tasks
+  - link "Availability":
+    - /url: /volunteer/current-task
+    - generic: Availability
+  - link "Profile":
+    - /url: /profile
+    - generic: Profile
+- button "Submit pilot feedback":

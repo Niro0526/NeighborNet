@@ -1,6 +1,6 @@
 import { DashboardStats, ActivityLog, MapMarkerItem, LocationRecord } from '../types';
 import { mockRepository } from './mockRepository';
-import { apiClient, isApiMode } from './apiClient';
+import { apiClient, isApiMode, getAllPages } from './apiClient';
 import { adaptActivityLog } from './apiAdapters';
 import {
   calculateDashboardStats,
@@ -12,6 +12,17 @@ import {
 import { mockLocations, mockMapMarkers } from '../mockData/mapLocations';
 
 export const analyticsService = {
+  /**
+   * Role-aware personal dashboard payload from PostgreSQL.
+   */
+  async getPersonalDashboard(): Promise<any | null> {
+    if (!isApiMode()) {
+      return null;
+    }
+    const res = await apiClient.get('/dashboard/me/');
+    return res.data;
+  },
+
   /**
    * Fetches operational KPI statistics.
    * In API mode, queries GET /api/v1/dashboard/admin/ directly from PostgreSQL.
@@ -85,19 +96,19 @@ export const analyticsService = {
   },
 
   async getWeeklyFoodTrends() {
-    return mockWeeklyFoodTrends;
+    return isApiMode() ? [] : mockWeeklyFoodTrends;
   },
 
   async getFoodCategoryDistribution() {
-    return mockFoodCategoryDistribution;
+    return isApiMode() ? [] : mockFoodCategoryDistribution;
   },
 
   async getRegionalSupplyDemand() {
-    return mockRegionalSupplyDemand;
+    return isApiMode() ? [] : mockRegionalSupplyDemand;
   },
 
   async getDeliveryPerformance() {
-    return mockDeliveryPerformance;
+    return isApiMode() ? [] : mockDeliveryPerformance;
   },
 
 
@@ -129,23 +140,22 @@ export const analyticsService = {
     }
 
     try {
-      const res = await apiClient.get<{ count: number; results: any[] } | any[]>('/organizations/');
-      const rawList = Array.isArray(res.data) ? res.data : (res.data?.results || []);
-      return rawList.map((org: any) => ({
+      const rawList = await getAllPages('/organizations/');
+      return rawList.filter((org: any) => org.latitude != null && org.longitude != null).map((org: any) => ({
         id: org.id,
         name: org.name,
         address: org.address,
-        city: org.city || 'Colombo',
-        postalCode: org.postal_code || '10400',
+        city: org.city || '',
+        postalCode: org.postal_code || '',
         coordinates: {
-          latitude: Number(org.latitude || 6.9271),
-          longitude: Number(org.longitude || 79.8612),
+          latitude: Number(org.latitude),
+          longitude: Number(org.longitude),
         },
         contactPerson: org.contact_email,
         contactPhone: org.contact_phone,
       }));
-    } catch {
-      return mockLocations;
+    } catch (error) {
+      throw error;
     }
   },
 

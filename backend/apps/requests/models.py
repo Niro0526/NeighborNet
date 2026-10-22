@@ -1,4 +1,5 @@
 import uuid
+from .community_models import PersonalLocation, FoodClaim, FoodClaimEvent
 from django.db import models
 from django.conf import settings
 from django.core.exceptions import ValidationError
@@ -43,6 +44,9 @@ class ResourceRequest(models.Model):
     people_impacted = models.IntegerField(default=20)
     urgency_deadline = models.DateTimeField()
     delivery_address = models.CharField(max_length=300, blank=True)
+    delivery_latitude = models.FloatField(null=True, blank=True)
+    delivery_longitude = models.FloatField(null=True, blank=True)
+    allow_partial = models.BooleanField(default=True)
     special_instructions = models.TextField(blank=True)
     is_disaster_relief = models.BooleanField(default=False)
     disaster_event = models.ForeignKey(

@@ -1,0 +1,2707 @@
+{
+  "database": "postgresql",
+  "resources": [
+    {
+      "id": "RES-CE7CA0",
+      "name": "Juice",
+      "category": "beverages",
+      "quantity": 15.0,
+      "allocated_quantity": 0.0,
+      "unit": "kg",
+      "status": "AVAILABLE",
+      "pickup_start": "2026-10-22 15:04:42.690000+00:00",
+      "pickup_end": "2026-10-27 18:30:00+00:00",
+      "safe_until": "2026-10-28 17:30:00+00:00",
+      "pickup_address": "jaffna",
+      "pickup_latitude": 6.799928236407136,
+      "pickup_longitude": 79.90233365309847,
+      "dietary_tags": [
+        "Vegetarian",
+        "Vegan"
+      ],
+      "storage_requirements": "Ambient",
+      "is_disaster_relief": false
+    },
+    {
+      "id": "RES-D5AE00",
+      "name": "TRACK-20261022 Shared Bread",
+      "category": "bakery",
+      "quantity": 10.0,
+      "allocated_quantity": 7.0,
+      "unit": "kg",
+      "status": "AVAILABLE",
+      "pickup_start": "2026-10-22 07:30:00+00:00",
+      "pickup_end": "2026-10-22 12:10:11.687000+00:00",
+      "safe_until": "2026-10-23 08:10:11.687000+00:00",
+      "pickup_address": "Provider kitchen handover desk \u2014 tracking verification",
+      "pickup_latitude": 6.773,
+      "pickup_longitude": 79.8816,
+      "dietary_tags": [
+        "Vegetarian"
+      ],
+      "storage_requirements": "Ambient",
+      "is_disaster_relief": false
+    },
+    {
+      "id": "RES-5980F3",
+      "name": "VERIFY-20261022-0728 Bread",
+      "category": "bakery",
+      "quantity": 2.0,
+      "allocated_quantity": 0.0,
+      "unit": "kg",
+      "status": "AVAILABLE",
+      "pickup_start": "2026-10-22 07:53:08.935000+00:00",
+      "pickup_end": "2026-10-22 11:23:08.935000+00:00",
+      "safe_until": "2026-10-23 07:23:08.935000+00:00",
+      "pickup_address": "Verification pickup \u2014 Perera kitchen entrance",
+      "pickup_latitude": 6.773,
+      "pickup_longitude": 79.8816,
+      "dietary_tags": [
+        "Vegetarian"
+      ],
+      "storage_requirements": "Ambient",
+      "is_disaster_relief": false
+    },
+    {
+      "id": "RES-BC62CE",
+      "name": "Eggs",
+      "category": "dairy",
+      "quantity": 200.0,
+      "allocated_quantity": 0.0,
+      "unit": "meals",
+      "status": "AVAILABLE",
+      "pickup_start": "2026-10-23 10:30:00+00:00",
+      "pickup_end": "2026-10-26 11:00:00+00:00",
+      "safe_until": "2026-10-26 12:30:00+00:00",
+      "pickup_address": "university of moratuwa",
+      "pickup_latitude": 6.795329241516141,
+      "pickup_longitude": 79.90104426555251,
+      "dietary_tags": [
+        "Vegetarian",
+        "Gluten-Free"
+      ],
+      "storage_requirements": "Refrigerated",
+      "is_disaster_relief": false
+    },
+    {
+      "id": "RES-46085B",
+      "name": "Rice & Curry Packets",
+      "category": "cooked_meals",
+      "quantity": 20.0,
+      "allocated_quantity": 15.0,
+      "unit": "kg",
+      "status": "COLLECTED",
+      "pickup_start": "2026-10-10 15:59:39.785595+00:00",
+      "pickup_end": "2026-10-10 18:59:39.785595+00:00",
+      "safe_until": "2026-10-10 21:59:39.785595+00:00",
+      "pickup_address": "Colombo 03",
+      "pickup_latitude": 6.91,
+      "pickup_longitude": 79.86,
+      "dietary_tags": [],
+      "storage_requirements": "Ambient",
+      "is_disaster_relief": false
+    },
+    {
+      "id": "RES-6BAA3D",
+      "name": "Rice & Curry Packets",
+      "category": "cooked_meals",
+      "quantity": 20.0,
+      "allocated_quantity": 20.0,
+      "unit": "kg",
+      "status": "RESERVED",
+      "pickup_start": "2026-10-10 15:45:27.554569+00:00",
+      "pickup_end": "2026-10-10 18:45:27.554569+00:00",
+      "safe_until": "2026-10-10 21:45:27.554569+00:00",
+      "pickup_address": "Colombo 03",
+      "pickup_latitude": 6.91,
+      "pickup_longitude": 79.86,
+      "dietary_tags": [],
+      "storage_requirements": "Ambient",
+      "is_disaster_relief": false
+    },
+    {
+      "id": "RES-ECE370",
+      "name": "Rice & Curry Packets",
+      "category": "cooked_meals",
+      "quantity": 20.0,
+      "allocated_quantity": 20.0,
+      "unit": "kg",
+      "status": "RESERVED",
+      "pickup_start": "2026-10-10 15:40:28.839842+00:00",
+      "pickup_end": "2026-10-10 18:40:28.839842+00:00",
+      "safe_until": "2026-10-10 21:40:28.839842+00:00",
+      "pickup_address": "Colombo 03",
+      "pickup_latitude": 6.91,
+      "pickup_longitude": 79.86,
+      "dietary_tags": [],
+      "storage_requirements": "Ambient",
+      "is_disaster_relief": false
+    },
+    {
+      "id": "RES-D5D082",
+      "name": "Rice & Curry Packets",
+      "category": "cooked_meals",
+      "quantity": 20.0,
+      "allocated_quantity": 20.0,
+      "unit": "kg",
+      "status": "COLLECTED",
+      "pickup_start": "2026-10-10 15:39:15.019766+00:00",
+      "pickup_end": "2026-10-10 18:39:15.019766+00:00",
+      "safe_until": "2026-10-10 21:39:15.019766+00:00",
+      "pickup_address": "Colombo 03",
+      "pickup_latitude": 6.91,
+      "pickup_longitude": 79.86,
+      "dietary_tags": [],
+      "storage_requirements": "Ambient",
+      "is_disaster_relief": false
+    },
+    {
+      "id": "RES-004",
+      "name": "Potable Drinking Water Cans (5L Units)",
+      "category": "drinking_water",
+      "quantity": 150.0,
+      "allocated_quantity": 150.0,
+      "unit": "liters",
+      "status": "COLLECTED",
+      "pickup_start": "2026-10-10 15:21:56.405813+00:00",
+      "pickup_end": "2026-10-11 03:21:56.405813+00:00",
+      "safe_until": "2026-11-09 15:21:56.405813+00:00",
+      "pickup_address": "248 Galle Road, Katubedda, Moratuwa",
+      "pickup_latitude": 6.7972,
+      "pickup_longitude": 79.8884,
+      "dietary_tags": [],
+      "storage_requirements": "Ambient",
+      "is_disaster_relief": true
+    }
+  ],
+  "requests": [
+    {
+      "id": "REQ-609A04",
+      "recipient_id": "ORG-003",
+      "category": "bakery",
+      "requested_quantity": 10.0,
+      "fulfilled_quantity": 0.0,
+      "unit": "meals",
+      "status": "OPEN",
+      "delivery_address": "84 Lunawa Station Road, Moratuwa",
+      "urgency_deadline": "2026-10-23 19:38:00+00:00",
+      "is_disaster_relief": false
+    },
+    {
+      "id": "REQ-781765",
+      "recipient_id": "ORG-004",
+      "category": "bakery",
+      "requested_quantity": 3.0,
+      "fulfilled_quantity": 3.0,
+      "unit": "kg",
+      "status": "FULFILLED",
+      "delivery_address": "15 Ferry Road, Ratmalana",
+      "urgency_deadline": "2026-10-22 12:13:00+00:00",
+      "is_disaster_relief": false
+    },
+    {
+      "id": "REQ-DB82FD",
+      "recipient_id": "ORG-003",
+      "category": "bakery",
+      "requested_quantity": 4.0,
+      "fulfilled_quantity": 4.0,
+      "unit": "kg",
+      "status": "FULFILLED",
+      "delivery_address": "84 Lunawa Station Road, Moratuwa",
+      "urgency_deadline": "2026-10-22 12:11:00+00:00",
+      "is_disaster_relief": false
+    },
+    {
+      "id": "REQ-129D3F",
+      "recipient_id": "ORG-003",
+      "category": "bakery",
+      "requested_quantity": 2.0,
+      "fulfilled_quantity": 0.0,
+      "unit": "kg",
+      "status": "OPEN",
+      "delivery_address": "84 Lunawa Station Road, Moratuwa",
+      "urgency_deadline": "2026-10-22 11:30:00+00:00",
+      "is_disaster_relief": false
+    },
+    {
+      "id": "REQ-CF32DD",
+      "recipient_id": "ORG-003",
+      "category": "drinking_water",
+      "requested_quantity": 500.0,
+      "fulfilled_quantity": 150.0,
+      "unit": "liters",
+      "status": "FULFILLED",
+      "delivery_address": "84 Lunawa Station Road, Moratuwa",
+      "urgency_deadline": "2026-10-10 17:59:39.785595+00:00",
+      "is_disaster_relief": true
+    },
+    {
+      "id": "REQ-116FA8",
+      "recipient_id": "ORG-TEST-UNVERIFIED",
+      "category": "cooked_meals",
+      "requested_quantity": 20.0,
+      "fulfilled_quantity": 15.0,
+      "unit": "kg",
+      "status": "FULFILLED",
+      "delivery_address": "Colombo 05",
+      "urgency_deadline": "2026-10-10 19:59:39.785595+00:00",
+      "is_disaster_relief": false
+    },
+    {
+      "id": "REQ-AE23BB",
+      "recipient_id": "ORG-TEST-UNVERIFIED",
+      "category": "cooked_meals",
+      "requested_quantity": 20.0,
+      "fulfilled_quantity": 20.0,
+      "unit": "kg",
+      "status": "ALLOCATED",
+      "delivery_address": "Colombo 05",
+      "urgency_deadline": "2026-10-10 19:45:27.554569+00:00",
+      "is_disaster_relief": false
+    },
+    {
+      "id": "REQ-493FD9",
+      "recipient_id": "ORG-TEST-UNVERIFIED",
+      "category": "cooked_meals",
+      "requested_quantity": 20.0,
+      "fulfilled_quantity": 20.0,
+      "unit": "kg",
+      "status": "ALLOCATED",
+      "delivery_address": "Colombo 05",
+      "urgency_deadline": "2026-10-10 19:40:28.839842+00:00",
+      "is_disaster_relief": false
+    },
+    {
+      "id": "REQ-54EAFF",
+      "recipient_id": "ORG-TEST-UNVERIFIED",
+      "category": "cooked_meals",
+      "requested_quantity": 20.0,
+      "fulfilled_quantity": 20.0,
+      "unit": "kg",
+      "status": "FULFILLED",
+      "delivery_address": "Colombo 05",
+      "urgency_deadline": "2026-10-10 19:39:15.019766+00:00",
+      "is_disaster_relief": false
+    },
+    {
+      "id": "REQ-002",
+      "recipient_id": "ORG-004",
+      "category": "drinking_water",
+      "requested_quantity": 100.0,
+      "fulfilled_quantity": 0.0,
+      "unit": "liters",
+      "status": "OPEN",
+      "delivery_address": "15 Ferry Road, Ratmalana",
+      "urgency_deadline": "2026-10-10 17:21:56.405813+00:00",
+      "is_disaster_relief": true
+    }
+  ],
+  "organizations": [
+    {
+      "id": "ORG-8E58CA",
+      "name": "[DEMO] GreenBites Bakery & Kitchen",
+      "verified": true,
+      "latitude": 6.782,
+      "longitude": 79.8825,
+      "operating_hours": "07:00 - 20:00"
+    },
+    {
+      "id": "ORG-D5B425",
+      "name": "[DEMO] Hope Community Center",
+      "verified": true,
+      "latitude": 6.841,
+      "longitude": 79.873,
+      "operating_hours": "24 Hours Emergency Intake"
+    },
+    {
+      "id": "ORG-005",
+      "name": "Disaster Management Center (DMC) Moratuwa Unit",
+      "verified": true,
+      "latitude": 6.773,
+      "longitude": 79.8816,
+      "operating_hours": ""
+    },
+    {
+      "id": "ORG-003",
+      "name": "Grace Home for the Elderly",
+      "verified": true,
+      "latitude": 6.7824,
+      "longitude": 79.8841,
+      "operating_hours": "07:00 - 19:00"
+    },
+    {
+      "id": "ORG-001",
+      "name": "GreenBites Bakery & Cafe",
+      "verified": true,
+      "latitude": 6.7972,
+      "longitude": 79.8884,
+      "operating_hours": "06:30 - 21:00"
+    },
+    {
+      "id": "ORG-002",
+      "name": "Perera Grand Catering & Hotel",
+      "verified": true,
+      "latitude": 6.9012,
+      "longitude": 79.8529,
+      "operating_hours": "24 Hours"
+    },
+    {
+      "id": "ORG-004",
+      "name": "Suwasetha Child Development Center",
+      "verified": true,
+      "latitude": 6.8189,
+      "longitude": 79.8821,
+      "operating_hours": "08:00 - 18:00"
+    },
+    {
+      "id": "ORG-TEST-UNVERIFIED",
+      "name": "Unverified Colombo Kitchen",
+      "verified": true,
+      "latitude": 6.91,
+      "longitude": 79.86,
+      "operating_hours": ""
+    }
+  ],
+  "volunteers": [
+    {
+      "id": "VOL-001",
+      "verified": true,
+      "status": "available",
+      "vehicle_capacity_kg": 25.0,
+      "latitude": 6.773,
+      "longitude": 79.8816
+    },
+    {
+      "id": "VOL-004",
+      "verified": true,
+      "status": "busy",
+      "vehicle_capacity_kg": 120.0,
+      "latitude": 6.773,
+      "longitude": 79.8816
+    },
+    {
+      "id": "VOL-35C84B",
+      "verified": true,
+      "status": "available",
+      "vehicle_capacity_kg": 25.0,
+      "latitude": 6.773,
+      "longitude": 79.8816
+    },
+    {
+      "id": "VOL-002",
+      "verified": true,
+      "status": "busy",
+      "vehicle_capacity_kg": 150.0,
+      "latitude": 6.773,
+      "longitude": 79.8816
+    },
+    {
+      "id": "VOL-003",
+      "verified": true,
+      "status": "busy",
+      "vehicle_capacity_kg": 50.0,
+      "latitude": 6.773,
+      "longitude": 79.8816
+    }
+  ],
+  "preference_fields": [
+    "dietary_requirements",
+    "storage_capabilities",
+    "matching_preferences_verified"
+  ],
+  "matching_api": {
+    "status": 200,
+    "data": {
+      "success": true,
+      "mode": "NORMAL",
+      "total_matches_count": 0,
+      "matches": [],
+      "rejected_pairs": [
+        {
+          "resource_id": "RES-CE7CA0",
+          "resource_name": "Juice",
+          "provider_name": "Perera Grand Catering & Hotel",
+          "request_id": "REQ-609A04",
+          "request_item_name": "Juice",
+          "recipient_name": "Grace Home for the Elderly",
+          "category": "beverages",
+          "available_quantity": 15.0,
+          "remaining_quantity": 10.0,
+          "compatible_quantity": 0,
+          "unit": "kg",
+          "request_unit": "meals",
+          "distance_km": 2.8,
+          "distance_type": "straight_line_haversine",
+          "priority": "medium",
+          "is_disaster_relief": false,
+          "constraints_satisfied": [
+            "Recorded handling requirement: Ambient.",
+            "straight_line_haversine: 2.8 km within service radius; not a road route.",
+            "Recorded receiving hours overlap the pickup/delivery window (Asia/Colombo)."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ],
+          "reasons_rejected": [
+            "Category mismatch: beverages cannot satisfy bakery.",
+            "Unit mismatch: kg versus meals; no conversion inferred."
+          ],
+          "volunteers": []
+        },
+        {
+          "resource_id": "RES-CE7CA0",
+          "resource_name": "Juice",
+          "provider_name": "Perera Grand Catering & Hotel",
+          "request_id": "REQ-129D3F",
+          "request_item_name": "VERIFY-20261022-0728 Bread Request",
+          "recipient_name": "Grace Home for the Elderly",
+          "category": "beverages",
+          "available_quantity": 15.0,
+          "remaining_quantity": 2.0,
+          "compatible_quantity": 0,
+          "unit": "kg",
+          "request_unit": "kg",
+          "distance_km": 2.8,
+          "distance_type": "straight_line_haversine",
+          "priority": "high",
+          "is_disaster_relief": false,
+          "constraints_satisfied": [
+            "Consistent recorded unit: kg.",
+            "Recorded handling requirement: Ambient.",
+            "straight_line_haversine: 2.8 km within service radius; not a road route."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ],
+          "reasons_rejected": [
+            "Category mismatch: beverages cannot satisfy bakery.",
+            "Request delivery deadline has expired.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "volunteers": []
+        },
+        {
+          "resource_id": "RES-D5AE00",
+          "resource_name": "TRACK-20261022 Shared Bread",
+          "provider_name": "Perera Grand Catering & Hotel",
+          "request_id": "REQ-609A04",
+          "request_item_name": "Juice",
+          "recipient_name": "Grace Home for the Elderly",
+          "category": "bakery",
+          "available_quantity": 3.0,
+          "remaining_quantity": 10.0,
+          "compatible_quantity": 0,
+          "unit": "kg",
+          "request_unit": "meals",
+          "distance_km": 1.08,
+          "distance_type": "straight_line_haversine",
+          "priority": "medium",
+          "is_disaster_relief": false,
+          "constraints_satisfied": [
+            "Exact food category: bakery.",
+            "Recorded handling requirement: Ambient.",
+            "straight_line_haversine: 1.08 km within service radius; not a road route.",
+            "Recorded receiving hours overlap the pickup/delivery window (Asia/Colombo)."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ],
+          "reasons_rejected": [
+            "Unit mismatch: kg versus meals; no conversion inferred.",
+            "Pickup window is closed or invalid."
+          ],
+          "volunteers": []
+        },
+        {
+          "resource_id": "RES-D5AE00",
+          "resource_name": "TRACK-20261022 Shared Bread",
+          "provider_name": "Perera Grand Catering & Hotel",
+          "request_id": "REQ-129D3F",
+          "request_item_name": "VERIFY-20261022-0728 Bread Request",
+          "recipient_name": "Grace Home for the Elderly",
+          "category": "bakery",
+          "available_quantity": 3.0,
+          "remaining_quantity": 2.0,
+          "compatible_quantity": 0,
+          "unit": "kg",
+          "request_unit": "kg",
+          "distance_km": 1.08,
+          "distance_type": "straight_line_haversine",
+          "priority": "high",
+          "is_disaster_relief": false,
+          "constraints_satisfied": [
+            "Exact food category: bakery.",
+            "Consistent recorded unit: kg.",
+            "Recorded handling requirement: Ambient.",
+            "straight_line_haversine: 1.08 km within service radius; not a road route."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ],
+          "reasons_rejected": [
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "volunteers": []
+        },
+        {
+          "resource_id": "RES-5980F3",
+          "resource_name": "VERIFY-20261022-0728 Bread",
+          "provider_name": "Perera Grand Catering & Hotel",
+          "request_id": "REQ-609A04",
+          "request_item_name": "Juice",
+          "recipient_name": "Grace Home for the Elderly",
+          "category": "bakery",
+          "available_quantity": 2.0,
+          "remaining_quantity": 10.0,
+          "compatible_quantity": 0,
+          "unit": "kg",
+          "request_unit": "meals",
+          "distance_km": 1.08,
+          "distance_type": "straight_line_haversine",
+          "priority": "medium",
+          "is_disaster_relief": false,
+          "constraints_satisfied": [
+            "Exact food category: bakery.",
+            "Recorded handling requirement: Ambient.",
+            "straight_line_haversine: 1.08 km within service radius; not a road route.",
+            "Recorded receiving hours overlap the pickup/delivery window (Asia/Colombo)."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ],
+          "reasons_rejected": [
+            "Unit mismatch: kg versus meals; no conversion inferred.",
+            "Pickup window is closed or invalid."
+          ],
+          "volunteers": []
+        },
+        {
+          "resource_id": "RES-5980F3",
+          "resource_name": "VERIFY-20261022-0728 Bread",
+          "provider_name": "Perera Grand Catering & Hotel",
+          "request_id": "REQ-129D3F",
+          "request_item_name": "VERIFY-20261022-0728 Bread Request",
+          "recipient_name": "Grace Home for the Elderly",
+          "category": "bakery",
+          "available_quantity": 2.0,
+          "remaining_quantity": 2.0,
+          "compatible_quantity": 0,
+          "unit": "kg",
+          "request_unit": "kg",
+          "distance_km": 1.08,
+          "distance_type": "straight_line_haversine",
+          "priority": "high",
+          "is_disaster_relief": false,
+          "constraints_satisfied": [
+            "Exact food category: bakery.",
+            "Consistent recorded unit: kg.",
+            "Recorded handling requirement: Ambient.",
+            "straight_line_haversine: 1.08 km within service radius; not a road route."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ],
+          "reasons_rejected": [
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "volunteers": []
+        },
+        {
+          "resource_id": "RES-BC62CE",
+          "resource_name": "Eggs",
+          "provider_name": "Perera Grand Catering & Hotel",
+          "request_id": "REQ-609A04",
+          "request_item_name": "Juice",
+          "recipient_name": "Grace Home for the Elderly",
+          "category": "dairy",
+          "available_quantity": 200.0,
+          "remaining_quantity": 10.0,
+          "compatible_quantity": 0,
+          "unit": "meals",
+          "request_unit": "meals",
+          "distance_km": 2.36,
+          "distance_type": "straight_line_haversine",
+          "priority": "medium",
+          "is_disaster_relief": false,
+          "constraints_satisfied": [
+            "Consistent recorded unit: meals.",
+            "Recorded handling requirement: Refrigerated.",
+            "straight_line_haversine: 2.36 km within service radius; not a road route.",
+            "Recorded receiving hours overlap the pickup/delivery window (Asia/Colombo)."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ],
+          "reasons_rejected": [
+            "Category mismatch: dairy cannot satisfy bakery."
+          ],
+          "volunteers": []
+        },
+        {
+          "resource_id": "RES-BC62CE",
+          "resource_name": "Eggs",
+          "provider_name": "Perera Grand Catering & Hotel",
+          "request_id": "REQ-129D3F",
+          "request_item_name": "VERIFY-20261022-0728 Bread Request",
+          "recipient_name": "Grace Home for the Elderly",
+          "category": "dairy",
+          "available_quantity": 200.0,
+          "remaining_quantity": 2.0,
+          "compatible_quantity": 0,
+          "unit": "meals",
+          "request_unit": "kg",
+          "distance_km": 2.36,
+          "distance_type": "straight_line_haversine",
+          "priority": "high",
+          "is_disaster_relief": false,
+          "constraints_satisfied": [
+            "Recorded handling requirement: Refrigerated.",
+            "straight_line_haversine: 2.36 km within service radius; not a road route."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ],
+          "reasons_rejected": [
+            "Category mismatch: dairy cannot satisfy bakery.",
+            "Unit mismatch: meals versus kg; no conversion inferred.",
+            "Request delivery deadline has expired.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "volunteers": []
+        },
+        {
+          "resource_id": "RES-46085B",
+          "resource_name": "Rice & Curry Packets",
+          "provider_name": "Unverified Colombo Kitchen",
+          "request_id": "REQ-609A04",
+          "request_item_name": "Juice",
+          "recipient_name": "Grace Home for the Elderly",
+          "category": "cooked_meals",
+          "available_quantity": 5.0,
+          "remaining_quantity": 10.0,
+          "compatible_quantity": 0,
+          "unit": "kg",
+          "request_unit": "meals",
+          "distance_km": 14.44,
+          "distance_type": "straight_line_haversine",
+          "priority": "medium",
+          "is_disaster_relief": false,
+          "constraints_satisfied": [
+            "Recorded handling requirement: Ambient.",
+            "straight_line_haversine: 14.44 km within service radius; not a road route."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ],
+          "reasons_rejected": [
+            "Resource status is COLLECTED; must be AVAILABLE.",
+            "Category mismatch: cooked_meals cannot satisfy bakery.",
+            "Unit mismatch: kg versus meals; no conversion inferred.",
+            "Pickup window is closed or invalid.",
+            "Food is expired or has less than two hours of safe shelf life remaining.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "volunteers": []
+        },
+        {
+          "resource_id": "RES-46085B",
+          "resource_name": "Rice & Curry Packets",
+          "provider_name": "Unverified Colombo Kitchen",
+          "request_id": "REQ-129D3F",
+          "request_item_name": "VERIFY-20261022-0728 Bread Request",
+          "recipient_name": "Grace Home for the Elderly",
+          "category": "cooked_meals",
+          "available_quantity": 5.0,
+          "remaining_quantity": 2.0,
+          "compatible_quantity": 0,
+          "unit": "kg",
+          "request_unit": "kg",
+          "distance_km": 14.44,
+          "distance_type": "straight_line_haversine",
+          "priority": "high",
+          "is_disaster_relief": false,
+          "constraints_satisfied": [
+            "Consistent recorded unit: kg.",
+            "Recorded handling requirement: Ambient.",
+            "straight_line_haversine: 14.44 km within service radius; not a road route."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ],
+          "reasons_rejected": [
+            "Resource status is COLLECTED; must be AVAILABLE.",
+            "Category mismatch: cooked_meals cannot satisfy bakery.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Food is expired or has less than two hours of safe shelf life remaining.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "volunteers": []
+        },
+        {
+          "resource_id": "RES-6BAA3D",
+          "resource_name": "Rice & Curry Packets",
+          "provider_name": "Unverified Colombo Kitchen",
+          "request_id": "REQ-609A04",
+          "request_item_name": "Juice",
+          "recipient_name": "Grace Home for the Elderly",
+          "category": "cooked_meals",
+          "available_quantity": 0.0,
+          "remaining_quantity": 10.0,
+          "compatible_quantity": 0.0,
+          "unit": "kg",
+          "request_unit": "meals",
+          "distance_km": 14.44,
+          "distance_type": "straight_line_haversine",
+          "priority": "medium",
+          "is_disaster_relief": false,
+          "constraints_satisfied": [
+            "Recorded handling requirement: Ambient.",
+            "straight_line_haversine: 14.44 km within service radius; not a road route."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ],
+          "reasons_rejected": [
+            "Resource status is RESERVED; must be AVAILABLE.",
+            "No mutually compatible quantity available.",
+            "Category mismatch: cooked_meals cannot satisfy bakery.",
+            "Unit mismatch: kg versus meals; no conversion inferred.",
+            "Pickup window is closed or invalid.",
+            "Food is expired or has less than two hours of safe shelf life remaining.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "volunteers": []
+        },
+        {
+          "resource_id": "RES-6BAA3D",
+          "resource_name": "Rice & Curry Packets",
+          "provider_name": "Unverified Colombo Kitchen",
+          "request_id": "REQ-129D3F",
+          "request_item_name": "VERIFY-20261022-0728 Bread Request",
+          "recipient_name": "Grace Home for the Elderly",
+          "category": "cooked_meals",
+          "available_quantity": 0.0,
+          "remaining_quantity": 2.0,
+          "compatible_quantity": 0.0,
+          "unit": "kg",
+          "request_unit": "kg",
+          "distance_km": 14.44,
+          "distance_type": "straight_line_haversine",
+          "priority": "high",
+          "is_disaster_relief": false,
+          "constraints_satisfied": [
+            "Consistent recorded unit: kg.",
+            "Recorded handling requirement: Ambient.",
+            "straight_line_haversine: 14.44 km within service radius; not a road route."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ],
+          "reasons_rejected": [
+            "Resource status is RESERVED; must be AVAILABLE.",
+            "No mutually compatible quantity available.",
+            "Category mismatch: cooked_meals cannot satisfy bakery.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Food is expired or has less than two hours of safe shelf life remaining.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "volunteers": []
+        },
+        {
+          "resource_id": "RES-ECE370",
+          "resource_name": "Rice & Curry Packets",
+          "provider_name": "Unverified Colombo Kitchen",
+          "request_id": "REQ-609A04",
+          "request_item_name": "Juice",
+          "recipient_name": "Grace Home for the Elderly",
+          "category": "cooked_meals",
+          "available_quantity": 0.0,
+          "remaining_quantity": 10.0,
+          "compatible_quantity": 0.0,
+          "unit": "kg",
+          "request_unit": "meals",
+          "distance_km": 14.44,
+          "distance_type": "straight_line_haversine",
+          "priority": "medium",
+          "is_disaster_relief": false,
+          "constraints_satisfied": [
+            "Recorded handling requirement: Ambient.",
+            "straight_line_haversine: 14.44 km within service radius; not a road route."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ],
+          "reasons_rejected": [
+            "Resource status is RESERVED; must be AVAILABLE.",
+            "No mutually compatible quantity available.",
+            "Category mismatch: cooked_meals cannot satisfy bakery.",
+            "Unit mismatch: kg versus meals; no conversion inferred.",
+            "Pickup window is closed or invalid.",
+            "Food is expired or has less than two hours of safe shelf life remaining.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "volunteers": []
+        },
+        {
+          "resource_id": "RES-ECE370",
+          "resource_name": "Rice & Curry Packets",
+          "provider_name": "Unverified Colombo Kitchen",
+          "request_id": "REQ-129D3F",
+          "request_item_name": "VERIFY-20261022-0728 Bread Request",
+          "recipient_name": "Grace Home for the Elderly",
+          "category": "cooked_meals",
+          "available_quantity": 0.0,
+          "remaining_quantity": 2.0,
+          "compatible_quantity": 0.0,
+          "unit": "kg",
+          "request_unit": "kg",
+          "distance_km": 14.44,
+          "distance_type": "straight_line_haversine",
+          "priority": "high",
+          "is_disaster_relief": false,
+          "constraints_satisfied": [
+            "Consistent recorded unit: kg.",
+            "Recorded handling requirement: Ambient.",
+            "straight_line_haversine: 14.44 km within service radius; not a road route."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ],
+          "reasons_rejected": [
+            "Resource status is RESERVED; must be AVAILABLE.",
+            "No mutually compatible quantity available.",
+            "Category mismatch: cooked_meals cannot satisfy bakery.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Food is expired or has less than two hours of safe shelf life remaining.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "volunteers": []
+        },
+        {
+          "resource_id": "RES-D5D082",
+          "resource_name": "Rice & Curry Packets",
+          "provider_name": "Unverified Colombo Kitchen",
+          "request_id": "REQ-609A04",
+          "request_item_name": "Juice",
+          "recipient_name": "Grace Home for the Elderly",
+          "category": "cooked_meals",
+          "available_quantity": 0.0,
+          "remaining_quantity": 10.0,
+          "compatible_quantity": 0.0,
+          "unit": "kg",
+          "request_unit": "meals",
+          "distance_km": 14.44,
+          "distance_type": "straight_line_haversine",
+          "priority": "medium",
+          "is_disaster_relief": false,
+          "constraints_satisfied": [
+            "Recorded handling requirement: Ambient.",
+            "straight_line_haversine: 14.44 km within service radius; not a road route."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ],
+          "reasons_rejected": [
+            "Resource status is COLLECTED; must be AVAILABLE.",
+            "No mutually compatible quantity available.",
+            "Category mismatch: cooked_meals cannot satisfy bakery.",
+            "Unit mismatch: kg versus meals; no conversion inferred.",
+            "Pickup window is closed or invalid.",
+            "Food is expired or has less than two hours of safe shelf life remaining.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "volunteers": []
+        },
+        {
+          "resource_id": "RES-D5D082",
+          "resource_name": "Rice & Curry Packets",
+          "provider_name": "Unverified Colombo Kitchen",
+          "request_id": "REQ-129D3F",
+          "request_item_name": "VERIFY-20261022-0728 Bread Request",
+          "recipient_name": "Grace Home for the Elderly",
+          "category": "cooked_meals",
+          "available_quantity": 0.0,
+          "remaining_quantity": 2.0,
+          "compatible_quantity": 0.0,
+          "unit": "kg",
+          "request_unit": "kg",
+          "distance_km": 14.44,
+          "distance_type": "straight_line_haversine",
+          "priority": "high",
+          "is_disaster_relief": false,
+          "constraints_satisfied": [
+            "Consistent recorded unit: kg.",
+            "Recorded handling requirement: Ambient.",
+            "straight_line_haversine: 14.44 km within service radius; not a road route."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ],
+          "reasons_rejected": [
+            "Resource status is COLLECTED; must be AVAILABLE.",
+            "No mutually compatible quantity available.",
+            "Category mismatch: cooked_meals cannot satisfy bakery.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Food is expired or has less than two hours of safe shelf life remaining.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "volunteers": []
+        }
+      ],
+      "inventory": [
+        {
+          "id": "RES-CE7CA0",
+          "name": "Juice",
+          "unit": "kg",
+          "available": 15.0,
+          "reserved": 0.0,
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "RES-D5AE00",
+          "name": "TRACK-20261022 Shared Bread",
+          "unit": "kg",
+          "available": 3.0,
+          "reserved": 7.0,
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "RES-5980F3",
+          "name": "VERIFY-20261022-0728 Bread",
+          "unit": "kg",
+          "available": 2.0,
+          "reserved": 0.0,
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "RES-BC62CE",
+          "name": "Eggs",
+          "unit": "meals",
+          "available": 200.0,
+          "reserved": 0.0,
+          "status": "AVAILABLE"
+        },
+        {
+          "id": "RES-46085B",
+          "name": "Rice & Curry Packets",
+          "unit": "kg",
+          "available": 5.0,
+          "reserved": 15.0,
+          "status": "COLLECTED"
+        },
+        {
+          "id": "RES-6BAA3D",
+          "name": "Rice & Curry Packets",
+          "unit": "kg",
+          "available": 0.0,
+          "reserved": 20.0,
+          "status": "RESERVED"
+        },
+        {
+          "id": "RES-ECE370",
+          "name": "Rice & Curry Packets",
+          "unit": "kg",
+          "available": 0.0,
+          "reserved": 20.0,
+          "status": "RESERVED"
+        },
+        {
+          "id": "RES-D5D082",
+          "name": "Rice & Curry Packets",
+          "unit": "kg",
+          "available": 0.0,
+          "reserved": 20.0,
+          "status": "COLLECTED"
+        }
+      ],
+      "demand": [
+        {
+          "id": "REQ-609A04",
+          "name": "Juice",
+          "recipient": "Grace Home for the Elderly",
+          "unit": "meals",
+          "remaining": 10.0,
+          "status": "OPEN"
+        },
+        {
+          "id": "REQ-129D3F",
+          "name": "VERIFY-20261022-0728 Bread Request",
+          "recipient": "Grace Home for the Elderly",
+          "unit": "kg",
+          "remaining": 2.0,
+          "status": "OPEN"
+        }
+      ],
+      "empty_reason": "No feasible recorded pairs. See rejection reasons."
+    }
+  },
+  "solver": {
+    "solver_status": "OPTIMAL",
+    "allocations": [],
+    "total_allocated_quantity": 0,
+    "total_initial_demand": 0,
+    "fulfilled_demand_pct": 0.0,
+    "unmet_demand": 0,
+    "leftover_inventory": 0,
+    "avg_distance_km": 0,
+    "runtime_ms": 148.54,
+    "objective_value": 0.0,
+    "metadata": {
+      "num_resources": 9,
+      "num_requests": 10,
+      "num_candidate_pairs": 0,
+      "num_courier_variables": 0,
+      "units": {
+        "liters": {
+          "supply": 0.0,
+          "demand": 450.0,
+          "allocated": 0,
+          "remaining_inventory": 0.0,
+          "unmet_demand": 450.0
+        },
+        "kg": {
+          "supply": 25.0,
+          "demand": 7.0,
+          "allocated": 0,
+          "remaining_inventory": 25.0,
+          "unmet_demand": 7.0
+        },
+        "meals": {
+          "supply": 200.0,
+          "demand": 10.0,
+          "allocated": 0,
+          "remaining_inventory": 200.0,
+          "unmet_demand": 10.0
+        }
+      },
+      "rejected_pairs": [
+        {
+          "resource_id": "RES-CE7CA0",
+          "request_id": "REQ-609A04",
+          "reasons": [
+            "Category mismatch: beverages cannot satisfy bakery.",
+            "Unit mismatch: kg versus meals; no conversion inferred."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ]
+        },
+        {
+          "resource_id": "RES-CE7CA0",
+          "request_id": "REQ-781765",
+          "reasons": [
+            "Request status is FULFILLED; no open demand.",
+            "No mutually compatible quantity available.",
+            "Category mismatch: beverages cannot satisfy bakery.",
+            "Request delivery deadline has expired.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ]
+        },
+        {
+          "resource_id": "RES-CE7CA0",
+          "request_id": "REQ-DB82FD",
+          "reasons": [
+            "Request status is FULFILLED; no open demand.",
+            "No mutually compatible quantity available.",
+            "Category mismatch: beverages cannot satisfy bakery.",
+            "Request delivery deadline has expired.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ]
+        },
+        {
+          "resource_id": "RES-CE7CA0",
+          "request_id": "REQ-129D3F",
+          "reasons": [
+            "Category mismatch: beverages cannot satisfy bakery.",
+            "Request delivery deadline has expired.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ]
+        },
+        {
+          "resource_id": "RES-CE7CA0",
+          "request_id": "REQ-CF32DD",
+          "reasons": [
+            "Request status is FULFILLED; no open demand.",
+            "Category mismatch: beverages cannot satisfy drinking_water.",
+            "Unit mismatch: kg versus liters; no conversion inferred.",
+            "Resource and request operating mode / disaster event mismatch.",
+            "Disaster Event is not currently ACTIVE.",
+            "Request delivery deadline has expired.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ]
+        },
+        {
+          "resource_id": "RES-CE7CA0",
+          "request_id": "REQ-116FA8",
+          "reasons": [
+            "Request status is FULFILLED; no open demand.",
+            "Category mismatch: beverages cannot satisfy cooked_meals.",
+            "Request delivery deadline has expired.",
+            "Geographic eligibility cannot be verified from recorded delivery locations.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred.",
+            "Valid pickup or recipient delivery coordinates are missing."
+          ]
+        },
+        {
+          "resource_id": "RES-CE7CA0",
+          "request_id": "REQ-AE23BB",
+          "reasons": [
+            "Request status is ALLOCATED; no open demand.",
+            "No mutually compatible quantity available.",
+            "Category mismatch: beverages cannot satisfy cooked_meals.",
+            "Request delivery deadline has expired.",
+            "Geographic eligibility cannot be verified from recorded delivery locations.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred.",
+            "Valid pickup or recipient delivery coordinates are missing."
+          ]
+        },
+        {
+          "resource_id": "RES-CE7CA0",
+          "request_id": "REQ-493FD9",
+          "reasons": [
+            "Request status is ALLOCATED; no open demand.",
+            "No mutually compatible quantity available.",
+            "Category mismatch: beverages cannot satisfy cooked_meals.",
+            "Request delivery deadline has expired.",
+            "Geographic eligibility cannot be verified from recorded delivery locations.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred.",
+            "Valid pickup or recipient delivery coordinates are missing."
+          ]
+        },
+        {
+          "resource_id": "RES-CE7CA0",
+          "request_id": "REQ-54EAFF",
+          "reasons": [
+            "Request status is FULFILLED; no open demand.",
+            "No mutually compatible quantity available.",
+            "Category mismatch: beverages cannot satisfy cooked_meals.",
+            "Request delivery deadline has expired.",
+            "Geographic eligibility cannot be verified from recorded delivery locations.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred.",
+            "Valid pickup or recipient delivery coordinates are missing."
+          ]
+        },
+        {
+          "resource_id": "RES-CE7CA0",
+          "request_id": "REQ-002",
+          "reasons": [
+            "Category mismatch: beverages cannot satisfy drinking_water.",
+            "Unit mismatch: kg versus liters; no conversion inferred.",
+            "Resource and request operating mode / disaster event mismatch.",
+            "Disaster Event is not currently ACTIVE.",
+            "Request delivery deadline has expired.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ]
+        },
+        {
+          "resource_id": "RES-D5AE00",
+          "request_id": "REQ-609A04",
+          "reasons": [
+            "Unit mismatch: kg versus meals; no conversion inferred.",
+            "Pickup window is closed or invalid."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ]
+        },
+        {
+          "resource_id": "RES-D5AE00",
+          "request_id": "REQ-781765",
+          "reasons": [
+            "Request status is FULFILLED; no open demand.",
+            "No mutually compatible quantity available.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ]
+        },
+        {
+          "resource_id": "RES-D5AE00",
+          "request_id": "REQ-DB82FD",
+          "reasons": [
+            "Request status is FULFILLED; no open demand.",
+            "No mutually compatible quantity available.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ]
+        },
+        {
+          "resource_id": "RES-D5AE00",
+          "request_id": "REQ-129D3F",
+          "reasons": [
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ]
+        },
+        {
+          "resource_id": "RES-D5AE00",
+          "request_id": "REQ-CF32DD",
+          "reasons": [
+            "Request status is FULFILLED; no open demand.",
+            "Category mismatch: bakery cannot satisfy drinking_water.",
+            "Unit mismatch: kg versus liters; no conversion inferred.",
+            "Resource and request operating mode / disaster event mismatch.",
+            "Disaster Event is not currently ACTIVE.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ]
+        },
+        {
+          "resource_id": "RES-D5AE00",
+          "request_id": "REQ-116FA8",
+          "reasons": [
+            "Request status is FULFILLED; no open demand.",
+            "Category mismatch: bakery cannot satisfy cooked_meals.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Geographic eligibility cannot be verified from recorded delivery locations.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred.",
+            "Valid pickup or recipient delivery coordinates are missing."
+          ]
+        },
+        {
+          "resource_id": "RES-D5AE00",
+          "request_id": "REQ-AE23BB",
+          "reasons": [
+            "Request status is ALLOCATED; no open demand.",
+            "No mutually compatible quantity available.",
+            "Category mismatch: bakery cannot satisfy cooked_meals.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Geographic eligibility cannot be verified from recorded delivery locations.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred.",
+            "Valid pickup or recipient delivery coordinates are missing."
+          ]
+        },
+        {
+          "resource_id": "RES-D5AE00",
+          "request_id": "REQ-493FD9",
+          "reasons": [
+            "Request status is ALLOCATED; no open demand.",
+            "No mutually compatible quantity available.",
+            "Category mismatch: bakery cannot satisfy cooked_meals.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Geographic eligibility cannot be verified from recorded delivery locations.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred.",
+            "Valid pickup or recipient delivery coordinates are missing."
+          ]
+        },
+        {
+          "resource_id": "RES-D5AE00",
+          "request_id": "REQ-54EAFF",
+          "reasons": [
+            "Request status is FULFILLED; no open demand.",
+            "No mutually compatible quantity available.",
+            "Category mismatch: bakery cannot satisfy cooked_meals.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Geographic eligibility cannot be verified from recorded delivery locations.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred.",
+            "Valid pickup or recipient delivery coordinates are missing."
+          ]
+        },
+        {
+          "resource_id": "RES-D5AE00",
+          "request_id": "REQ-002",
+          "reasons": [
+            "Category mismatch: bakery cannot satisfy drinking_water.",
+            "Unit mismatch: kg versus liters; no conversion inferred.",
+            "Resource and request operating mode / disaster event mismatch.",
+            "Disaster Event is not currently ACTIVE.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ]
+        },
+        {
+          "resource_id": "RES-5980F3",
+          "request_id": "REQ-609A04",
+          "reasons": [
+            "Unit mismatch: kg versus meals; no conversion inferred.",
+            "Pickup window is closed or invalid."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ]
+        },
+        {
+          "resource_id": "RES-5980F3",
+          "request_id": "REQ-781765",
+          "reasons": [
+            "Request status is FULFILLED; no open demand.",
+            "No mutually compatible quantity available.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ]
+        },
+        {
+          "resource_id": "RES-5980F3",
+          "request_id": "REQ-DB82FD",
+          "reasons": [
+            "Request status is FULFILLED; no open demand.",
+            "No mutually compatible quantity available.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ]
+        },
+        {
+          "resource_id": "RES-5980F3",
+          "request_id": "REQ-129D3F",
+          "reasons": [
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ]
+        },
+        {
+          "resource_id": "RES-5980F3",
+          "request_id": "REQ-CF32DD",
+          "reasons": [
+            "Request status is FULFILLED; no open demand.",
+            "Category mismatch: bakery cannot satisfy drinking_water.",
+            "Unit mismatch: kg versus liters; no conversion inferred.",
+            "Resource and request operating mode / disaster event mismatch.",
+            "Disaster Event is not currently ACTIVE.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ]
+        },
+        {
+          "resource_id": "RES-5980F3",
+          "request_id": "REQ-116FA8",
+          "reasons": [
+            "Request status is FULFILLED; no open demand.",
+            "Category mismatch: bakery cannot satisfy cooked_meals.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Geographic eligibility cannot be verified from recorded delivery locations.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred.",
+            "Valid pickup or recipient delivery coordinates are missing."
+          ]
+        },
+        {
+          "resource_id": "RES-5980F3",
+          "request_id": "REQ-AE23BB",
+          "reasons": [
+            "Request status is ALLOCATED; no open demand.",
+            "No mutually compatible quantity available.",
+            "Category mismatch: bakery cannot satisfy cooked_meals.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Geographic eligibility cannot be verified from recorded delivery locations.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred.",
+            "Valid pickup or recipient delivery coordinates are missing."
+          ]
+        },
+        {
+          "resource_id": "RES-5980F3",
+          "request_id": "REQ-493FD9",
+          "reasons": [
+            "Request status is ALLOCATED; no open demand.",
+            "No mutually compatible quantity available.",
+            "Category mismatch: bakery cannot satisfy cooked_meals.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Geographic eligibility cannot be verified from recorded delivery locations.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred.",
+            "Valid pickup or recipient delivery coordinates are missing."
+          ]
+        },
+        {
+          "resource_id": "RES-5980F3",
+          "request_id": "REQ-54EAFF",
+          "reasons": [
+            "Request status is FULFILLED; no open demand.",
+            "No mutually compatible quantity available.",
+            "Category mismatch: bakery cannot satisfy cooked_meals.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Geographic eligibility cannot be verified from recorded delivery locations.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred.",
+            "Valid pickup or recipient delivery coordinates are missing."
+          ]
+        },
+        {
+          "resource_id": "RES-5980F3",
+          "request_id": "REQ-002",
+          "reasons": [
+            "Category mismatch: bakery cannot satisfy drinking_water.",
+            "Unit mismatch: kg versus liters; no conversion inferred.",
+            "Resource and request operating mode / disaster event mismatch.",
+            "Disaster Event is not currently ACTIVE.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ]
+        },
+        {
+          "resource_id": "RES-BC62CE",
+          "request_id": "REQ-609A04",
+          "reasons": [
+            "Category mismatch: dairy cannot satisfy bakery."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ]
+        },
+        {
+          "resource_id": "RES-BC62CE",
+          "request_id": "REQ-781765",
+          "reasons": [
+            "Request status is FULFILLED; no open demand.",
+            "No mutually compatible quantity available.",
+            "Category mismatch: dairy cannot satisfy bakery.",
+            "Unit mismatch: meals versus kg; no conversion inferred.",
+            "Request delivery deadline has expired.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ]
+        },
+        {
+          "resource_id": "RES-BC62CE",
+          "request_id": "REQ-DB82FD",
+          "reasons": [
+            "Request status is FULFILLED; no open demand.",
+            "No mutually compatible quantity available.",
+            "Category mismatch: dairy cannot satisfy bakery.",
+            "Unit mismatch: meals versus kg; no conversion inferred.",
+            "Request delivery deadline has expired.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ]
+        },
+        {
+          "resource_id": "RES-BC62CE",
+          "request_id": "REQ-129D3F",
+          "reasons": [
+            "Category mismatch: dairy cannot satisfy bakery.",
+            "Unit mismatch: meals versus kg; no conversion inferred.",
+            "Request delivery deadline has expired.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ]
+        },
+        {
+          "resource_id": "RES-BC62CE",
+          "request_id": "REQ-CF32DD",
+          "reasons": [
+            "Request status is FULFILLED; no open demand.",
+            "Category mismatch: dairy cannot satisfy drinking_water.",
+            "Unit mismatch: meals versus liters; no conversion inferred.",
+            "Resource and request operating mode / disaster event mismatch.",
+            "Disaster Event is not currently ACTIVE.",
+            "Request delivery deadline has expired.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ]
+        },
+        {
+          "resource_id": "RES-BC62CE",
+          "request_id": "REQ-116FA8",
+          "reasons": [
+            "Request status is FULFILLED; no open demand.",
+            "Category mismatch: dairy cannot satisfy cooked_meals.",
+            "Unit mismatch: meals versus kg; no conversion inferred.",
+            "Request delivery deadline has expired.",
+            "Geographic eligibility cannot be verified from recorded delivery locations.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred.",
+            "Valid pickup or recipient delivery coordinates are missing."
+          ]
+        },
+        {
+          "resource_id": "RES-BC62CE",
+          "request_id": "REQ-AE23BB",
+          "reasons": [
+            "Request status is ALLOCATED; no open demand.",
+            "No mutually compatible quantity available.",
+            "Category mismatch: dairy cannot satisfy cooked_meals.",
+            "Unit mismatch: meals versus kg; no conversion inferred.",
+            "Request delivery deadline has expired.",
+            "Geographic eligibility cannot be verified from recorded delivery locations.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred.",
+            "Valid pickup or recipient delivery coordinates are missing."
+          ]
+        },
+        {
+          "resource_id": "RES-BC62CE",
+          "request_id": "REQ-493FD9",
+          "reasons": [
+            "Request status is ALLOCATED; no open demand.",
+            "No mutually compatible quantity available.",
+            "Category mismatch: dairy cannot satisfy cooked_meals.",
+            "Unit mismatch: meals versus kg; no conversion inferred.",
+            "Request delivery deadline has expired.",
+            "Geographic eligibility cannot be verified from recorded delivery locations.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred.",
+            "Valid pickup or recipient delivery coordinates are missing."
+          ]
+        },
+        {
+          "resource_id": "RES-BC62CE",
+          "request_id": "REQ-54EAFF",
+          "reasons": [
+            "Request status is FULFILLED; no open demand.",
+            "No mutually compatible quantity available.",
+            "Category mismatch: dairy cannot satisfy cooked_meals.",
+            "Unit mismatch: meals versus kg; no conversion inferred.",
+            "Request delivery deadline has expired.",
+            "Geographic eligibility cannot be verified from recorded delivery locations.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred.",
+            "Valid pickup or recipient delivery coordinates are missing."
+          ]
+        },
+        {
+          "resource_id": "RES-BC62CE",
+          "request_id": "REQ-002",
+          "reasons": [
+            "Category mismatch: dairy cannot satisfy drinking_water.",
+            "Unit mismatch: meals versus liters; no conversion inferred.",
+            "Resource and request operating mode / disaster event mismatch.",
+            "Disaster Event is not currently ACTIVE.",
+            "Request delivery deadline has expired.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ]
+        },
+        {
+          "resource_id": "RES-46085B",
+          "request_id": "REQ-609A04",
+          "reasons": [
+            "Resource status is COLLECTED; must be AVAILABLE.",
+            "Category mismatch: cooked_meals cannot satisfy bakery.",
+            "Unit mismatch: kg versus meals; no conversion inferred.",
+            "Pickup window is closed or invalid.",
+            "Food is expired or has less than two hours of safe shelf life remaining.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ]
+        },
+        {
+          "resource_id": "RES-46085B",
+          "request_id": "REQ-781765",
+          "reasons": [
+            "Resource status is COLLECTED; must be AVAILABLE.",
+            "Request status is FULFILLED; no open demand.",
+            "No mutually compatible quantity available.",
+            "Category mismatch: cooked_meals cannot satisfy bakery.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Food is expired or has less than two hours of safe shelf life remaining.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ]
+        },
+        {
+          "resource_id": "RES-46085B",
+          "request_id": "REQ-DB82FD",
+          "reasons": [
+            "Resource status is COLLECTED; must be AVAILABLE.",
+            "Request status is FULFILLED; no open demand.",
+            "No mutually compatible quantity available.",
+            "Category mismatch: cooked_meals cannot satisfy bakery.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Food is expired or has less than two hours of safe shelf life remaining.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ]
+        },
+        {
+          "resource_id": "RES-46085B",
+          "request_id": "REQ-129D3F",
+          "reasons": [
+            "Resource status is COLLECTED; must be AVAILABLE.",
+            "Category mismatch: cooked_meals cannot satisfy bakery.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Food is expired or has less than two hours of safe shelf life remaining.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ]
+        },
+        {
+          "resource_id": "RES-46085B",
+          "request_id": "REQ-CF32DD",
+          "reasons": [
+            "Resource status is COLLECTED; must be AVAILABLE.",
+            "Request status is FULFILLED; no open demand.",
+            "Category mismatch: cooked_meals cannot satisfy drinking_water.",
+            "Unit mismatch: kg versus liters; no conversion inferred.",
+            "Resource and request operating mode / disaster event mismatch.",
+            "Disaster Event is not currently ACTIVE.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Food is expired or has less than two hours of safe shelf life remaining.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ]
+        },
+        {
+          "resource_id": "RES-46085B",
+          "request_id": "REQ-116FA8",
+          "reasons": [
+            "Resource status is COLLECTED; must be AVAILABLE.",
+            "Request status is FULFILLED; no open demand.",
+            "Provider cannot satisfy its own organization request.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Food is expired or has less than two hours of safe shelf life remaining.",
+            "Geographic eligibility cannot be verified from recorded delivery locations.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred.",
+            "Valid pickup or recipient delivery coordinates are missing."
+          ]
+        },
+        {
+          "resource_id": "RES-46085B",
+          "request_id": "REQ-AE23BB",
+          "reasons": [
+            "Resource status is COLLECTED; must be AVAILABLE.",
+            "Request status is ALLOCATED; no open demand.",
+            "No mutually compatible quantity available.",
+            "Provider cannot satisfy its own organization request.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Food is expired or has less than two hours of safe shelf life remaining.",
+            "Geographic eligibility cannot be verified from recorded delivery locations.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred.",
+            "Valid pickup or recipient delivery coordinates are missing."
+          ]
+        },
+        {
+          "resource_id": "RES-46085B",
+          "request_id": "REQ-493FD9",
+          "reasons": [
+            "Resource status is COLLECTED; must be AVAILABLE.",
+            "Request status is ALLOCATED; no open demand.",
+            "No mutually compatible quantity available.",
+            "Provider cannot satisfy its own organization request.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Food is expired or has less than two hours of safe shelf life remaining.",
+            "Geographic eligibility cannot be verified from recorded delivery locations.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred.",
+            "Valid pickup or recipient delivery coordinates are missing."
+          ]
+        },
+        {
+          "resource_id": "RES-46085B",
+          "request_id": "REQ-54EAFF",
+          "reasons": [
+            "Resource status is COLLECTED; must be AVAILABLE.",
+            "Request status is FULFILLED; no open demand.",
+            "No mutually compatible quantity available.",
+            "Provider cannot satisfy its own organization request.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Food is expired or has less than two hours of safe shelf life remaining.",
+            "Geographic eligibility cannot be verified from recorded delivery locations.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred.",
+            "Valid pickup or recipient delivery coordinates are missing."
+          ]
+        },
+        {
+          "resource_id": "RES-46085B",
+          "request_id": "REQ-002",
+          "reasons": [
+            "Resource status is COLLECTED; must be AVAILABLE.",
+            "Category mismatch: cooked_meals cannot satisfy drinking_water.",
+            "Unit mismatch: kg versus liters; no conversion inferred.",
+            "Resource and request operating mode / disaster event mismatch.",
+            "Disaster Event is not currently ACTIVE.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Food is expired or has less than two hours of safe shelf life remaining.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ]
+        },
+        {
+          "resource_id": "RES-6BAA3D",
+          "request_id": "REQ-609A04",
+          "reasons": [
+            "Resource status is RESERVED; must be AVAILABLE.",
+            "No mutually compatible quantity available.",
+            "Category mismatch: cooked_meals cannot satisfy bakery.",
+            "Unit mismatch: kg versus meals; no conversion inferred.",
+            "Pickup window is closed or invalid.",
+            "Food is expired or has less than two hours of safe shelf life remaining.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ]
+        },
+        {
+          "resource_id": "RES-6BAA3D",
+          "request_id": "REQ-781765",
+          "reasons": [
+            "Resource status is RESERVED; must be AVAILABLE.",
+            "Request status is FULFILLED; no open demand.",
+            "No mutually compatible quantity available.",
+            "Category mismatch: cooked_meals cannot satisfy bakery.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Food is expired or has less than two hours of safe shelf life remaining.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ]
+        },
+        {
+          "resource_id": "RES-6BAA3D",
+          "request_id": "REQ-DB82FD",
+          "reasons": [
+            "Resource status is RESERVED; must be AVAILABLE.",
+            "Request status is FULFILLED; no open demand.",
+            "No mutually compatible quantity available.",
+            "Category mismatch: cooked_meals cannot satisfy bakery.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Food is expired or has less than two hours of safe shelf life remaining.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ]
+        },
+        {
+          "resource_id": "RES-6BAA3D",
+          "request_id": "REQ-129D3F",
+          "reasons": [
+            "Resource status is RESERVED; must be AVAILABLE.",
+            "No mutually compatible quantity available.",
+            "Category mismatch: cooked_meals cannot satisfy bakery.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Food is expired or has less than two hours of safe shelf life remaining.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ]
+        },
+        {
+          "resource_id": "RES-6BAA3D",
+          "request_id": "REQ-CF32DD",
+          "reasons": [
+            "Resource status is RESERVED; must be AVAILABLE.",
+            "Request status is FULFILLED; no open demand.",
+            "No mutually compatible quantity available.",
+            "Category mismatch: cooked_meals cannot satisfy drinking_water.",
+            "Unit mismatch: kg versus liters; no conversion inferred.",
+            "Resource and request operating mode / disaster event mismatch.",
+            "Disaster Event is not currently ACTIVE.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Food is expired or has less than two hours of safe shelf life remaining.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ]
+        },
+        {
+          "resource_id": "RES-6BAA3D",
+          "request_id": "REQ-116FA8",
+          "reasons": [
+            "Resource status is RESERVED; must be AVAILABLE.",
+            "Request status is FULFILLED; no open demand.",
+            "No mutually compatible quantity available.",
+            "Provider cannot satisfy its own organization request.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Food is expired or has less than two hours of safe shelf life remaining.",
+            "Geographic eligibility cannot be verified from recorded delivery locations.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred.",
+            "Valid pickup or recipient delivery coordinates are missing."
+          ]
+        },
+        {
+          "resource_id": "RES-6BAA3D",
+          "request_id": "REQ-AE23BB",
+          "reasons": [
+            "Resource status is RESERVED; must be AVAILABLE.",
+            "Request status is ALLOCATED; no open demand.",
+            "No mutually compatible quantity available.",
+            "Provider cannot satisfy its own organization request.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Food is expired or has less than two hours of safe shelf life remaining.",
+            "Geographic eligibility cannot be verified from recorded delivery locations.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred.",
+            "Valid pickup or recipient delivery coordinates are missing."
+          ]
+        },
+        {
+          "resource_id": "RES-6BAA3D",
+          "request_id": "REQ-493FD9",
+          "reasons": [
+            "Resource status is RESERVED; must be AVAILABLE.",
+            "Request status is ALLOCATED; no open demand.",
+            "No mutually compatible quantity available.",
+            "Provider cannot satisfy its own organization request.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Food is expired or has less than two hours of safe shelf life remaining.",
+            "Geographic eligibility cannot be verified from recorded delivery locations.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred.",
+            "Valid pickup or recipient delivery coordinates are missing."
+          ]
+        },
+        {
+          "resource_id": "RES-6BAA3D",
+          "request_id": "REQ-54EAFF",
+          "reasons": [
+            "Resource status is RESERVED; must be AVAILABLE.",
+            "Request status is FULFILLED; no open demand.",
+            "No mutually compatible quantity available.",
+            "Provider cannot satisfy its own organization request.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Food is expired or has less than two hours of safe shelf life remaining.",
+            "Geographic eligibility cannot be verified from recorded delivery locations.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred.",
+            "Valid pickup or recipient delivery coordinates are missing."
+          ]
+        },
+        {
+          "resource_id": "RES-6BAA3D",
+          "request_id": "REQ-002",
+          "reasons": [
+            "Resource status is RESERVED; must be AVAILABLE.",
+            "No mutually compatible quantity available.",
+            "Category mismatch: cooked_meals cannot satisfy drinking_water.",
+            "Unit mismatch: kg versus liters; no conversion inferred.",
+            "Resource and request operating mode / disaster event mismatch.",
+            "Disaster Event is not currently ACTIVE.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Food is expired or has less than two hours of safe shelf life remaining.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ]
+        },
+        {
+          "resource_id": "RES-ECE370",
+          "request_id": "REQ-609A04",
+          "reasons": [
+            "Resource status is RESERVED; must be AVAILABLE.",
+            "No mutually compatible quantity available.",
+            "Category mismatch: cooked_meals cannot satisfy bakery.",
+            "Unit mismatch: kg versus meals; no conversion inferred.",
+            "Pickup window is closed or invalid.",
+            "Food is expired or has less than two hours of safe shelf life remaining.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ]
+        },
+        {
+          "resource_id": "RES-ECE370",
+          "request_id": "REQ-781765",
+          "reasons": [
+            "Resource status is RESERVED; must be AVAILABLE.",
+            "Request status is FULFILLED; no open demand.",
+            "No mutually compatible quantity available.",
+            "Category mismatch: cooked_meals cannot satisfy bakery.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Food is expired or has less than two hours of safe shelf life remaining.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ]
+        },
+        {
+          "resource_id": "RES-ECE370",
+          "request_id": "REQ-DB82FD",
+          "reasons": [
+            "Resource status is RESERVED; must be AVAILABLE.",
+            "Request status is FULFILLED; no open demand.",
+            "No mutually compatible quantity available.",
+            "Category mismatch: cooked_meals cannot satisfy bakery.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Food is expired or has less than two hours of safe shelf life remaining.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ]
+        },
+        {
+          "resource_id": "RES-ECE370",
+          "request_id": "REQ-129D3F",
+          "reasons": [
+            "Resource status is RESERVED; must be AVAILABLE.",
+            "No mutually compatible quantity available.",
+            "Category mismatch: cooked_meals cannot satisfy bakery.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Food is expired or has less than two hours of safe shelf life remaining.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ]
+        },
+        {
+          "resource_id": "RES-ECE370",
+          "request_id": "REQ-CF32DD",
+          "reasons": [
+            "Resource status is RESERVED; must be AVAILABLE.",
+            "Request status is FULFILLED; no open demand.",
+            "No mutually compatible quantity available.",
+            "Category mismatch: cooked_meals cannot satisfy drinking_water.",
+            "Unit mismatch: kg versus liters; no conversion inferred.",
+            "Resource and request operating mode / disaster event mismatch.",
+            "Disaster Event is not currently ACTIVE.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Food is expired or has less than two hours of safe shelf life remaining.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ]
+        },
+        {
+          "resource_id": "RES-ECE370",
+          "request_id": "REQ-116FA8",
+          "reasons": [
+            "Resource status is RESERVED; must be AVAILABLE.",
+            "Request status is FULFILLED; no open demand.",
+            "No mutually compatible quantity available.",
+            "Provider cannot satisfy its own organization request.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Food is expired or has less than two hours of safe shelf life remaining.",
+            "Geographic eligibility cannot be verified from recorded delivery locations.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred.",
+            "Valid pickup or recipient delivery coordinates are missing."
+          ]
+        },
+        {
+          "resource_id": "RES-ECE370",
+          "request_id": "REQ-AE23BB",
+          "reasons": [
+            "Resource status is RESERVED; must be AVAILABLE.",
+            "Request status is ALLOCATED; no open demand.",
+            "No mutually compatible quantity available.",
+            "Provider cannot satisfy its own organization request.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Food is expired or has less than two hours of safe shelf life remaining.",
+            "Geographic eligibility cannot be verified from recorded delivery locations.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred.",
+            "Valid pickup or recipient delivery coordinates are missing."
+          ]
+        },
+        {
+          "resource_id": "RES-ECE370",
+          "request_id": "REQ-493FD9",
+          "reasons": [
+            "Resource status is RESERVED; must be AVAILABLE.",
+            "Request status is ALLOCATED; no open demand.",
+            "No mutually compatible quantity available.",
+            "Provider cannot satisfy its own organization request.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Food is expired or has less than two hours of safe shelf life remaining.",
+            "Geographic eligibility cannot be verified from recorded delivery locations.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred.",
+            "Valid pickup or recipient delivery coordinates are missing."
+          ]
+        },
+        {
+          "resource_id": "RES-ECE370",
+          "request_id": "REQ-54EAFF",
+          "reasons": [
+            "Resource status is RESERVED; must be AVAILABLE.",
+            "Request status is FULFILLED; no open demand.",
+            "No mutually compatible quantity available.",
+            "Provider cannot satisfy its own organization request.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Food is expired or has less than two hours of safe shelf life remaining.",
+            "Geographic eligibility cannot be verified from recorded delivery locations.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred.",
+            "Valid pickup or recipient delivery coordinates are missing."
+          ]
+        },
+        {
+          "resource_id": "RES-ECE370",
+          "request_id": "REQ-002",
+          "reasons": [
+            "Resource status is RESERVED; must be AVAILABLE.",
+            "No mutually compatible quantity available.",
+            "Category mismatch: cooked_meals cannot satisfy drinking_water.",
+            "Unit mismatch: kg versus liters; no conversion inferred.",
+            "Resource and request operating mode / disaster event mismatch.",
+            "Disaster Event is not currently ACTIVE.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Food is expired or has less than two hours of safe shelf life remaining.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ]
+        },
+        {
+          "resource_id": "RES-D5D082",
+          "request_id": "REQ-609A04",
+          "reasons": [
+            "Resource status is COLLECTED; must be AVAILABLE.",
+            "No mutually compatible quantity available.",
+            "Category mismatch: cooked_meals cannot satisfy bakery.",
+            "Unit mismatch: kg versus meals; no conversion inferred.",
+            "Pickup window is closed or invalid.",
+            "Food is expired or has less than two hours of safe shelf life remaining.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ]
+        },
+        {
+          "resource_id": "RES-D5D082",
+          "request_id": "REQ-781765",
+          "reasons": [
+            "Resource status is COLLECTED; must be AVAILABLE.",
+            "Request status is FULFILLED; no open demand.",
+            "No mutually compatible quantity available.",
+            "Category mismatch: cooked_meals cannot satisfy bakery.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Food is expired or has less than two hours of safe shelf life remaining.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ]
+        },
+        {
+          "resource_id": "RES-D5D082",
+          "request_id": "REQ-DB82FD",
+          "reasons": [
+            "Resource status is COLLECTED; must be AVAILABLE.",
+            "Request status is FULFILLED; no open demand.",
+            "No mutually compatible quantity available.",
+            "Category mismatch: cooked_meals cannot satisfy bakery.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Food is expired or has less than two hours of safe shelf life remaining.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ]
+        },
+        {
+          "resource_id": "RES-D5D082",
+          "request_id": "REQ-129D3F",
+          "reasons": [
+            "Resource status is COLLECTED; must be AVAILABLE.",
+            "No mutually compatible quantity available.",
+            "Category mismatch: cooked_meals cannot satisfy bakery.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Food is expired or has less than two hours of safe shelf life remaining.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ]
+        },
+        {
+          "resource_id": "RES-D5D082",
+          "request_id": "REQ-CF32DD",
+          "reasons": [
+            "Resource status is COLLECTED; must be AVAILABLE.",
+            "Request status is FULFILLED; no open demand.",
+            "No mutually compatible quantity available.",
+            "Category mismatch: cooked_meals cannot satisfy drinking_water.",
+            "Unit mismatch: kg versus liters; no conversion inferred.",
+            "Resource and request operating mode / disaster event mismatch.",
+            "Disaster Event is not currently ACTIVE.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Food is expired or has less than two hours of safe shelf life remaining.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ]
+        },
+        {
+          "resource_id": "RES-D5D082",
+          "request_id": "REQ-116FA8",
+          "reasons": [
+            "Resource status is COLLECTED; must be AVAILABLE.",
+            "Request status is FULFILLED; no open demand.",
+            "No mutually compatible quantity available.",
+            "Provider cannot satisfy its own organization request.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Food is expired or has less than two hours of safe shelf life remaining.",
+            "Geographic eligibility cannot be verified from recorded delivery locations.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred.",
+            "Valid pickup or recipient delivery coordinates are missing."
+          ]
+        },
+        {
+          "resource_id": "RES-D5D082",
+          "request_id": "REQ-AE23BB",
+          "reasons": [
+            "Resource status is COLLECTED; must be AVAILABLE.",
+            "Request status is ALLOCATED; no open demand.",
+            "No mutually compatible quantity available.",
+            "Provider cannot satisfy its own organization request.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Food is expired or has less than two hours of safe shelf life remaining.",
+            "Geographic eligibility cannot be verified from recorded delivery locations.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred.",
+            "Valid pickup or recipient delivery coordinates are missing."
+          ]
+        },
+        {
+          "resource_id": "RES-D5D082",
+          "request_id": "REQ-493FD9",
+          "reasons": [
+            "Resource status is COLLECTED; must be AVAILABLE.",
+            "Request status is ALLOCATED; no open demand.",
+            "No mutually compatible quantity available.",
+            "Provider cannot satisfy its own organization request.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Food is expired or has less than two hours of safe shelf life remaining.",
+            "Geographic eligibility cannot be verified from recorded delivery locations.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred.",
+            "Valid pickup or recipient delivery coordinates are missing."
+          ]
+        },
+        {
+          "resource_id": "RES-D5D082",
+          "request_id": "REQ-54EAFF",
+          "reasons": [
+            "Resource status is COLLECTED; must be AVAILABLE.",
+            "Request status is FULFILLED; no open demand.",
+            "No mutually compatible quantity available.",
+            "Provider cannot satisfy its own organization request.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Food is expired or has less than two hours of safe shelf life remaining.",
+            "Geographic eligibility cannot be verified from recorded delivery locations.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred.",
+            "Valid pickup or recipient delivery coordinates are missing."
+          ]
+        },
+        {
+          "resource_id": "RES-D5D082",
+          "request_id": "REQ-002",
+          "reasons": [
+            "Resource status is COLLECTED; must be AVAILABLE.",
+            "No mutually compatible quantity available.",
+            "Category mismatch: cooked_meals cannot satisfy drinking_water.",
+            "Unit mismatch: kg versus liters; no conversion inferred.",
+            "Resource and request operating mode / disaster event mismatch.",
+            "Disaster Event is not currently ACTIVE.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Food is expired or has less than two hours of safe shelf life remaining.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ]
+        },
+        {
+          "resource_id": "RES-004",
+          "request_id": "REQ-609A04",
+          "reasons": [
+            "Resource status is COLLECTED; must be AVAILABLE.",
+            "No mutually compatible quantity available.",
+            "Category mismatch: drinking_water cannot satisfy bakery.",
+            "Unit mismatch: liters versus meals; no conversion inferred.",
+            "Resource and request operating mode / disaster event mismatch.",
+            "Pickup window is closed or invalid."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ]
+        },
+        {
+          "resource_id": "RES-004",
+          "request_id": "REQ-781765",
+          "reasons": [
+            "Resource status is COLLECTED; must be AVAILABLE.",
+            "Request status is FULFILLED; no open demand.",
+            "No mutually compatible quantity available.",
+            "Category mismatch: drinking_water cannot satisfy bakery.",
+            "Unit mismatch: liters versus kg; no conversion inferred.",
+            "Resource and request operating mode / disaster event mismatch.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ]
+        },
+        {
+          "resource_id": "RES-004",
+          "request_id": "REQ-DB82FD",
+          "reasons": [
+            "Resource status is COLLECTED; must be AVAILABLE.",
+            "Request status is FULFILLED; no open demand.",
+            "No mutually compatible quantity available.",
+            "Category mismatch: drinking_water cannot satisfy bakery.",
+            "Unit mismatch: liters versus kg; no conversion inferred.",
+            "Resource and request operating mode / disaster event mismatch.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ]
+        },
+        {
+          "resource_id": "RES-004",
+          "request_id": "REQ-129D3F",
+          "reasons": [
+            "Resource status is COLLECTED; must be AVAILABLE.",
+            "No mutually compatible quantity available.",
+            "Category mismatch: drinking_water cannot satisfy bakery.",
+            "Unit mismatch: liters versus kg; no conversion inferred.",
+            "Resource and request operating mode / disaster event mismatch.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ]
+        },
+        {
+          "resource_id": "RES-004",
+          "request_id": "REQ-CF32DD",
+          "reasons": [
+            "Resource status is COLLECTED; must be AVAILABLE.",
+            "Request status is FULFILLED; no open demand.",
+            "No mutually compatible quantity available.",
+            "Disaster Event is not currently ACTIVE.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ]
+        },
+        {
+          "resource_id": "RES-004",
+          "request_id": "REQ-116FA8",
+          "reasons": [
+            "Resource status is COLLECTED; must be AVAILABLE.",
+            "Request status is FULFILLED; no open demand.",
+            "No mutually compatible quantity available.",
+            "Category mismatch: drinking_water cannot satisfy cooked_meals.",
+            "Unit mismatch: liters versus kg; no conversion inferred.",
+            "Resource and request operating mode / disaster event mismatch.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Geographic eligibility cannot be verified from recorded delivery locations.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred.",
+            "Valid pickup or recipient delivery coordinates are missing."
+          ]
+        },
+        {
+          "resource_id": "RES-004",
+          "request_id": "REQ-AE23BB",
+          "reasons": [
+            "Resource status is COLLECTED; must be AVAILABLE.",
+            "Request status is ALLOCATED; no open demand.",
+            "No mutually compatible quantity available.",
+            "Category mismatch: drinking_water cannot satisfy cooked_meals.",
+            "Unit mismatch: liters versus kg; no conversion inferred.",
+            "Resource and request operating mode / disaster event mismatch.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Geographic eligibility cannot be verified from recorded delivery locations.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred.",
+            "Valid pickup or recipient delivery coordinates are missing."
+          ]
+        },
+        {
+          "resource_id": "RES-004",
+          "request_id": "REQ-493FD9",
+          "reasons": [
+            "Resource status is COLLECTED; must be AVAILABLE.",
+            "Request status is ALLOCATED; no open demand.",
+            "No mutually compatible quantity available.",
+            "Category mismatch: drinking_water cannot satisfy cooked_meals.",
+            "Unit mismatch: liters versus kg; no conversion inferred.",
+            "Resource and request operating mode / disaster event mismatch.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Geographic eligibility cannot be verified from recorded delivery locations.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred.",
+            "Valid pickup or recipient delivery coordinates are missing."
+          ]
+        },
+        {
+          "resource_id": "RES-004",
+          "request_id": "REQ-54EAFF",
+          "reasons": [
+            "Resource status is COLLECTED; must be AVAILABLE.",
+            "Request status is FULFILLED; no open demand.",
+            "No mutually compatible quantity available.",
+            "Category mismatch: drinking_water cannot satisfy cooked_meals.",
+            "Unit mismatch: liters versus kg; no conversion inferred.",
+            "Resource and request operating mode / disaster event mismatch.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Geographic eligibility cannot be verified from recorded delivery locations.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred.",
+            "Valid pickup or recipient delivery coordinates are missing."
+          ]
+        },
+        {
+          "resource_id": "RES-004",
+          "request_id": "REQ-002",
+          "reasons": [
+            "Resource status is COLLECTED; must be AVAILABLE.",
+            "No mutually compatible quantity available.",
+            "Disaster Event is not currently ACTIVE.",
+            "Pickup window is closed or invalid.",
+            "Request delivery deadline has expired.",
+            "Pickup time, recipient receiving hours and safe delivery deadline do not overlap.",
+            "No time remains between feasible pickup and the delivery deadline."
+          ],
+          "missing_information": [
+            "NGO dietary and storage preferences have not been verified; no preferences inferred."
+          ]
+        }
+      ],
+      "remaining_inventory": {
+        "RES-CE7CA0": 15.0,
+        "RES-D5AE00": 3.0,
+        "RES-5980F3": 2.0,
+        "RES-BC62CE": 200.0,
+        "RES-46085B": 5.0,
+        "RES-6BAA3D": 0.0,
+        "RES-ECE370": 0.0,
+        "RES-D5D082": 0.0,
+        "RES-004": 0.0
+      },
+      "remaining_demand": {
+        "REQ-609A04": 10.0,
+        "REQ-781765": 0.0,
+        "REQ-DB82FD": 0.0,
+        "REQ-129D3F": 2.0,
+        "REQ-CF32DD": 350.0,
+        "REQ-116FA8": 5.0,
+        "REQ-AE23BB": 0.0,
+        "REQ-493FD9": 0.0,
+        "REQ-54EAFF": 0.0,
+        "REQ-002": 100.0
+      },
+      "warnings": [],
+      "empty_reason": "No feasible resource/request/courier combination in recorded data."
+    }
+  }
+}

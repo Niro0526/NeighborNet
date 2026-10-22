@@ -167,6 +167,9 @@ def test_baselines_reproducibility_and_constraints(test_setup):
 def test_ortools_optimizer_solution(test_setup):
     res = test_setup['resource']
     req = test_setup['request']
+    user = User.objects.create_user(email='solver-courier@test.lk', password='test')
+    UserRoleAssignment.objects.create(user=user, role='VOLUNTEER', is_approved=True)
+    Volunteer.objects.create(user=user, verified=True, status='available', vehicle_capacity_kg=25)
 
     plan = solve_resource_allocation([res], [req], time_limit_seconds=3.0)
     assert plan.solver_status in ('OPTIMAL', 'FEASIBLE')
@@ -207,6 +210,9 @@ def test_volunteer_carrying_capacity_feasibility(test_setup):
 def test_approval_and_atomic_apply_workflow(test_setup, coordinator_user):
     res = test_setup['resource']
     req = test_setup['request']
+    user = User.objects.create_user(email='approval-courier@test.lk', password='test')
+    UserRoleAssignment.objects.create(user=user, role='VOLUNTEER', is_approved=True)
+    courier = Volunteer.objects.create(user=user, verified=True, status='available', vehicle_capacity_kg=25)
 
     # 1. Create a recommendation batch
     batch = RecommendationBatch.objects.create(
@@ -223,19 +229,18 @@ def test_approval_and_atomic_apply_workflow(test_setup, coordinator_user):
         allocated_quantity=20.0,
         unit=res.unit,
         explanation="Test explanation",
+        assigned_volunteer=courier,
         suggested_action="Test action",
         status=RecommendationStatusChoices.PENDING_APPROVAL,
     )
 
     # 2. Coordinator approves
     approved_batch = approve_recommendation_batch(batch.id, coordinator_user)
-    assert approved_batch.status == RecommendationStatusChoices.APPROVED
+    assert approved_batch.status == RecommendationStatusChoices.APPLIED
 
-    # 3. Coordinator applies batch atomically
-    result = apply_recommendation_batch(approved_batch.id, coordinator_user)
-    assert result['success'] is True
-    assert result['allocations_count'] == 1
-    assert result['delivery_tasks_count'] == 1
+    # Approval commits allocations and dispatch in the same transaction.
+    assert Allocation.objects.filter(source_recommendation__batch=approved_batch).count() == 1
+    assert DeliveryTask.objects.filter(allocation__source_recommendation__batch=approved_batch).count() == 1
 
     # Verify inventory was decremented and records committed
     res.refresh_from_db()
@@ -277,6 +282,9 @@ def test_concurrent_inventory_conflict_rejection(test_setup, coordinator_user):
 def test_disruption_recovery_preview_and_apply(test_setup, coordinator_user):
     res = test_setup['resource']
     req = test_setup['request']
+    replacement_user = User.objects.create_user(email='replacement@test.lk', password='pw')
+    UserRoleAssignment.objects.create(user=replacement_user, role=RoleChoices.VOLUNTEER, is_approved=True)
+    replacement = Volunteer.objects.create(user=replacement_user, verified=True, vehicle_capacity_kg=25, status='available')
 
     alloc = Allocation.objects.create(
         resource=res,
@@ -313,6 +321,9 @@ def test_disruption_recovery_preview_and_apply(test_setup, coordinator_user):
     # Apply recovery
     result = apply_recovery_plan(preview['disruption_id'], coordinator_user)
     assert result['success'] is True
+    task.refresh_from_db()
+    assert task.volunteer == replacement
+    assert task.status == DeliveryTaskStatusChoices.ACCEPTED
 
 @pytest.mark.django_db
 def test_intelligence_api_permissions(coordinator_user, regular_user):

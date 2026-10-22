@@ -1,7 +1,8 @@
 from django.core.exceptions import ValidationError
+import math
 
 def validate_positive_quantity(value):
-    if value <= 0:
+    if not math.isfinite(value) or value <= 0:
         raise ValidationError('Quantity must be strictly greater than zero.')
 
 def validate_latitude(value):

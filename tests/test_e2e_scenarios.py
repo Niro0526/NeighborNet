@@ -6,6 +6,7 @@ import pytest
 import requests
 import json
 import sys
+import os
 from django.core.management import call_command
 from rest_framework.test import APIClient
 from rest_framework.utils.encoders import JSONEncoder
@@ -17,7 +18,7 @@ def is_live_server_up(url="http://localhost:5173/api/v1/auth/csrf/"):
     except Exception:
         return False
 
-USE_LIVE = is_live_server_up()
+USE_LIVE = os.environ.get('NEIGHBORNET_LIVE_TESTS') == '1' and is_live_server_up()
 BASE_URL = "http://localhost:5173/api/v1" if USE_LIVE else "/api/v1"
 
 class WrappedResponse:

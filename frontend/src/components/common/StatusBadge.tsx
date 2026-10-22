@@ -5,6 +5,7 @@ export type StatusBadgeVariant =
   | 'reserved'
   | 'collected'
   | 'expired'
+  | 'withdrawn'
   | 'pending'
   | 'allocated'
   | 'fulfilled'
@@ -50,6 +51,7 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({
     urgent: 'bg-red-50 text-red-700 border-red-200',
     high: 'bg-orange-50 text-orange-700 border-orange-200',
     expired: 'bg-red-50 text-red-700 border-red-200',
+    withdrawn: 'bg-slate-50 text-slate-600 border-slate-200',
     disrupted: 'bg-red-50 text-red-700 border-red-200',
 
     low: 'bg-slate-50 text-slate-700 border-slate-200',

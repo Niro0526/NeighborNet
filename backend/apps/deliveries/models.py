@@ -34,6 +34,9 @@ class Allocation(models.Model):
     approved_by = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name='approved_allocations'
     )
+    ngo_accepted_at = models.DateTimeField(null=True, blank=True)
+    ngo_accepted_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name='accepted_donations')
+    approved_at = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -107,6 +110,9 @@ class DeliveryTask(models.Model):
     picked_up_at = models.DateTimeField(null=True, blank=True)
     arrived_delivery_at = models.DateTimeField(null=True, blank=True)
     delivered_at = models.DateTimeField(null=True, blank=True)
+    assigned_at = models.DateTimeField(null=True, blank=True)
+    receipt_confirmed_at = models.DateTimeField(null=True, blank=True)
+    receipt_confirmed_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name='confirmed_delivery_receipts')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -123,6 +129,10 @@ class DeliveryTask(models.Model):
 
     def can_transition_to(self, target_status: str) -> bool:
         """Enforces valid lifecycle state machine transitions."""
+        if self.status == DeliveryTaskStatusChoices.DISRUPTED:
+            event = self.status_events.filter(to_status='DISRUPTED').last()
+            previous = event.from_status if event else ('ARRIVED_DELIVERY' if self.arrived_delivery_at else 'PICKED_UP' if self.picked_up_at else 'ARRIVED_PICKUP' if self.arrived_pickup_at else 'ACCEPTED')
+            return target_status in [previous, 'CANCELLED']
         valid_transitions = {
             DeliveryTaskStatusChoices.AVAILABLE: [DeliveryTaskStatusChoices.ACCEPTED, DeliveryTaskStatusChoices.CANCELLED],
             DeliveryTaskStatusChoices.ACCEPTED: [DeliveryTaskStatusChoices.ARRIVED_PICKUP, DeliveryTaskStatusChoices.DECLINED, DeliveryTaskStatusChoices.CANCELLED, DeliveryTaskStatusChoices.DISRUPTED],

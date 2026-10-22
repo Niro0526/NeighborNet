@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import {
   Bell,
   CheckCircle2,
-  Trash2,
   Filter,
   RotateCcw,
   Info,

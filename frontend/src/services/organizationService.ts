@@ -1,4 +1,4 @@
-import { apiClient, isApiMode } from './apiClient';
+import { apiClient, isApiMode, getAllPages } from './apiClient';
 import { OrganizationProfile } from '../types';
 
 export const organizationService = {
@@ -6,9 +6,22 @@ export const organizationService = {
     if (!isApiMode()) {
       return [];
     }
-    const res = await apiClient.get<{ count: number; results: any[] } | any[]>('/organizations/');
-    const list = Array.isArray(res.data) ? res.data : (res.data?.results || []);
+    const list = await getAllPages('/organizations/');
     return list;
+  },
+
+  async getMyOrganizations(): Promise<OrganizationProfile[]> {
+    if (!isApiMode()) {
+      return [];
+    }
+    try {
+      const res = await apiClient.get<OrganizationProfile[] | { results: OrganizationProfile[] }>(
+        '/organizations/my_organizations/'
+      );
+      return Array.isArray(res.data) ? res.data : res.data?.results || [];
+    } catch {
+      return [];
+    }
   },
 
   async getOrganizationById(id: string): Promise<OrganizationProfile | undefined> {

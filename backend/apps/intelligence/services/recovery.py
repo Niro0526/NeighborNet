@@ -14,7 +14,10 @@ from apps.intelligence.models import (
 )
 from .volunteer_assignment import match_volunteer_for_allocation
 from .distance import calculate_haversine_distance
+from apps.deliveries.models import DeliveryStatusEvent
+from apps.notifications.services import send_notification
 
+@transaction.atomic
 def create_disruption_and_preview_recovery(
     task_id: str,
     event_type: str,
@@ -32,10 +35,11 @@ def create_disruption_and_preview_recovery(
     if task.status == DeliveryTaskStatusChoices.DELIVERED:
         raise ValueError("Cannot disrupt a task that is already DELIVERED.")
 
+    previous_event = task.status_events.filter(to_status='DISRUPTED').last() if task.status == 'DISRUPTED' else None
     original_plan_summary = {
         'task_id': task.id,
         'title': task.title,
-        'status': task.status,
+        'status': previous_event.from_status if previous_event else task.status,
         'quantity': task.quantity,
         'unit': task.unit,
         'resource_id': task.resource_id,
@@ -61,6 +65,8 @@ def create_disruption_and_preview_recovery(
     task.status = DeliveryTaskStatusChoices.DISRUPTED
     task.disruption_reason = details
     task.save(update_fields=['status', 'disruption_reason'])
+    if not previous_event:
+        DeliveryStatusEvent.objects.create(delivery_task=task, from_status=original_plan_summary['status'], to_status=task.status, changed_by=user, notes=details)
 
     # Compute Replacement Plan
     replacement_options: List[Dict[str, Any]] = []
@@ -81,6 +87,7 @@ def create_disruption_and_preview_recovery(
             request=task.request,
             allocated_quantity=task.quantity,
             assigned_volunteer_ids=excluded_volunteers
+            , reserved_quantity=task.quantity
         )
 
         if alt_courier.is_feasible and alt_courier.volunteer:
@@ -183,11 +190,21 @@ def apply_recovery_plan(disruption_id: str, approved_by_user) -> Dict[str, Any]:
         if opt.get('type') == 'REASSIGN_VOLUNTEER':
             vol_id = opt.get('replacement_volunteer_id')
             new_vol = Volunteer.objects.select_for_update().filter(id=vol_id).first()
-            if new_vol:
+            if new_vol and new_vol.verified and new_vol.status == VolunteerAvailabilityChoices.AVAILABLE:
+                old_volunteer_id = task.volunteer_id
                 # Update task courier assignment
                 task.volunteer = new_vol
-                task.status = DeliveryTaskStatusChoices.AVAILABLE  # Reset to available/reassigned
-                task.save(update_fields=['volunteer', 'status'])
+                previous = disruption.original_plan_summary.get('status')
+                task.status = previous if previous in ['ACCEPTED', 'ARRIVED_PICKUP', 'PICKED_UP', 'ARRIVED_DELIVERY'] else DeliveryTaskStatusChoices.ACCEPTED
+                task.accepted_at = task.accepted_at or timezone.now()
+                task.assigned_at = timezone.now()
+                task.save(update_fields=['volunteer', 'status', 'accepted_at', 'assigned_at'])
+                DeliveryStatusEvent.objects.create(delivery_task=task, from_status='DISRUPTED', to_status=task.status, changed_by=approved_by_user, notes='Coordinator reassigned courier.')
+                if old_volunteer_id:
+                    Volunteer.objects.filter(pk=old_volunteer_id).update(status=VolunteerAvailabilityChoices.AVAILABLE)
+                send_notification(title='Recovery Mission Assigned', message=task.title, user=new_vol.user, action_url='/volunteer/active', event_key=f'recovery-{disruption.pk}')
+                for organization in [task.resource.provider, task.request.recipient]:
+                    send_notification(title='Courier Reassigned', message=f'{task.title}: coordinator assigned {new_vol.full_name}.', organization=organization, action_url='/dashboard', event_key=f'recovery-{disruption.pk}-{organization.pk}')
 
                 # Update new volunteer status
                 new_vol.status = VolunteerAvailabilityChoices.BUSY
@@ -196,6 +213,8 @@ def apply_recovery_plan(disruption_id: str, approved_by_user) -> Dict[str, Any]:
                 applied_action = f"Task #{task.id} reassigned to courier {new_vol.full_name}."
                 break
 
+    if not applied_action:
+        raise ValueError('No feasible replacement courier is currently available.')
     disruption.status = DisruptionStatusChoices.RESOLVED
     disruption.resolution_notes = applied_action or "Recovery resolved by Coordinator."
     disruption.resolved_at = timezone.now()

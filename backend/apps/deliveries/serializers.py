@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import Allocation, DeliveryTask, DeliveryStatusEvent
 
 class AllocationSerializer(serializers.ModelSerializer):
+    unit = serializers.CharField(source='resource.unit', read_only=True)
     resourceName = serializers.CharField(source='resource.name', read_only=True)
     requestItemName = serializers.CharField(source='request.item_name', read_only=True)
     recipientName = serializers.CharField(source='request.recipient.name', read_only=True)
@@ -14,12 +15,20 @@ class AllocationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Allocation
         fields = [
-            'id', 'resource', 'resourceName', 'providerName', 'request',
+            'id', 'unit', 'resource', 'resourceName', 'providerName', 'request',
             'requestItemName', 'recipientName', 'allocatedQuantity', 'deliveryTaskId', 'status',
             'created_by', 'createdByName', 'approved_by', 'approvedByName',
-            'created_at', 'updated_at'
+            'created_at', 'updated_at', 'ngo_accepted_at', 'approved_at'
         ]
-        read_only_fields = ['id', 'status', 'created_by', 'approved_by', 'created_at', 'updated_at']
+        read_only_fields = ['id', 'status', 'created_by', 'approved_by', 'created_at', 'updated_at', 'ngo_accepted_at', 'approved_at']
+
+    def to_representation(self, instance):
+        data=super().to_representation(instance)
+        request=self.context.get('request')
+        if request and not request.user.is_coordinator and not instance.request.recipient.memberships.filter(user=request.user,is_active=True).exists():
+            for key in ['created_by','createdByName','requestItemName']:
+                data.pop(key,None)
+        return data
 
 class DeliveryStatusEventSerializer(serializers.ModelSerializer):
     changedByName = serializers.CharField(source='changed_by.name', read_only=True)
@@ -33,6 +42,9 @@ class DeliveryStatusEventSerializer(serializers.ModelSerializer):
         read_only_fields = ['id', 'createdAt']
 
 class DeliveryTaskSerializer(serializers.ModelSerializer):
+    allocationStatus = serializers.CharField(source='allocation.status',read_only=True)
+    providerName = serializers.CharField(source='resource.provider.name',read_only=True)
+    recipientName = serializers.CharField(source='request.recipient.name',read_only=True)
     cargoDescription = serializers.CharField(source='cargo_description')
     quantityDescription = serializers.CharField(source='quantity_description', read_only=True)
     volunteerName = serializers.CharField(source='volunteer_name', read_only=True)
@@ -57,7 +69,7 @@ class DeliveryTaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = DeliveryTask
         fields = [
-            'id', 'allocation', 'resource', 'request', 'volunteer', 'volunteerName',
+            'id', 'allocation', 'allocationStatus', 'providerName', 'recipientName', 'resource', 'request', 'volunteer', 'volunteerName',
             'title', 'cargoDescription', 'quantity', 'unit', 'quantityDescription',
             'status', 'priority', 'pickupAddress', 'deliveryAddress',
             'pickupContactPhone', 'deliveryContactPhone', 'pickupTimeWindow',
@@ -65,11 +77,31 @@ class DeliveryTaskSerializer(serializers.ModelSerializer):
             'disaster_event', 'disruptionReason', 'accepted_at', 'picked_up_at',
             'arrived_pickup_at', 'arrived_delivery_at', 'delivered_at',
             'acceptedAt', 'pickedUpAt', 'arrivedPickupAt', 'arrivedDeliveryAt', 'deliveredAt',
-            'statusEvents', 'created_at', 'updated_at', 'createdAt', 'updatedAt'
+            'statusEvents', 'created_at', 'updated_at', 'createdAt', 'updatedAt', 'assigned_at', 'receipt_confirmed_at'
         ]
         read_only_fields = [
             'id', 'allocation', 'resource', 'request', 'volunteer',
             'accepted_at', 'picked_up_at', 'arrived_pickup_at', 'arrived_delivery_at', 'delivered_at',
-            'created_at', 'updated_at'
+            'created_at', 'updated_at', 'assigned_at', 'receipt_confirmed_at'
         ]
+
+    def to_representation(self, instance):
+        data=super().to_representation(instance)
+        request=self.context.get('request')
+        if not request:
+            return data
+        user=request.user
+        recipient=user.is_recipient and instance.request.recipient.memberships.filter(user=user,is_active=True).exists()
+        courier=user.is_volunteer and instance.volunteer_id and instance.volunteer.user_id==user.pk
+        if not (user.is_coordinator or recipient or courier):
+            data['deliveryAddress']=''
+            data['deliveryContactPhone']=''
+            data['disruptionReason']=''
+            for event in data['statusEvents']:
+                for key in ['changed_by','changedByName','notes']:
+                    event.pop(key,None)
+            provider=user.is_food_provider and instance.resource.provider.memberships.filter(user=user,is_active=True).exists()
+            if not provider:
+                data['pickupContactPhone']=''
+        return data
 

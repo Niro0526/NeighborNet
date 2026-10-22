@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { PageHeader } from '../../components/common/PageHeader';
 import { StatCard } from '../../components/common/StatCard';
 import { StatusBadge } from '../../components/common/StatusBadge';
-import { useOperational } from '../../hooks';
+import { useOperational, useAuth } from '../../hooks';
 import { analyticsService } from '../../services/analyticsService';
 import { foodService } from '../../services/foodService';
 import { allocationService } from '../../services/allocationService';
@@ -26,16 +26,37 @@ import { LiveOperationsCenter } from '../../components/coordinator/LiveOperation
 
 export const CoordinatorDashboard: React.FC = () => {
   const { isDisasterMode, activeDisaster } = useOperational();
+  const { currentUser } = useAuth();
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [foodListings, setFoodListings] = useState<FoodListing[]>([]);
   const [insights, setInsights] = useState<AIInsight[]>([]);
   const [activities, setActivities] = useState<ActivityLog[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const loadDashboard = async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const [dashboardStats, listings, aiInsights, activityLogs] = await Promise.all([
+        analyticsService.getDashboardStats(),
+        foodService.getFoodListings(),
+        allocationService.getAIInsights(),
+        analyticsService.getActivityLogs(),
+      ]);
+      setStats(dashboardStats);
+      setFoodListings(listings);
+      setInsights(aiInsights);
+      setActivities(activityLogs);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not load coordinator operations.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
-    analyticsService.getDashboardStats().then(setStats);
-    foodService.getFoodListings().then(setFoodListings);
-    allocationService.getAIInsights().then(setInsights);
-    analyticsService.getActivityLogs().then(setActivities);
+    loadDashboard();
   }, [isDisasterMode]);
 
   const expiringSoon = foodListings.filter(
@@ -50,7 +71,7 @@ export const CoordinatorDashboard: React.FC = () => {
         title={isDisasterMode ? 'Disaster Response Command Dashboard' : 'Coordinator Overview'}
         subtitle={
           isDisasterMode
-            ? `Emergency relief protocol active: ${activeDisaster?.title || 'Monsoon Flash Floods'}`
+            ? `Emergency relief protocol active: ${activeDisaster?.title || 'Active emergency'}`
             : 'Real-time summary of surplus food inventory, community requests, and courier dispatches'
         }
         badge={
@@ -66,7 +87,13 @@ export const CoordinatorDashboard: React.FC = () => {
           )
         }
         action={
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
+            <Link
+              to="/admin/approvals"
+              className="rounded-xl border border-[#E5EAE7] bg-white px-3 py-2 text-xs font-bold text-[#182B25] hover:bg-[#F8FAF9]"
+            >
+              Approvals
+            </Link>
             <Link
               to="/admin/matching"
               className="flex items-center gap-1.5 rounded-xl bg-[#16866A] px-4 py-2 text-xs font-bold text-white shadow-xs hover:bg-[#09664F] transition-all"
@@ -78,12 +105,37 @@ export const CoordinatorDashboard: React.FC = () => {
         }
       />
 
+      <div className="flex flex-col gap-3 rounded-xl border border-[#E5EAE7] bg-white px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <p className="text-xs font-bold text-[#182B25]">Good day, {currentUser.name}</p>
+          <p className="text-[11px] text-[#64748B]">Monitor verified supply, demand, courier activity, and response readiness.</p>
+        </div>
+        <div className="flex items-center gap-3">
+          <Link to="/admin/map" className="text-[11px] font-bold text-[#16866A] hover:underline">Open operations map</Link>
+          <button type="button" onClick={loadDashboard} disabled={isLoading} className="rounded-lg border border-[#E5EAE7] px-2.5 py-1.5 text-[11px] font-bold text-[#182B25] disabled:opacity-50">
+            {isLoading ? 'Refreshing...' : 'Refresh'}
+          </button>
+        </div>
+      </div>
+
+      {error && (
+        <div className="rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-xs font-semibold text-red-700">
+          {error}
+        </div>
+      )}
+
       {/* Primary KPI Grid */}
+      {isLoading ? (
+        <div className="rounded-2xl border border-[#E5EAE7] bg-white p-8 text-center">
+          <div className="mx-auto h-7 w-7 animate-spin rounded-full border-2 border-[#16866A] border-t-transparent" />
+          <p className="mt-2 text-xs text-[#64748B]">Loading verified operations data...</p>
+        </div>
+      ) : (
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard
           title="Available Food Surplus"
           value={`${stats?.totalFoodRescuedKg ?? 0} kg`}
-          subtitle="Saved from landfill this cycle"
+          subtitle="Unallocated inventory in kg"
           icon={Package}
           trend={{ value: 'Real-time verified', isPositive: true }}
           variant="emerald"
@@ -113,6 +165,7 @@ export const CoordinatorDashboard: React.FC = () => {
           variant="blue"
         />
       </div>
+      )}
 
       {/* Coordinator Live Operations Center */}
       <LiveOperationsCenter />
@@ -163,7 +216,9 @@ export const CoordinatorDashboard: React.FC = () => {
           </div>
 
           <div className="mt-4 space-y-3">
-            {expiringSoon.map((food) => (
+            {expiringSoon.length === 0 ? (
+              <p className="py-6 text-center text-xs text-[#64748B]">No active food lots require attention.</p>
+            ) : expiringSoon.map((food) => (
               <div
                 key={food.id}
                 className="flex items-center justify-between rounded-xl border border-[#E5EAE7] p-3.5 hover:bg-[#F8FAF9] transition-colors"
@@ -174,6 +229,7 @@ export const CoordinatorDashboard: React.FC = () => {
                   </div>
                   <div>
                     <h4 className="text-xs font-bold text-[#182B25] line-clamp-1">{food.name}</h4>
+                    <p className="text-[10px] text-[#64748B]">{food.id} · Created {new Date(food.createdAt).toLocaleString()}</p>
                     <p className="text-[11px] text-[#64748B]">{food.providerName} • {food.storageRequirements}</p>
                   </div>
                 </div>
@@ -201,7 +257,9 @@ export const CoordinatorDashboard: React.FC = () => {
           </div>
 
           <div className="mt-4 space-y-3.5">
-            {activities.slice(0, 4).map((act) => (
+            {activities.length === 0 ? (
+              <p className="py-6 text-center text-xs text-[#64748B]">No recent activity has been recorded.</p>
+            ) : activities.slice(0, 4).map((act) => (
               <div key={act.id} className="flex items-start gap-3">
                 <div className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-50 text-[#16866A]">
                   <CheckCircle2 className="h-3.5 w-3.5" />

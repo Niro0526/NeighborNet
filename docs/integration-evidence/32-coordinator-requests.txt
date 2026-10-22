@@ -1,0 +1,320 @@
+- complementary:
+  - link "NeighborNet Command":
+    - /url: /admin/dashboard
+    - paragraph: NeighborNet
+    - paragraph: Command
+  - button "Collapse sidebar":
+  - navigation:
+    - link "Overview":
+      - /url: /admin/dashboard
+      - generic: Overview
+    - link "Operations":
+      - /url: /admin/map
+      - generic: Operations
+    - link "Smart Matching":
+      - /url: /admin/matching
+      - generic: Smart Matching
+    - link "Disaster":
+      - /url: /admin/disasters
+      - generic: Disaster
+    - link "Profile":
+      - /url: /profile
+      - generic: Profile
+- banner:
+  - generic: NeighborNet
+  - heading "Requests" [level=1]
+  - button "Normal":
+    - text: Normal
+  - button "Notifications":
+    - generic: "39"
+  - button "Malik Farook":
+    - generic: Malik Farook
+- main:
+  - generic: Personalized Dashboard
+  - generic: •
+  - generic: Coordinator Privileges
+  - generic: Volunteer Courier
+  - heading "Welcome back, Malik Farook!" [level=1]
+  - paragraph: malik.farook@redcross.lk • Your unified workspace automatically connects all your authorized community capabilities without switching accounts.
+  - link "Administration Workspace":
+    - /url: /admin/dashboard
+    - generic: Administration Workspace
+  - generic: "Quick Actions:"
+  - link "Create Resource Request":
+    - /url: /requests/create
+    - generic: Create Resource Request
+  - link "Browse Available Food":
+    - /url: /requests/available-food
+    - generic: Browse Available Food
+  - link "Browse Tasks (0)":
+    - /url: /volunteer/tasks
+    - generic: Browse Tasks (0)
+  - 'button "Courier: Busy" [disabled]':
+    - generic: "Courier: Busy"
+  - generic: Active Requests
+  - generic: "25"
+  - paragraph: Pending shelter allocations
+  - generic: Incoming Deliveries
+  - generic: "5"
+  - paragraph: Couriers en route to center
+  - generic: Courier Deliveries
+  - generic: "42"
+  - paragraph: Verified safe drop-offs
+  - generic: Available Missions
+  - generic: "0"
+  - paragraph: Delivery in progress
+  - generic: Active Mission
+  - generic: ACCEPTED
+  - 'heading "Delivery: Rice & Curry Packets (5.0 kg) (5.0 kg)" [level=3]'
+  - button "Mark Arrived at Pickup"
+  - link "View Full Route":
+    - /url: /deliveries/active
+  - generic: 1. Mission Accepted
+  - generic: 2. At Donor Kitchen
+  - generic: 3. En Route to Shelter
+  - generic: 4. At Destination
+  - text: "Pickup Address:"
+  - paragraph: Colombo 03
+  - text: "Destination Shelter:"
+  - paragraph: Colombo 05
+  - heading "NGO & Community Recipient Operations 47 Requests Logged" [level=2]:
+    - text: NGO & Community Recipient Operations
+    - generic: 47 Requests Logged
+  - paragraph: Manage food requisitions, available donor surplus, and incoming couriers
+  - link "Create Request":
+    - /url: /requests/create
+    - generic: Create Request
+  - button:
+  - heading "My Active Requests (25)" [level=3]
+  - link "View all":
+    - /url: /requests/my-requests
+  - heading "AUDIT-20261022 Disaster Bread Request" [level=4]
+  - generic: urgent
+  - paragraph: "5 kg • Impact: ~45 people"
+  - generic: fulfilled
+  - heading "AUDIT-20261022 Bread Request v2" [level=4]
+  - generic: high
+  - paragraph: "15 kg • Impact: ~45 people"
+  - generic: fulfilled
+  - heading "Emergency Drinking Water Supply" [level=4]
+  - generic: urgent
+  - paragraph: "500 liters • Impact: ~120 people"
+  - generic: pending
+  - heading "Elderly Care Lunch Supplies" [level=4]
+  - generic: high
+  - paragraph: "20 kg • Impact: ~40 people"
+  - generic: pending
+  - heading "AUDIT-20261022 Bread Request" [level=4]
+  - generic: high
+  - paragraph: "15 kg • Impact: ~45 people"
+  - generic: cancelled
+  - heading "Emergency Drinking Water Supply" [level=4]
+  - generic: urgent
+  - paragraph: "500 liters • Impact: ~120 people"
+  - generic: pending
+  - heading "Elderly Care Lunch Supplies" [level=4]
+  - generic: high
+  - paragraph: "20 kg • Impact: ~40 people"
+  - generic: fulfilled
+  - heading "Emergency Drinking Water Supply" [level=4]
+  - generic: urgent
+  - paragraph: "500 liters • Impact: ~120 people"
+  - generic: pending
+  - heading "Elderly Care Lunch Supplies" [level=4]
+  - generic: high
+  - paragraph: "20 kg • Impact: ~40 people"
+  - generic: fulfilled
+  - heading "Emergency Drinking Water Supply" [level=4]
+  - generic: urgent
+  - paragraph: "500 liters • Impact: ~120 people"
+  - generic: pending
+  - heading "Elderly Care Lunch Supplies" [level=4]
+  - generic: high
+  - paragraph: "20 kg • Impact: ~40 people"
+  - generic: fulfilled
+  - heading "Emergency Drinking Water Supply" [level=4]
+  - generic: urgent
+  - paragraph: "500 liters • Impact: ~120 people"
+  - generic: pending
+  - heading "Elderly Care Lunch Supplies" [level=4]
+  - generic: high
+  - paragraph: "20 kg • Impact: ~40 people"
+  - generic: fulfilled
+  - heading "Elderly Care Lunch Supplies" [level=4]
+  - generic: high
+  - paragraph: "20 kg • Impact: ~40 people"
+  - generic: fulfilled
+  - heading "Emergency Drinking Water Supply" [level=4]
+  - generic: urgent
+  - paragraph: "500 liters • Impact: ~120 people"
+  - generic: pending
+  - heading "Emergency Drinking Water Supply" [level=4]
+  - generic: urgent
+  - paragraph: "500 liters • Impact: ~120 people"
+  - generic: pending
+  - heading "[DEMO] Evening Community Dinner Bakery Rations" [level=4]
+  - generic: high
+  - paragraph: "20 kg • Impact: ~45 people"
+  - generic: allocated
+  - heading "Emergency Drinking Water Supply" [level=4]
+  - generic: urgent
+  - paragraph: "500 liters • Impact: ~120 people"
+  - generic: pending
+  - heading "Elderly Care Lunch Supplies" [level=4]
+  - generic: high
+  - paragraph: "20 kg • Impact: ~40 people"
+  - generic: fulfilled
+  - heading "Emergency Drinking Water Supply" [level=4]
+  - generic: urgent
+  - paragraph: "500 liters • Impact: ~120 people"
+  - generic: pending
+  - heading "Elderly Care Lunch Supplies" [level=4]
+  - generic: high
+  - paragraph: "20 kg • Impact: ~40 people"
+  - generic: fulfilled
+  - heading "Emergency Drinking Water Supply" [level=4]
+  - generic: urgent
+  - paragraph: "500 liters • Impact: ~120 people"
+  - generic: pending
+  - heading "Elderly Care Lunch Supplies" [level=4]
+  - generic: high
+  - paragraph: "20 kg • Impact: ~40 people"
+  - generic: fulfilled
+  - heading "Emergency Drinking Water Supply" [level=4]
+  - generic: urgent
+  - paragraph: "500 liters • Impact: ~120 people"
+  - generic: pending
+  - heading "Elderly Care Lunch Supplies" [level=4]
+  - generic: high
+  - paragraph: "20 kg • Impact: ~40 people"
+  - generic: fulfilled
+  - heading "Emergency Drinking Water Supply" [level=4]
+  - generic: urgent
+  - paragraph: "500 liters • Impact: ~120 people"
+  - generic: pending
+  - heading "Elderly Care Lunch Supplies" [level=4]
+  - generic: high
+  - paragraph: "20 kg • Impact: ~40 people"
+  - generic: fulfilled
+  - heading "Emergency Drinking Water Supply" [level=4]
+  - generic: urgent
+  - paragraph: "500 liters • Impact: ~120 people"
+  - generic: pending
+  - heading "Elderly Care Lunch Supplies" [level=4]
+  - generic: high
+  - paragraph: "20 kg • Impact: ~40 people"
+  - generic: fulfilled
+  - heading "Emergency Drinking Water Supply" [level=4]
+  - generic: urgent
+  - paragraph: "500 liters • Impact: ~120 people"
+  - generic: pending
+  - heading "Elderly Care Lunch Supplies" [level=4]
+  - generic: high
+  - paragraph: "20 kg • Impact: ~40 people"
+  - generic: fulfilled
+  - heading "Emergency Drinking Water Supply" [level=4]
+  - generic: urgent
+  - paragraph: "500 liters • Impact: ~120 people"
+  - generic: pending
+  - heading "Elderly Care Lunch Supplies" [level=4]
+  - generic: high
+  - paragraph: "20 kg • Impact: ~40 people"
+  - generic: fulfilled
+  - heading "Emergency Drinking Water Supply" [level=4]
+  - generic: urgent
+  - paragraph: "500 liters • Impact: ~120 people"
+  - generic: pending
+  - heading "Elderly Care Lunch Supplies" [level=4]
+  - generic: high
+  - paragraph: "20 kg • Impact: ~40 people"
+  - generic: fulfilled
+  - heading "Emergency Drinking Water Supply" [level=4]
+  - generic: urgent
+  - paragraph: "500 liters • Impact: ~120 people"
+  - generic: pending
+  - heading "Elderly Care Lunch Supplies" [level=4]
+  - generic: high
+  - paragraph: "20 kg • Impact: ~40 people"
+  - generic: fulfilled
+  - heading "Elderly Care Lunch Supplies" [level=4]
+  - generic: high
+  - paragraph: "20 kg • Impact: ~40 people"
+  - generic: fulfilled
+  - heading "Elderly Care Lunch Supplies" [level=4]
+  - generic: high
+  - paragraph: "20 kg • Impact: ~40 people"
+  - generic: allocated
+  - heading "Elderly Care Lunch Supplies" [level=4]
+  - generic: high
+  - paragraph: "20 kg • Impact: ~40 people"
+  - generic: allocated
+  - heading "Emergency Potable Water 500L" [level=4]
+  - generic: urgent
+  - paragraph: "500 liters • Impact: ~20 people"
+  - generic: fulfilled
+  - heading "Cooked Meals Requisition" [level=4]
+  - generic: high
+  - paragraph: "20 kg • Impact: ~20 people"
+  - generic: fulfilled
+  - heading "Cooked Meals Requisition" [level=4]
+  - generic: high
+  - paragraph: "20 kg • Impact: ~20 people"
+  - generic: allocated
+  - heading "Cooked Meals Requisition" [level=4]
+  - generic: high
+  - paragraph: "20 kg • Impact: ~20 people"
+  - generic: allocated
+  - heading "Cooked Meals Requisition" [level=4]
+  - generic: high
+  - paragraph: "20 kg • Impact: ~20 people"
+  - generic: fulfilled
+  - heading "Emergency Drinking Water & Biscuits" [level=4]
+  - generic: urgent
+  - paragraph: "100 liters • Impact: ~120 people"
+  - generic: pending
+  - heading "Hot Prepared Lunch Rations" [level=4]
+  - generic: high
+  - paragraph: "65 meals • Impact: ~65 people"
+  - generic: allocated
+  - heading "Incoming Shipments" [level=3]
+  - generic: 5 in transit
+  - generic: "Delivery: Rice & Curry Packets (5.0 kg)"
+  - generic: ACCEPTED
+  - paragraph: "Courier: Malik Farook • 5.0 kg"
+  - generic: "Delivery: Rice & Curry Packets (5.0 kg)"
+  - generic: ACCEPTED
+  - paragraph: "Courier: Dinesh Mendis • 5.0 kg"
+  - heading "Surplus Food Available in Moratuwa Area" [level=3]
+  - link "Browse full catalog":
+    - /url: /requests/available-food
+  - heading "Volunteer Courier Operations Active Online" [level=2]:
+    - text: Volunteer Courier Operations
+    - generic: Active Online
+  - paragraph: "Vehicle: van • Food rescue transport missions"
+  - button "Go Offline":
+    - generic: Go Offline
+  - button:
+  - heading "Available Transport Missions (0)" [level=3]
+  - link "View map & details":
+    - /url: /volunteer/tasks
+  - heading "Recent Community Activity & Audit Logs" [level=3]
+  - generic: PostgreSQL activity
+  - generic: System Operator
+  - generic: 12:29 PM
+  - paragraph: "Requisition cancelled: AUDIT-20261022 Bread Request (Grace Home for the Elderly)."
+  - generic: System Operator
+  - generic: 12:29 PM
+  - paragraph: Successful session sign-in for ravi.mendis@greenbites.lk.
+  - generic: System Operator
+  - generic: 12:29 PM
+  - paragraph: Successful session sign-in for dinesh.mendis@gmail.com.
+  - generic: System Operator
+  - generic: 12:29 PM
+  - paragraph: Successful session sign-in for sister.mary@graceeldercare.org.
+  - generic: System Operator
+  - generic: 12:29 PM
+  - paragraph: Successful session sign-in for fathima@pererahotels.lk.
+  - generic: System Operator
+  - generic: 12:29 PM
+  - paragraph: "Resolved disaster response protocol: Emergency Response — Moratuwa & Colombo South."
+- button "Submit pilot feedback":

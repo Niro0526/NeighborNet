@@ -22,6 +22,8 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
+        from common.synthetic_data import require_synthetic_database
+        require_synthetic_database()
         from django.conf import settings
         if not settings.DEBUG and not options.get('force'):
             self.stderr.write(self.style.ERROR(

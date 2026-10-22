@@ -1,0 +1,5 @@
+Command: python -u -m pytest tests -q -p no:cacheprovider --reuse-db --tb=short
+Database: separate PostgreSQL test_neighbornet_db
+Collected: 47 tests
+Result: 47 passed in 300.69s
+Browser evidence and live HTTP checks are recorded separately; this result alone does not establish end-to-end success.

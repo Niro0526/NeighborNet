@@ -1,0 +1,15 @@
+
+> neigh@0.0.0 build
+> tsc -b && vite build
+
+vite v8.3.4 building client environment for production...
+transforming...
+✓ 2897 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                  1.02 kB │ gzip:   0.56 kB
+dist/assets/maplibre-gl-worker-VaXr2Fck.mjs    508.31 kB
+dist/assets/index-CHqkKkVw.css                 438.75 kB │ gzip:  64.96 kB
+dist/assets/index-B93hVMzl.js                1,836.64 kB │ gzip: 495.59 kB
+
+✓ built in 1.59s

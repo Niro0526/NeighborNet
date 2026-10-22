@@ -13,25 +13,28 @@ import {
   UserCheck,
 } from 'lucide-react';
 import { deliveryService } from '../../services/deliveryService';
+import { foodService } from '../../services/foodService';
+import { useProviderScope } from '../../hooks/useProviderScope';
+import { useLivePolling } from '../../hooks';
 import { useAuth } from '../../hooks';
 import { DeliveryTask } from '../../types';
 import { StatusBadge } from '../../components/common/StatusBadge';
 
 export const ProviderPickupsPage: React.FC = () => {
   const { currentUser } = useAuth();
+  const { providerIds, userName, ready } = useProviderScope();
   const [tasks, setTasks] = useState<DeliveryTask[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedTask, setSelectedTask] = useState<DeliveryTask | null>(null);
   const [handoverSuccess, setHandoverSuccess] = useState<string | null>(null);
 
   const loadData = async () => {
-    setIsLoading(true);
     try {
-      const allTasks = await deliveryService.getDeliveryTasks();
+      const [tasks, listings] = await Promise.all([deliveryService.getDeliveryTasks(), foodService.getMyListings({providerIds, providerName: userName})]);
+      const ids = new Set(listings.map((listing) => listing.id));
+      const allTasks = tasks.filter((task) => task.foodListingId && ids.has(task.foodListingId));
       setTasks(allTasks);
-      if (allTasks.length > 0 && !selectedTask) {
-        setSelectedTask(allTasks[0]);
-      }
+      setSelectedTask((previous) => allTasks.find((task) => task.id === previous?.id) || allTasks[0] || null);
     } catch (err) {
       console.error('Failed to load pickups data:', err);
     } finally {
@@ -42,6 +45,7 @@ export const ProviderPickupsPage: React.FC = () => {
   useEffect(() => {
     loadData();
   }, [currentUser.id]);
+  useLivePolling({ fetcher: loadData, enabled: ready, intervalMs: 10000 });
 
   const handleConfirmHandover = async (taskId: string) => {
     try {
@@ -326,11 +330,11 @@ export const ProviderPickupsPage: React.FC = () => {
                       <div className="flex items-center justify-between">
                         <h5 className="text-xs font-bold text-[#182B25]">Transit Route: Galle Road Corridor</h5>
                         <span className="text-[11px] font-mono font-bold text-[#16866A]">
-                          ~{selectedTask.estimatedDurationMin || 18} mins (2.4 km)
+                          {selectedTask.estimatedDurationMin ? `~${selectedTask.estimatedDurationMin} mins` : 'Transit estimate unavailable'} ({selectedTask.estimatedDistanceKm ?? 0} km)
                         </span>
                       </div>
                       <p className="text-xs text-[#64748B] mt-0.5">
-                        Transit via Galle Rd / Lunawa Station Rd. Real-time GPS coordinates active.
+                        Progress reflects the recorded delivery status updates.
                       </p>
                     </div>
                   </div>

@@ -82,9 +82,13 @@ export type FoodCategory =
   | 'canned_packaged'
   | 'beverages';
 
-export type FoodListingStatus = 'available' | 'reserved' | 'collected' | 'expired';
+export type FoodListingStatus = 'available' | 'reserved' | 'collected' | 'expired' | 'withdrawn';
 
 export interface FoodListing {
+  unitWeightKg?: number | null;
+  availableQuantity?: number;
+  isDisasterRelief?: boolean;
+  disasterEventId?: string;
   id: string;
   providerId: string; // Organization ID or User ID
   providerName: string;
@@ -96,6 +100,9 @@ export interface FoodListing {
   safeUntil: string; // ISO 8601
   pickupStart: string; // ISO 8601
   pickupEnd: string; // ISO 8601
+  pickupAddress?: string;
+  pickupLatitude?: number;
+  pickupLongitude?: number;
   storageRequirements: 'Ambient' | 'Refrigerated' | 'Keep Frozen' | 'Keep Warm (>60°C)';
   locationId: string;
   status: FoodListingStatus;
@@ -116,6 +123,10 @@ export type RequestStatus =
   | 'cancelled';
 
 export interface ResourceRequest {
+  deliveryAddress?: string;
+  deliveryLatitude?: number | null;
+  deliveryLongitude?: number | null;
+  allowPartial?: boolean;
   id: string;
   recipientId: string; // Organization ID
   recipientName: string;
@@ -203,7 +214,9 @@ export interface DeliveryTask {
     pickedUp?: string;
     arrivedDelivery?: string;
     delivered?: string;
+      receiptConfirmed?: string;
   };
+  allocationStatus?: string;
 }
 
 export interface DeliveryStatusEvent {
@@ -410,4 +423,3 @@ export interface VolunteerProfile extends Volunteer {
   profileCompletion?: number;
   missingProfileFields?: string[];
 }
-

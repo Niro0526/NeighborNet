@@ -7,8 +7,6 @@ import {
   AlertTriangle,
   RotateCcw,
   UserCheck,
-  Eye,
-  ChevronRight,
 } from 'lucide-react';
 import { organizationService } from '../../services/organizationService';
 import { volunteerService } from '../../services/volunteerService';

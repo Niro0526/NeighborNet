@@ -5,11 +5,18 @@ from django.utils import timezone
 from .models import Organization, OrganizationMembership, MembershipRoleChoices
 from .serializers import OrganizationSerializer, OrganizationMembershipSerializer
 from common.permissions import IsCoordinator
+from rest_framework.exceptions import PermissionDenied
 from apps.audit.models import ActivityLog, AuditCategoryChoices
 
 from apps.notifications.services import send_notification
 
 class OrganizationViewSet(viewsets.ModelViewSet):
+    def get_object(self):
+        org = super().get_object()
+        if self.request.method not in permissions.SAFE_METHODS and not self.request.user.is_coordinator:
+            if not org.memberships.filter(user=self.request.user, is_active=True).exists():
+                raise PermissionDenied('Only active organization members can update this profile.')
+        return org
     queryset = Organization.objects.all()
     serializer_class = OrganizationSerializer
     filterset_fields = ['type', 'verified', 'city']
@@ -17,7 +24,7 @@ class OrganizationViewSet(viewsets.ModelViewSet):
     ordering_fields = ['name', 'created_at']
 
     def get_permissions(self):
-        if self.action in ['verify', 'pending']:
+        if self.action in ['verify', 'pending', 'verify_preferences']:
             return [IsCoordinator()]
         return [permissions.IsAuthenticated()]
 
@@ -47,6 +54,16 @@ class OrganizationViewSet(viewsets.ModelViewSet):
             action_url='/admin/approvals',
             event_key=f"org-pending-{org.id}"
         )
+
+    @action(detail=True, methods=['post'], permission_classes=[IsCoordinator])
+    def verify_preferences(self, request, pk=None):
+        org = self.get_object()
+        if not org.verified:
+            return Response({'detail': 'Verify the organization first.'}, status=400)
+        org.matching_preferences_verified = True
+        org.save(update_fields=['matching_preferences_verified', 'updated_at'])
+        ActivityLog.objects.create(user=request.user, user_name=request.user.name, user_role='COORDINATOR', action='MATCHING_PREFERENCES_VERIFIED', details=f'Coordinator verified recorded preferences for {org.pk}.', category='ADMIN')
+        return Response(self.get_serializer(org).data)
 
     @action(detail=False, methods=['get'], permission_classes=[IsCoordinator])
     def pending(self, request):

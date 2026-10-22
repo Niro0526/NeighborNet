@@ -1,19 +1,65 @@
-import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { foodService } from '../../services/foodService';
 import { FoodCategory } from '../../types';
 import { ArrowLeft, PlusCircle, CheckCircle2, AlertCircle } from 'lucide-react';
+import { useAuth, useOperational } from '../../hooks';
+import { PickupLocationMap } from '../../components/common/PickupLocationMap';
+
+const COLOMBO_OFFSET_MINUTES = 330;
+const DEFAULT_LATITUDE = 6.773;
+const DEFAULT_LONGITUDE = 79.8816;
+
+function toColomboParts(value: string) {
+  const date = new Date(value);
+  const parts = new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Asia/Colombo',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+  }).formatToParts(date).reduce<Record<string, string>>((result, part) => {
+    result[part.type] = part.value;
+    return result;
+  }, {});
+  const hour24 = Number(parts.hour);
+  return {
+    date: `${parts.year}-${parts.month}-${parts.day}`,
+    hour: String(hour24 % 12 || 12),
+    minute: String(Math.floor(Number(parts.minute) / 15) * 15).padStart(2, '0'),
+    period: hour24 >= 12 ? 'PM' : 'AM',
+  };
+}
+
+function fromColomboParts(date: string, hour: string, minute: string, period: string): string {
+  const hour24 = (Number(hour) % 12) + (period === 'PM' ? 12 : 0);
+  const utc = Date.UTC(
+    Number(date.slice(0, 4)),
+    Number(date.slice(5, 7)) - 1,
+    Number(date.slice(8, 10)),
+    hour24,
+    Number(minute),
+  ) - COLOMBO_OFFSET_MINUTES * 60 * 1000;
+  return new Date(utc).toISOString();
+}
 
 export const AddFoodPage: React.FC = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const editId = searchParams.get('edit');
+  const { currentUser } = useAuth();
+  const { isDisasterMode, activeDisaster } = useOperational();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
 
+  const [unitWeight, setUnitWeight] = useState('');
   const now = new Date();
-  const defaultPickupStart = new Date(now.getTime() + 1800000).toISOString().slice(0, 16); // +30m
-  const defaultPickupEnd = new Date(now.getTime() + 14400000).toISOString().slice(0, 16); // +4h
-  const defaultSafeUntil = new Date(now.getTime() + 86400000).toISOString().slice(0, 16); // +24h
+  const defaultPickupStart = new Date(now.getTime() + 1800000).toISOString(); // +30m
+  const defaultPickupEnd = new Date(now.getTime() + 14400000).toISOString(); // +4h
+  const defaultSafeUntil = new Date(now.getTime() + 86400000).toISOString(); // +24h
 
   const [formData, setFormData] = useState({
     name: '',
@@ -24,9 +70,73 @@ export const AddFoodPage: React.FC = () => {
     pickupEnd: defaultPickupEnd,
     safeUntil: defaultSafeUntil,
     storageRequirements: 'Ambient' as const,
-    dietaryTags: ['Vegetarian'] as ('Vegetarian' | 'Halal' | 'Vegan' | 'Gluten-Free')[],
+    dietaryTags: [] as ('Vegetarian' | 'Halal' | 'Vegan' | 'Gluten-Free')[],
     safetyNotes: '',
+    pickupAddress: '',
+    pickupLatitude: DEFAULT_LATITUDE,
+    pickupLongitude: DEFAULT_LONGITUDE,
   });
+
+  useEffect(() => {
+    if (!editId) return;
+    foodService.getListingById(editId).then((listing) => {
+      if (!listing) {
+        setErrorMsg('This listing could not be found.');
+        return;
+      }
+      setUnitWeight(listing.unitWeightKg == null ? '' : String(listing.unitWeightKg));
+      setFormData({
+        name: listing.name,
+        category: listing.category,
+        quantity: listing.quantity,
+        unit: listing.unit as 'kg',
+        pickupStart: listing.pickupStart,
+        pickupEnd: listing.pickupEnd,
+        safeUntil: listing.safeUntil,
+        storageRequirements: listing.storageRequirements as 'Ambient',
+        dietaryTags: listing.dietaryTags || [],
+        safetyNotes: listing.safetyNotes || '',
+        pickupAddress: listing.pickupAddress || '',
+        pickupLatitude: listing.pickupLatitude ?? DEFAULT_LATITUDE,
+        pickupLongitude: listing.pickupLongitude ?? DEFAULT_LONGITUDE,
+      });
+    }).catch((err: Error) => setErrorMsg(err.message || 'Could not load this listing.'));
+  }, [editId]);
+
+  const updateTime = (field: 'pickupStart' | 'pickupEnd' | 'safeUntil', part: 'date' | 'hour' | 'minute' | 'period', value: string) => {
+    const current = toColomboParts(formData[field]);
+    setFormData((previous) => ({
+      ...previous,
+      [field]: fromColomboParts(
+        part === 'date' ? value : current.date,
+        part === 'hour' ? value : current.hour,
+        part === 'minute' ? value : current.minute,
+        part === 'period' ? value : current.period,
+      ),
+    }));
+  };
+
+  const renderTimeSelector = (field: 'pickupStart' | 'pickupEnd' | 'safeUntil', label: string) => {
+    const value = toColomboParts(formData[field]);
+    return (
+      <div>
+        <label className="block text-xs font-bold text-[#182B25] mb-1">{label} *</label>
+        <div className="grid grid-cols-[1fr_4.5rem_4.5rem_4.5rem] gap-1">
+          <input type="date" required value={value.date} onChange={(e) => updateTime(field, 'date', e.target.value)} className="min-w-0 rounded-xl border border-[#E5EAE7] px-2 py-2 text-xs" />
+          <select value={value.hour} onChange={(e) => updateTime(field, 'hour', e.target.value)} className="rounded-xl border border-[#E5EAE7] px-1 py-2 text-xs">
+            {Array.from({ length: 12 }, (_, index) => String(index + 1)).map((hour) => <option key={hour}>{hour}</option>)}
+          </select>
+          <select value={value.minute} onChange={(e) => updateTime(field, 'minute', e.target.value)} className="rounded-xl border border-[#E5EAE7] px-1 py-2 text-xs">
+            {['00', '15', '30', '45'].map((minute) => <option key={minute}>{minute}</option>)}
+          </select>
+          <select value={value.period} onChange={(e) => updateTime(field, 'period', e.target.value)} className="rounded-xl border border-[#E5EAE7] px-1 py-2 text-xs">
+            <option>AM</option><option>PM</option>
+          </select>
+        </div>
+        <p className="mt-1 text-[10px] text-[#64748B]">Sri Lanka time (Asia/Colombo)</p>
+      </div>
+    );
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,20 +145,37 @@ export const AddFoodPage: React.FC = () => {
     setIsSubmitting(true);
 
     try {
-      await foodService.createListing({
+      const listingData = {
         ...formData,
         quantity: Number(formData.quantity),
-        pickupStart: new Date(formData.pickupStart).toISOString(),
-        pickupEnd: new Date(formData.pickupEnd).toISOString(),
-        safeUntil: new Date(formData.safeUntil).toISOString(),
-        providerId: 'ORG-001',
-        providerName: 'Colombo City Bakery',
-        locationId: 'LOC-001',
-      });
+        unitWeightKg: unitWeight === '' ? null : Number(unitWeight),
+        pickupStart: formData.pickupStart,
+        pickupEnd: formData.pickupEnd,
+        safeUntil: formData.safeUntil,
+        providerId: currentUser.organizationId || '',
+        providerName: currentUser.name,
+        locationId: '',
+        isDisasterRelief: isDisasterMode,
+        disasterEventId: activeDisaster?.id,
+      };
+      const start = new Date(formData.pickupStart);
+      const end = new Date(formData.pickupEnd);
+      const safeUntil = new Date(formData.safeUntil);
+      if (!formData.pickupAddress.trim()) throw new Error('Enter a pickup address.');
+      if (end <= start) throw new Error('Pickup end must be after pickup start.');
+      if (safeUntil < end) throw new Error('Safe-consumption deadline must cover the pickup window.');
+      if (formData.pickupLatitude < -90 || formData.pickupLatitude > 90 || formData.pickupLongitude < -180 || formData.pickupLongitude > 180) {
+        throw new Error('Select a valid pickup location on the map.');
+      }
+      if (editId) {
+        await foodService.updateListing(editId, listingData);
+      } else {
+        await foodService.createListing(listingData);
+      }
 
-      setSuccessMsg('Surplus food successfully registered! It is now available for matching.');
+      setSuccessMsg(editId ? 'Listing updated successfully.' : 'Surplus food successfully registered! It is now available for matching.');
       setTimeout(() => {
-        navigate('/dashboard');
+        navigate('/food/listings');
       }, 1500);
     } catch (err: any) {
       setErrorMsg(err.message || 'Failed to list food. Please verify input fields.');
@@ -96,6 +223,7 @@ export const AddFoodPage: React.FC = () => {
       )}
 
       <form onSubmit={handleSubmit} className="rounded-2xl border border-[#E5EAE7] bg-white p-6 shadow-xs space-y-5">
+        <label className="block text-xs font-bold">Recorded weight per unit (kg, optional for non-kg offers)<input className="mt-1 w-full rounded-xl border p-2" type="number" min="0.0001" step="any" value={unitWeight} onChange={e => setUnitWeight(e.target.value)} placeholder="Leave unknown if not measured" /></label>
         <div>
           <label className="block text-xs font-bold text-[#182B25] mb-1">Item Title / Description *</label>
           <input
@@ -155,40 +283,12 @@ export const AddFoodPage: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-xs font-bold text-[#182B25] mb-1">Pickup Window Start *</label>
-            <input
-              type="datetime-local"
-              required
-              value={formData.pickupStart}
-              onChange={(e) => setFormData({ ...formData, pickupStart: e.target.value })}
-              className="w-full rounded-xl border border-[#E5EAE7] px-3 py-2 text-xs text-[#182B25] focus:border-[#16866A] focus:outline-none"
-            />
-          </div>
-
-          <div>
-            <label className="block text-xs font-bold text-[#182B25] mb-1">Pickup Window End *</label>
-            <input
-              type="datetime-local"
-              required
-              value={formData.pickupEnd}
-              onChange={(e) => setFormData({ ...formData, pickupEnd: e.target.value })}
-              className="w-full rounded-xl border border-[#E5EAE7] px-3 py-2 text-xs text-[#182B25] focus:border-[#16866A] focus:outline-none"
-            />
-          </div>
+          {renderTimeSelector('pickupStart', 'Pickup Window Start')}
+          {renderTimeSelector('pickupEnd', 'Pickup Window End')}
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-xs font-bold text-[#182B25] mb-1">Safe Consumption Deadline *</label>
-            <input
-              type="datetime-local"
-              required
-              value={formData.safeUntil}
-              onChange={(e) => setFormData({ ...formData, safeUntil: e.target.value })}
-              className="w-full rounded-xl border border-[#E5EAE7] px-3 py-2 text-xs text-[#182B25] focus:border-[#16866A] focus:outline-none"
-            />
-          </div>
+          {renderTimeSelector('safeUntil', 'Safe Consumption Deadline')}
 
           <div>
             <label className="block text-xs font-bold text-[#182B25] mb-1">Storage Condition *</label>
@@ -202,6 +302,27 @@ export const AddFoodPage: React.FC = () => {
               <option value="Keep Frozen">Frozen (&lt; -18°C)</option>
               <option value="Keep Warm (>60°C)">Hot Holding (&gt; 60°C)</option>
             </select>
+          </div>
+
+          <div className="space-y-3">
+            <div>
+              <h2 className="text-sm font-bold text-[#182B25]">Pickup location</h2>
+              <p className="text-[11px] text-[#64748B]">Choose the exact handover point. GPS is optional; address entry always works.</p>
+            </div>
+            <PickupLocationMap
+              latitude={formData.pickupLatitude}
+              longitude={formData.pickupLongitude}
+              onChange={(pickupLatitude, pickupLongitude) => setFormData((previous) => ({ ...previous, pickupLatitude, pickupLongitude }))}
+            />
+            <input
+              required
+              type="text"
+              value={formData.pickupAddress}
+              onChange={(e) => setFormData({ ...formData, pickupAddress: e.target.value })}
+              placeholder="Street address, city, landmark"
+              className="w-full rounded-xl border border-[#E5EAE7] px-3.5 py-2 text-xs text-[#182B25]"
+            />
+            <p className="text-[10px] text-[#64748B]">Pin: {formData.pickupLatitude.toFixed(6)}, {formData.pickupLongitude.toFixed(6)}</p>
           </div>
         </div>
 

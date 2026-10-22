@@ -4,8 +4,10 @@ import { disasterService } from '../services/disasterService';
 import { mockRepository } from '../services/mockRepository';
 import { isApiMode } from '../services/apiClient';
 import { OperationalContext } from './operationalContextDef';
+import { useAuth } from '../hooks/useAuth';
 
 export const OperationalProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { currentUser } = useAuth();
   const [mode, setModeState] = useState<OperationalMode>(() => {
     return isApiMode() ? 'NORMAL' : mockRepository.getOperationalMode();
   });
@@ -35,6 +37,11 @@ export const OperationalProvider: React.FC<{ children: React.ReactNode }> = ({ c
   };
 
   useEffect(() => {
+    if (isApiMode() && !currentUser.id) {
+      setModeState('NORMAL');
+      setActiveDisaster(undefined);
+      return;
+    }
     syncDisasterState();
 
     if (!isApiMode()) {
@@ -44,11 +51,17 @@ export const OperationalProvider: React.FC<{ children: React.ReactNode }> = ({ c
       });
       return () => unsubscribe();
     }
-  }, []);
+    const timer = window.setInterval(syncDisasterState, 10000);
+    window.addEventListener('focus', syncDisasterState);
+    return () => {
+      window.clearInterval(timer);
+      window.removeEventListener('focus', syncDisasterState);
+    };
+  }, [currentUser.id]);
 
   const setMode = async (newMode: OperationalMode) => {
     await disasterService.setOperationalMode(newMode);
-    setModeState(newMode);
+    await syncDisasterState();
   };
 
   const activateDisaster = async (disasterId: string) => {

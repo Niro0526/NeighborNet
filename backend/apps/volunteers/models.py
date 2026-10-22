@@ -29,6 +29,8 @@ class Volunteer(models.Model):
         max_length=20, choices=VehicleTypeChoices.choices, default=VehicleTypeChoices.MOTORCYCLE
     )
     vehicle_capacity_kg = models.FloatField(default=25.0)
+    transport_storage = models.JSONField(null=True, blank=True, default=None)
+    travel_speed_kmh = models.FloatField(null=True, blank=True)
     completed_deliveries_count = models.IntegerField(default=0)
     rating = models.FloatField(default=5.0)
     verified = models.BooleanField(default=False)

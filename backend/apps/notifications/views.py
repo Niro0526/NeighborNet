@@ -5,7 +5,7 @@ from django.db.models import Q
 from .models import Notification
 from .serializers import NotificationSerializer
 
-class NotificationViewSet(viewsets.ModelViewSet):
+class NotificationViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = NotificationSerializer
     permission_classes = [permissions.IsAuthenticated]
 
@@ -27,11 +27,11 @@ class NotificationViewSet(viewsets.ModelViewSet):
         if roles:
             q |= Q(role_target__in=roles, user__isnull=True, organization__isnull=True)
 
-        return Notification.objects.filter(q).distinct().order_by('-created_at')[:100]
+        return Notification.objects.filter(q).distinct().order_by('-created_at')
 
     @action(detail=False, methods=['get'])
     def unread_count(self, request):
-        count = self.get_queryset().filter(read=False).count()
+        count = self._notification_queryset().filter(read=False).count()
         return Response({'unreadCount': count}, status=status.HTTP_200_OK)
 
     @action(detail=True, methods=['post'])
@@ -43,6 +43,16 @@ class NotificationViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['post'])
     def mark_all_read(self, request):
-        self.get_queryset().filter(read=False).update(read=True)
+        self._notification_queryset().filter(read=False).update(read=True)
         return Response({'success': True, 'message': 'All notifications marked as read.'})
 
+    def _notification_queryset(self):
+        user = self.request.user
+        user_org_ids = user.organization_memberships.filter(is_active=True).values_list('organization_id', flat=True)
+        roles = user.get_approved_roles()
+        q = Q(user=user)
+        if user_org_ids:
+            q |= Q(organization_id__in=user_org_ids)
+        if roles:
+            q |= Q(role_target__in=roles, user__isnull=True, organization__isnull=True)
+        return Notification.objects.filter(q).distinct().order_by('-created_at')

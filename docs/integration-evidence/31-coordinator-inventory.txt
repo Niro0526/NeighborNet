@@ -1,0 +1,155 @@
+- complementary:
+  - link "NeighborNet Command":
+    - /url: /admin/dashboard
+    - paragraph: NeighborNet
+    - paragraph: Command
+  - button "Collapse sidebar":
+  - navigation:
+    - link "Overview":
+      - /url: /admin/dashboard
+      - generic: Overview
+    - link "Operations":
+      - /url: /admin/map
+      - generic: Operations
+    - link "Smart Matching":
+      - /url: /admin/matching
+      - generic: Smart Matching
+    - link "Disaster":
+      - /url: /admin/disasters
+      - generic: Disaster
+    - link "Profile":
+      - /url: /profile
+      - generic: Profile
+- banner:
+  - generic: NeighborNet
+  - heading "Resources" [level=1]
+  - button "Normal":
+    - text: Normal
+  - button "Notifications":
+    - generic: "39"
+  - button "Malik Farook":
+    - generic: Malik Farook
+- main:
+  - heading "Food Resources & Inventory" [level=2]
+  - paragraph: Persisted surplus inventory across provider organizations.
+  - heading "AUDIT-20261022 Disaster Bread" [level=3]
+  - generic: collected
+  - paragraph: 5 kg · Ambient · Safe until 10/23/2026, 12:07:06 PM
+  - button "Allocations"
+  - heading "Fresh Surplus Veg Meal Packs" [level=3]
+  - generic: expired
+  - paragraph: 25 kg · Ambient · Safe until 10/12/2026, 1:30:00 AM
+  - button "Allocations"
+  - heading "AUDIT-20261022 Bread Delivery" [level=3]
+  - generic: collected
+  - paragraph: 15 kg · Ambient · Safe until 10/23/2026, 11:43:34 AM
+  - button "Allocations"
+  - heading "Fresh Surplus Veg Meal Packs" [level=3]
+  - generic: collected
+  - paragraph: 25 kg · Ambient · Safe until 10/12/2026, 1:30:00 AM
+  - button "Allocations"
+  - heading "Fresh Surplus Veg Meal Packs" [level=3]
+  - generic: collected
+  - paragraph: 25 kg · Ambient · Safe until 10/12/2026, 1:30:00 AM
+  - button "Allocations"
+  - heading "Fresh Surplus Veg Meal Packs" [level=3]
+  - generic: collected
+  - paragraph: 25 kg · Ambient · Safe until 10/12/2026, 1:30:00 AM
+  - button "Allocations"
+  - heading "Fresh Surplus Veg Meal Packs" [level=3]
+  - generic: collected
+  - paragraph: 25 kg · Ambient · Safe until 10/12/2026, 1:30:00 AM
+  - button "Allocations"
+  - heading "Fresh Surplus Veg Meal Packs" [level=3]
+  - generic: collected
+  - paragraph: 25 kg · Ambient · Safe until 10/12/2026, 1:30:00 AM
+  - button "Allocations"
+  - heading "[DEMO] Surplus Whole-Wheat Bread & Buns" [level=3]
+  - generic: expired
+  - paragraph: 35 kg · Ambient · Safe until 10/20/2026, 9:14:55 AM
+  - button "Allocations"
+  - heading "Fresh Surplus Veg Meal Packs" [level=3]
+  - generic: collected
+  - paragraph: 25 kg · Ambient · Safe until 10/12/2026, 1:30:00 AM
+  - button "Allocations"
+  - heading "Fresh Surplus Veg Meal Packs" [level=3]
+  - generic: collected
+  - paragraph: 25 kg · Ambient · Safe until 10/12/2026, 1:30:00 AM
+  - button "Allocations"
+  - heading "Fresh Surplus Veg Meal Packs" [level=3]
+  - generic: collected
+  - paragraph: 25 kg · Ambient · Safe until 10/12/2026, 1:30:00 AM
+  - button "Allocations"
+  - heading "Fresh Surplus Veg Meal Packs" [level=3]
+  - generic: collected
+  - paragraph: 25 kg · Ambient · Safe until 10/12/2026, 1:30:00 AM
+  - button "Allocations"
+  - heading "Fresh Surplus Veg Meal Packs" [level=3]
+  - generic: collected
+  - paragraph: 25 kg · Ambient · Safe until 10/12/2026, 1:30:00 AM
+  - button "Allocations"
+  - heading "Fresh Surplus Veg Meal Packs" [level=3]
+  - generic: collected
+  - paragraph: 25 kg · Ambient · Safe until 10/12/2026, 1:30:00 AM
+  - button "Allocations"
+  - heading "Fresh Surplus Veg Meal Packs" [level=3]
+  - generic: collected
+  - paragraph: 25 kg · Ambient · Safe until 10/12/2026, 1:30:00 AM
+  - button "Allocations"
+  - heading "Fresh Surplus Veg Meal Packs" [level=3]
+  - generic: collected
+  - paragraph: 25 kg · Ambient · Safe until 10/12/2026, 1:30:00 AM
+  - button "Allocations"
+  - heading "Fresh Surplus Veg Meal Packs" [level=3]
+  - generic: collected
+  - paragraph: 25 kg · Ambient · Safe until 10/12/2026, 1:30:00 AM
+  - button "Allocations"
+  - heading "Fresh Surplus Veg Meal Packs" [level=3]
+  - generic: collected
+  - paragraph: 25 kg · Ambient · Safe until 10/12/2026, 1:30:00 AM
+  - button "Allocations"
+  - heading "Fresh Surplus Veg Meal Packs" [level=3]
+  - generic: collected
+  - paragraph: 25 kg · Ambient · Safe until 10/12/2026, 1:30:00 AM
+  - button "Allocations"
+  - heading "Fresh Surplus Veg Meal Packs" [level=3]
+  - generic: expired
+  - paragraph: 25 kg · Ambient · Safe until 10/12/2026, 1:30:00 AM
+  - button "Allocations"
+  - heading "Fresh Surplus Veg Meal Packs" [level=3]
+  - generic: expired
+  - paragraph: 25 kg · Ambient · Safe until 10/12/2026, 1:30:00 AM
+  - button "Allocations"
+  - heading "Rice & Curry Packets" [level=3]
+  - generic: collected
+  - paragraph: 20 kg · Ambient · Safe until 10/11/2026, 3:29:39 AM
+  - button "Allocations"
+  - heading "Rice & Curry Packets" [level=3]
+  - generic: reserved
+  - paragraph: 20 kg · Ambient · Safe until 10/11/2026, 3:15:27 AM
+  - button "Allocations"
+  - heading "Rice & Curry Packets" [level=3]
+  - generic: reserved
+  - paragraph: 20 kg · Ambient · Safe until 10/11/2026, 3:10:28 AM
+  - button "Allocations"
+  - heading "Rice & Curry Packets" [level=3]
+  - generic: collected
+  - paragraph: 20 kg · Ambient · Safe until 10/11/2026, 3:09:15 AM
+  - button "Allocations"
+  - heading "Potable Drinking Water Cans (5L Units)" [level=3]
+  - generic: collected
+  - paragraph: 150 liters · Ambient · Safe until 11/9/2026, 8:51:56 PM
+  - button "Allocations"
+  - heading "Steamed Rice & Dhal Banquet Packs" [level=3]
+  - generic: expired
+  - paragraph: 80 meals · Keep Warm (>60°C) · Safe until 10/11/2026, 6:51:56 AM
+  - button "Allocations"
+  - heading "Vegetable Roti & Curry Puffs Batch" [level=3]
+  - generic: reserved
+  - paragraph: 60 meals · Keep Warm (>60°C) · Safe until 10/11/2026, 4:51:56 AM
+  - button "Allocations"
+  - heading "Artisan Sourdough & Sandwich Bread" [level=3]
+  - generic: expired
+  - paragraph: 35 kg · Ambient · Safe until 10/11/2026, 8:51:56 PM
+  - button "Allocations"
+- button "Submit pilot feedback":

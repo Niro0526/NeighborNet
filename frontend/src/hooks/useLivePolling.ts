@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 
 export interface UseLivePollingOptions<T> {
+  fetcher?: () => Promise<T>;
   intervalMs?: number;
   enabled?: boolean;
   refetchOnFocus?: boolean;
@@ -17,6 +18,9 @@ export interface UseLivePollingResult<T> {
   lastRefreshedAt: Date | null;
   refetch: () => Promise<void>;
   statusLabel: string;
+  isPolling: boolean;
+  lastPolledAt: Date | null;
+  forcePoll: () => Promise<void>;
 }
 
 /**
@@ -30,9 +34,11 @@ export interface UseLivePollingResult<T> {
  * - Clear distinction of refreshed server data
  */
 export function useLivePolling<T>(
-  fetcher: () => Promise<T>,
+  fetcherOrOptions: (() => Promise<T>) | (UseLivePollingOptions<T> & { fetcher: () => Promise<T> }),
   options: UseLivePollingOptions<T> = {}
 ): UseLivePollingResult<T> {
+  const fetcher = typeof fetcherOrOptions === 'function' ? fetcherOrOptions : fetcherOrOptions.fetcher;
+  const mergedOptions = typeof fetcherOrOptions === 'function' ? options : fetcherOrOptions;
   const {
     intervalMs = 15000,
     enabled = true,
@@ -40,7 +46,7 @@ export function useLivePolling<T>(
     initialData,
     onSuccess,
     onError,
-  } = options;
+  } = mergedOptions;
 
   const [data, setData] = useState<T | undefined>(initialData);
   const [loading, setLoading] = useState<boolean>(!initialData);
@@ -136,6 +142,9 @@ export function useLivePolling<T>(
     lastRefreshedAt,
     refetch: () => executeFetch(false),
     statusLabel,
+    isPolling: isRefreshing,
+    lastPolledAt: lastRefreshedAt,
+    forcePoll: () => executeFetch(false),
   };
 }
 

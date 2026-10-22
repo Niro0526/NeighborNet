@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { requestService } from '../../services/requestService';
+import { isApiMode } from '../../services/apiClient';
 import { useOperational } from '../../hooks';
 import { RequestPriority } from '../../types';
 import { ArrowLeft, PlusCircle, CheckCircle2, AlertCircle, Flame } from 'lucide-react';
@@ -13,8 +14,12 @@ export const CreateRequestPage: React.FC = () => {
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
 
+  const [deliveryAddress, setDeliveryAddress] = useState('');
+  const [deliveryLatitude, setDeliveryLatitude] = useState('');
+  const [deliveryLongitude, setDeliveryLongitude] = useState('');
+  const [allowPartial, setAllowPartial] = useState(true);
   const now = new Date();
-  const defaultDeadline = new Date(now.getTime() + 14400000).toISOString().slice(0, 16); // +4h
+  const defaultDeadline = new Date(now.getTime() + 14400000 - now.getTimezoneOffset() * 60000).toISOString().slice(0, 16); // local +4h
 
   const [formData, setFormData] = useState({
     itemName: '',
@@ -36,18 +41,22 @@ export const CreateRequestPage: React.FC = () => {
     setIsSubmitting(true);
 
     try {
-      await requestService.createRequest({
+      const created = await requestService.createRequest({
         ...formData,
+        deliveryAddress,
+        deliveryLatitude: deliveryLatitude === '' ? null : Number(deliveryLatitude),
+        deliveryLongitude: deliveryLongitude === '' ? null : Number(deliveryLongitude),
+        allowPartial,
         requestedQuantity: Number(formData.requestedQuantity),
         peopleImpacted: Number(formData.peopleImpacted),
         urgencyDeadline: new Date(formData.urgencyDeadline).toISOString(),
-        recipientId: 'ORG-003',
-        recipientName: 'Community Recipient NGO',
-        locationId: 'LOC-003',
+        recipientId: isApiMode() ? '' : 'ORG-003',
+        recipientName: isApiMode() ? '' : 'Community Recipient NGO',
+        locationId: isApiMode() ? '' : 'LOC-003',
         disasterEventId: formData.isDisasterRelief ? (formData.disasterEventId || activeDisaster?.id) : undefined,
       });
 
-      setSuccessMsg('Resource request published successfully! Coordinators have been alerted.');
+      setSuccessMsg(`Resource request ${created.id} published successfully.`);
       setTimeout(() => {
         navigate('/dashboard');
       }, 1500);
@@ -95,6 +104,7 @@ export const CreateRequestPage: React.FC = () => {
       )}
 
       <form onSubmit={handleSubmit} className="rounded-2xl border border-[#E5EAE7] bg-white p-6 shadow-xs space-y-5">
+        <details><summary className="cursor-pointer text-sm font-semibold">Delivery location and partial fulfillment</summary><p className="my-2 text-xs text-slate-500">Leave delivery location blank to use your registered NGO address and coordinates. A different address needs its own coordinates.</p><label className="block text-xs">Delivery address<input className="my-1 w-full rounded border p-2" value={deliveryAddress} onChange={e => setDeliveryAddress(e.target.value)} /></label><div className="grid grid-cols-2 gap-2"><label className="text-xs">Latitude<input className="my-1 w-full rounded border p-2" type="number" step="any" min={-90} max={90} value={deliveryLatitude} onChange={e => setDeliveryLatitude(e.target.value)} /></label><label className="text-xs">Longitude<input className="my-1 w-full rounded border p-2" type="number" step="any" min={-180} max={180} value={deliveryLongitude} onChange={e => setDeliveryLongitude(e.target.value)} /></label></div><label className="text-xs"><input type="checkbox" checked={allowPartial} onChange={e => setAllowPartial(e.target.checked)} /> Accept partial quantities</label></details>
         <div>
           <label className="block text-xs font-bold text-[#182B25] mb-1">Required Item / Description *</label>
           <input

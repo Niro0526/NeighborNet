@@ -4,11 +4,20 @@ from rest_framework.response import Response
 from .models import ResourceRequest, RequestStatusChoices
 from .serializers import ResourceRequestSerializer
 from common.permissions import IsRecipient, IsCoordinator
+from common.permissions import OrganizationResourcePermission
 from apps.audit.models import ActivityLog, AuditCategoryChoices
 
 from apps.notifications.services import send_notification
 
 class ResourceRequestViewSet(viewsets.ModelViewSet):
+    ordering = ['-created_at', '-id']
+    permission_classes = [OrganizationResourcePermission]
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        if self.request.user.is_coordinator or self.request.user.is_food_provider:
+            return qs
+        return qs.filter(recipient__memberships__user=self.request.user, recipient__memberships__is_active=True).distinct()
     queryset = ResourceRequest.objects.all().select_related('recipient')
     serializer_class = ResourceRequestSerializer
     filterset_fields = ['category', 'priority', 'status', 'is_disaster_relief', 'recipient']
@@ -49,6 +58,8 @@ class ResourceRequestViewSet(viewsets.ModelViewSet):
     def cancel(self, request, pk=None):
         """Cancel an open or pending community request."""
         req = self.get_object()
+        if req.fulfilled_quantity > 0:
+            return Response({'detail': 'Allocated requests cannot be cancelled.'}, status=400)
         is_member = req.recipient.memberships.filter(user=request.user, is_active=True).exists()
         if not (is_member or request.user.is_coordinator):
             return Response({'detail': 'Not authorized to cancel this request.'}, status=status.HTTP_403_FORBIDDEN)

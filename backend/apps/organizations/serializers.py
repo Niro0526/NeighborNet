@@ -19,9 +19,21 @@ class OrganizationSerializer(serializers.ModelSerializer):
             'contactEmail', 'contactPhone', 'address', 'city', 'postalCode',
             'latitude', 'longitude', 'coordinates', 'capacity',
             'operatingHours', 'serviceArea', 'description', 'profileCompletion',
+            'dietary_requirements', 'storage_capabilities', 'matching_preferences_verified',
             'missingProfileFields', 'created_at', 'updated_at'
         ]
-        read_only_fields = ['id', 'verified', 'created_at', 'updated_at']
+        read_only_fields = ['id', 'verified', 'matching_preferences_verified', 'created_at', 'updated_at']
+
+    def validate(self, attrs):
+        for key in ['dietary_requirements', 'storage_capabilities']:
+            if key in attrs and attrs[key] is not None and (not isinstance(attrs[key], list) or any(not isinstance(v, str) or not v.strip() for v in attrs[key])):
+                raise serializers.ValidationError({key: 'Use a list of recorded requirements, or null for unknown.'})
+        return attrs
+
+    def update(self, instance, validated_data):
+        if any(key in validated_data and validated_data[key] != getattr(instance, key) for key in ['dietary_requirements', 'storage_capabilities', 'operating_hours']):
+            validated_data['matching_preferences_verified'] = False
+        return super().update(instance, validated_data)
 
     def get_missingProfileFields(self, obj):
         missing = []

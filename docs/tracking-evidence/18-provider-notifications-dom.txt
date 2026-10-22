@@ -1,0 +1,180 @@
+- banner:
+  - link:
+    - /url: /dashboard
+  - heading "Overview" [level=1]
+  - button "Notifications" [active]:
+    - generic: "15"
+  - heading "Notifications" [level=4]
+  - button "Mark all read"
+  - paragraph: NGO Receipt Confirmed
+  - paragraph: Suwasetha Child Development Center confirmed receipt of 3.0 kg of TRACK-20261022 Shared Bread.
+  - paragraph: Delivery Completed
+  - paragraph: Your donation of TRACK-20261022 Shared Bread - bakery was delivered to Suwasetha Child Development Center. NGO receipt confirmation is pending.
+  - paragraph: Pickup Completed
+  - paragraph: Pickup confirmed for TRACK-20261022 Shared Bread - bakery.
+  - paragraph: Courier Arrived for Pickup
+  - paragraph: Courier Kasun Perera has arrived at your facility for TRACK-20261022 Shared Bread - bakery.
+  - paragraph: Courier Assigned for Pickup
+  - paragraph: Courier Kasun Perera accepted pickup for TRACK-20261022 Shared Bread - bakery.
+  - paragraph: NGO Receipt Confirmed
+  - paragraph: Grace Home for the Elderly confirmed receipt of 4.0 kg of TRACK-20261022 Shared Bread.
+  - paragraph: Delivery Completed
+  - paragraph: Your donation of TRACK-20261022 Shared Bread - bakery was delivered to Grace Home for the Elderly. NGO receipt confirmation is pending.
+  - paragraph: Pickup Completed
+  - paragraph: Pickup confirmed for TRACK-20261022 Shared Bread - bakery.
+  - paragraph: Courier Arrived for Pickup
+  - paragraph: Courier Kasun Perera has arrived at your facility for TRACK-20261022 Shared Bread - bakery.
+  - paragraph: Courier Assigned for Pickup
+  - paragraph: Courier Kasun Perera accepted pickup for TRACK-20261022 Shared Bread - bakery.
+  - paragraph: Allocation Approved
+  - paragraph: Coordinator approved allocation of 3.0 kg of TRACK-20261022 Shared Bread.
+  - paragraph: Allocation Approved
+  - paragraph: Coordinator approved allocation of 4.0 kg of TRACK-20261022 Shared Bread.
+  - paragraph: NGO Accepted Donation
+  - paragraph: Suwasetha Child Development Center accepted 3.0 kg of TRACK-20261022 Shared Bread; awaiting coordinator approval.
+  - paragraph: NGO Accepted Donation
+  - paragraph: Grace Home for the Elderly accepted 4.0 kg of TRACK-20261022 Shared Bread; awaiting coordinator approval.
+  - paragraph: Resource Listing Created
+  - paragraph: "Successfully listed surplus: TRACK-20261022 Shared Bread (10.0 kg)."
+  - paragraph: Resource Listing Created
+  - paragraph: "Successfully listed surplus: VERIFY-20261022-0728 Bread (2.0 kg)."
+  - paragraph: Resource Listing Created
+  - paragraph: "Successfully listed surplus: Eggs (200.0 meals)."
+  - paragraph: Disaster Emergency Resolved
+  - paragraph: "Monsoon Flash Floods — Colombo South & Moratuwa Basin: emergency response resolved."
+  - link "View all":
+    - /url: /notifications
+  - button "Fathima Rizwan"
+- main:
+  - heading "Welcome back, Fathima Rizwan!" [level=1]
+  - paragraph: Track your surplus food donations, schedule volunteer pickups, and verify safe deliveries.
+  - link "Add Surplus Food":
+    - /url: /provider/add-food
+    - generic: Add Surplus Food
+  - generic: Total Food Donated
+  - generic: 7 kg
+  - paragraph: Redirected from waste
+  - generic: Pickups Completed
+  - generic: "2"
+  - paragraph: Recorded courier handovers
+  - generic: Active Listings
+  - generic: "3"
+  - paragraph: Currently listed for matching
+  - generic: Pending Pickups
+  - generic: "0"
+  - paragraph: Courier en route / reserved
+  - heading "Registered Surplus Food Listings" [level=3]
+  - paragraph: All active, reserved, and completed lots from your kitchen
+  - link "View All Listings":
+    - /url: /provider/listings
+  - generic: 10 kg
+  - heading "TRACK-20261022 Shared Bread" [level=4]
+  - paragraph: RES-D5AE00 · Created 10/22/2026, 1:40:27 PM
+  - paragraph:
+    - text: "Quantity:"
+    - generic: 10 kg
+    - text: "• Storage: Ambient"
+  - paragraph: "Safe until: 01:40 PM (10/23/2026)"
+  - generic: available
+  - link "Pickup Info":
+    - /url: /provider/pickups
+  - generic "Donation tracking RES-D5AE00":
+    - heading "Donation tracking · RES-D5AE00" [level=4]
+    - paragraph:
+      - text: Total 10 kg · Reserved 7 kg ·
+      - strong: "Available to allocate: 3 kg"
+    - paragraph: "Published: 10/22/2026, 1:40:27 PM"
+    - paragraph: Grace Home for the Elderly · ALC-873A2F
+    - paragraph: "NGO accepted 4 kg · Allocation: FULFILLED"
+    - paragraph: "Coordinator approval: Approved"
+    - paragraph: "Delivery: DELIVERED · TSK-5FAC09 · Courier: Kasun Perera"
+    - paragraph: "Pickup: Provider kitchen handover desk — tracking verification · 10/22/2026, 1:00:00 PM – 10/22/2026, 5:40:11 PM"
+    - generic "Tracking timeline · ALC-873A2F"
+    - list:
+      - text: "Published:"
+      - time: 10/22/2026, 1:40:27 PM
+      - text: "NGO Accepted:"
+      - time: 10/22/2026, 1:42:18 PM
+      - text: "Coordinator Approved:"
+      - time: 10/22/2026, 1:47:50 PM
+      - text: "Volunteer Assigned:"
+      - time: 10/22/2026, 1:52:16 PM
+      - text: "Picked Up:"
+      - time: 10/22/2026, 1:54:31 PM
+      - text: "Delivered:"
+      - time: 10/22/2026, 1:56:08 PM
+      - text: "NGO Receipt Confirmed:"
+      - time: 10/22/2026, 1:58:49 PM
+    - paragraph: Suwasetha Child Development Center · ALC-A9E8D9
+    - paragraph: "NGO accepted 3 kg · Allocation: FULFILLED"
+    - paragraph: "Coordinator approval: Approved"
+    - paragraph: "Delivery: DELIVERED · TSK-83489F · Courier: Kasun Perera"
+    - paragraph: "Pickup: Provider kitchen handover desk — tracking verification · 10/22/2026, 1:00:00 PM – 10/22/2026, 5:40:11 PM"
+    - generic "Tracking timeline · ALC-A9E8D9"
+    - list:
+      - text: "Published:"
+      - time: 10/22/2026, 1:40:27 PM
+      - text: "NGO Accepted:"
+      - time: 10/22/2026, 1:44:28 PM
+      - text: "Coordinator Approved:"
+      - time: 10/22/2026, 1:47:51 PM
+      - text: "Volunteer Assigned:"
+      - time: 10/22/2026, 1:59:29 PM
+      - text: "Picked Up:"
+      - time: 10/22/2026, 1:59:31 PM
+      - text: "Delivered:"
+      - time: 10/22/2026, 1:59:46 PM
+      - text: "NGO Receipt Confirmed:"
+      - time: 10/22/2026, 2:00:53 PM
+  - generic: 2 kg
+  - heading "VERIFY-20261022-0728 Bread" [level=4]
+  - paragraph: RES-5980F3 · Created 10/22/2026, 12:55:26 PM
+  - paragraph:
+    - text: "Quantity:"
+    - generic: 2 kg
+    - text: "• Storage: Ambient"
+  - paragraph: "Safe until: 12:53 PM (10/23/2026)"
+  - generic: available
+  - link "Pickup Info":
+    - /url: /provider/pickups
+  - generic "Donation tracking RES-5980F3":
+    - heading "Donation tracking · RES-5980F3" [level=4]
+    - paragraph:
+      - text: Total 2 kg · Reserved 0 kg ·
+      - strong: "Available to allocate: 2 kg"
+    - paragraph: "Published: 10/22/2026, 12:55:26 PM"
+    - paragraph: No NGO acceptance recorded yet.
+  - generic: 200 meals
+  - heading "Eggs" [level=4]
+  - paragraph: RES-BC62CE · Created 10/22/2026, 12:34:04 PM
+  - paragraph:
+    - text: "Quantity:"
+    - generic: 200 meals
+    - text: "• Storage: Refrigerated"
+  - paragraph: "Safe until: 06:00 PM (10/26/2026)"
+  - generic: available
+  - link "Pickup Info":
+    - /url: /provider/pickups
+  - generic "Donation tracking RES-BC62CE":
+    - heading "Donation tracking · RES-BC62CE" [level=4]
+    - paragraph:
+      - text: Total 200 meals · Reserved 0 meals ·
+      - strong: "Available to allocate: 200 meals"
+    - paragraph: "Published: 10/22/2026, 12:34:04 PM"
+    - paragraph: No NGO acceptance recorded yet.
+  - text: "NeighborNet Safe Food Rescue Guidelines:"
+  - paragraph: Prepared cooked meals must be kept held at >60°C or blast chilled to <5°C prior to courier collection. Insulated thermal boxes are provided by our registered volunteers.
+- navigation:
+  - link "Overview":
+    - /url: /dashboard
+    - generic: Overview
+  - link "My Food":
+    - /url: /food/listings
+    - generic: My Food
+  - link "Allocations":
+    - /url: /food/allocations
+    - generic: Allocations
+  - link "Profile":
+    - /url: /profile
+    - generic: Profile
+- button "Submit pilot feedback":

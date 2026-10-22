@@ -96,8 +96,8 @@ export const DeliveryStatusTimeline: React.FC<DeliveryStatusTimelineProps> = ({
     },
     {
       key: 'DELIVERED',
-      label: 'Verified Handover',
-      description: 'Signed and completed successfully',
+      label: 'Delivered',
+      description: 'Delivery recorded; NGO receipt is confirmed separately',
       timestamp: task.statusTimestamps.delivered,
       isDone: Boolean(task.statusTimestamps.delivered),
       isCurrent: status === 'DELIVERED',
@@ -324,13 +324,13 @@ export const DeliveryStatusTimeline: React.FC<DeliveryStatusTimelineProps> = ({
                 disabled={isSubmitting}
                 className="rounded-xl bg-emerald-700 px-5 py-2 text-xs font-bold text-white hover:bg-emerald-800 shadow-sm cursor-pointer disabled:opacity-50"
               >
-                4. Final Delivery Handover Signed ✓
+                4. Confirm Delivered
               </button>
             )}
 
             {status === 'DISRUPTED' && (
               <button
-                onClick={() => handleTransition('ARRIVED_DELIVERY')}
+                onClick={() => handleTransition(task.statusTimestamps.arrivedDelivery ? 'ARRIVED_DELIVERY' : task.statusTimestamps.pickedUp ? 'PICKED_UP' : task.statusTimestamps.arrivedPickup ? 'ARRIVED_PICKUP' : 'ACCEPTED')}
                 disabled={isSubmitting}
                 className="rounded-xl bg-[#16866A] px-5 py-2 text-xs font-bold text-white hover:bg-[#09664F] shadow-sm cursor-pointer disabled:opacity-50"
               >

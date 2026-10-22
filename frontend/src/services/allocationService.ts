@@ -1,9 +1,14 @@
 import { Allocation, AllocationStatus, AIInsight, AIInsightStatus } from '../types';
 import { mockRepository } from './mockRepository';
-import { apiClient, isApiMode } from './apiClient';
+import { apiClient, isApiMode, getAllPages } from './apiClient';
 import { adaptAllocation } from './apiAdapters';
 
 export const allocationService = {
+  async getMatchedOffers() {
+    if (!isApiMode()) return [];
+    const response = await apiClient.get('/allocations/offers/');
+    return response.data;
+  },
   /**
    * Fetches resource allocations.
    */
@@ -12,8 +17,7 @@ export const allocationService = {
       return mockRepository.getAllocations();
     }
 
-    const res = await apiClient.get<{ count: number; results: any[] } | any[]>('/allocations/');
-    const rawList = Array.isArray(res.data) ? res.data : (res.data?.results || []);
+    const rawList = await getAllPages('/allocations/');
     return rawList.map(adaptAllocation);
   },
 
@@ -60,6 +64,8 @@ export const allocationService = {
 
     if (status === 'approved') {
       await apiClient.post(`/allocations/${id}/approve/`);
+    } else {
+      throw new Error(`Unsupported allocation action: ${status}`);
     }
   },
 
@@ -75,7 +81,7 @@ export const allocationService = {
           id: b.id,
           type: b.mode === 'DISASTER' ? 'DISASTER_PRIORITY' : 'FOOD_MATCH',
           title: `OR-Tools CP-SAT Batch #${b.id.slice(0, 6)}`,
-          description: `Solver fulfilled ${b.fulfilled_demand_pct}% demand (${b.total_allocated_quantity} kg allocated) with 0 constraint violations.`,
+          description: `Solver fulfilled ${b.fulfilled_demand_pct}% demand (${b.total_allocated_quantity} allocated across the batch's recorded units).`,
           relatedEntityIds: {},
           evidence: [
             `Allocations: ${b.total_allocated_quantity || 0} kg`,
@@ -88,7 +94,7 @@ export const allocationService = {
           status: b.status === 'APPROVED' ? 'applied' : b.status === 'REJECTED' ? 'dismissed' : 'pending',
           dataSourceLabel: 'Live PostgreSQL / OR-Tools Solver',
           explanation: `Mathematical optimization solved across active community requests using post-harvest / perishable shelf-life windows.`,
-          simulatedScore: b.fulfilled_demand_pct ? Number(b.fulfilled_demand_pct) : 95,
+          simulatedScore: Number(b.fulfilled_demand_pct ?? 0),
         }));
       }
       return [];

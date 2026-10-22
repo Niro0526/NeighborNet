@@ -1,0 +1,26 @@
+22 October 2026 — NeighborNet AI integration audit
+
+Full suite:
+python -u -m pytest tests -q -p no:cacheprovider --reuse-db --tb=short
+47 passed in 300.69s
+
+Final targeted regression run:
+python -u -m pytest tests/test_role_integration_regressions.py tests/test_intelligence.py::test_disruption_recovery_preview_and_apply tests/test_deliveries_and_allocations.py -q -p no:cacheprovider --reuse-db --tb=short
+6 passed in 29.48s
+
+Frontend:
+npm run build
+TypeScript and Vite build passed. Existing large-chunk warning remains.
+
+python manage.py check
+System check identified no issues (0 silenced).
+
+git diff --check
+Passed.
+
+Live HTTP checks: 19 / 19 PASS.
+Read-only PostgreSQL final assertions: 12 / 12 PASS.
+See role-integration-audit-2026-10-22.md for browser evidence and limitations.
+
+PostGIS: unavailable in pg_available_extensions; not tested.
+No push, deploy, or commit performed.

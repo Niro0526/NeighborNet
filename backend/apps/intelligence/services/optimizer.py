@@ -52,209 +52,73 @@ class OptimizationPlanResult:
             'metadata': self.metadata,
         }
 
-def solve_resource_allocation(
-    resources: List[Resource],
-    requests: List[ResourceRequest],
-    time_limit_seconds: float = 10.0,
-    now=None
-) -> OptimizationPlanResult:
-    """
-    Optimizes multi-criteria community resource allocation using Google OR-Tools CP-SAT solver.
-    
-    Decision Variables:
-      X[i, j] in [0, min(avail_i, demand_j) * SCALE_FACTOR]
-      Representing continuous quantity scaled by 100.
-    
-    Hard Constraints:
-      1. Supply: sum_j X[i, j] <= avail_i * SCALE_FACTOR
-      2. Demand: sum_i X[i, j] <= demand_j * SCALE_FACTOR
-      3. Eligibility: X[i, j] == 0 if pair (i, j) fails any food safety/time/zone constraint.
-    
-    Multi-Criteria Objective:
-      Maximize:
-        + 1000 * sum(X[i, j]) [Fulfilled demand]
-        + Priority weights * X[i, j] [Urgent & Disaster demand priority]
-        + Expiry urgency * X[i, j] [Perishable surplus rescue]
-        - Distance penalty * X[i, j] [Logistics travel burden reduction]
-    """
-    start_t = time.perf_counter()
-    if now is None:
-        now = timezone.now()
-
-    model = cp_model.CpModel()
-
-    total_initial_demand = sum(float(req.remaining_quantity) for req in requests)
-    total_initial_supply = sum(float(res.available_quantity) for res in resources)
-
-    # Pre-screen eligibility and create decision variables
-    x_vars: Dict[Tuple[str, str], cp_model.IntVar] = {}
-    pair_meta: Dict[Tuple[str, str], Dict[str, Any]] = {}
-
-    for res in resources:
-        avail_scaled = int(round(float(res.available_quantity) * SCALE_FACTOR))
-        if avail_scaled <= 0:
-            continue
-
-        for req in requests:
-            demand_scaled = int(round(float(req.remaining_quantity) * SCALE_FACTOR))
-            if demand_scaled <= 0:
-                continue
-
-            # Deterministic hard constraint screening
-            elig: EligibilityResult = evaluate_resource_request_eligibility(res, req, now=now)
-            if not elig.is_eligible:
-                continue
-
-            upper_bound = min(avail_scaled, demand_scaled)
-            var_name = f"alloc_{res.id}_{req.id}"
-            var = model.new_int_var(0, upper_bound, var_name)
-            x_vars[(res.id, req.id)] = var
-
-            pair_meta[(res.id, req.id)] = {
-                'resource': res,
-                'request': req,
-                'distance_km': elig.distance_km,
-                'constraints': elig.constraints_satisfied,
-            }
-
-    # Constraint 1: Resource Supply Limit
-    for res in resources:
-        res_vars = [x_vars[(res.id, req.id)] for req in requests if (res.id, req.id) in x_vars]
-        if res_vars:
-            max_supply_scaled = int(round(float(res.available_quantity) * SCALE_FACTOR))
-            model.add(sum(res_vars) <= max_supply_scaled)
-
-    # Constraint 2: Request Demand Limit
-    for req in requests:
-        req_vars = [x_vars[(res.id, req.id)] for res in resources if (res.id, req.id) in x_vars]
-        if req_vars:
-            max_demand_scaled = int(round(float(req.remaining_quantity) * SCALE_FACTOR))
-            model.add(sum(req_vars) <= max_demand_scaled)
-
-    # Build Multi-Criteria Objective Function
-    objective_terms = []
-
-    for (res_id, req_id), var in x_vars.items():
-        meta = pair_meta[(res_id, req_id)]
-        res = meta['resource']
-        req = meta['request']
-        dist_km = meta['distance_km']
-
-        # 1. Base demand fulfillment reward
-        coeff = 1000
-
-        # 2. Priority & Disaster coverage reward
-        if req.priority == RequestPriorityChoices.URGENT:
-            coeff += 500
-        elif req.priority == RequestPriorityChoices.HIGH:
-            coeff += 300
-        elif req.priority == RequestPriorityChoices.MEDIUM:
-            coeff += 100
-
-        if req.is_disaster_relief:
-            coeff += 400
-
-        # 3. Expiry risk bonus (prioritize food with short remaining shelf life)
-        if res.safe_until:
-            hours_left = (res.safe_until - now).total_seconds() / 3600.0
-            if hours_left <= 6:
-                coeff += 400
-            elif hours_left <= 18:
-                coeff += 250
-            elif hours_left <= 36:
-                coeff += 100
-
-        # 4. Travel burden penalty (-5 per km)
-        distance_penalty = int(round(dist_km * 5))
-        coeff -= distance_penalty
-
-        objective_terms.append(var * coeff)
-
-    if objective_terms:
-        model.maximize(sum(objective_terms))
-
-    # Solver Configuration
-    solver = cp_model.CpSolver()
-    solver.parameters.max_time_in_seconds = time_limit_seconds
-    solver.parameters.num_workers = 4
-
-    status_code = solver.solve(model)
-    end_t = time.perf_counter()
-    runtime_ms = (end_t - start_t) * 1000.0
-
-    solver_status_str = {
-        cp_model.OPTIMAL: 'OPTIMAL',
-        cp_model.FEASIBLE: 'FEASIBLE',
-        cp_model.INFEASIBLE: 'INFEASIBLE',
-        cp_model.MODEL_INVALID: 'MODEL_INVALID',
-        cp_model.UNKNOWN: 'UNKNOWN',
-    }.get(status_code, 'UNKNOWN')
-
-    allocations_output: List[Dict[str, Any]] = []
-    total_allocated_qty = 0.0
-    res_allocated_sums: Dict[str, float] = {r.id: 0.0 for r in resources}
-    req_allocated_sums: Dict[str, float] = {req.id: 0.0 for req in requests}
-
-    if status_code in (cp_model.OPTIMAL, cp_model.FEASIBLE):
-        for (res_id, req_id), var in x_vars.items():
-            scaled_val = solver.value(var)
-            if scaled_val > 0:
-                qty = round(scaled_val / float(SCALE_FACTOR), 2)
-                meta = pair_meta[(res_id, req_id)]
-                res = meta['resource']
-                req = meta['request']
-                dist_km = meta['distance_km']
-
-                total_allocated_qty += qty
-                res_allocated_sums[res_id] += qty
-                req_allocated_sums[req_id] += qty
-
-                expl = (
-                    f"OR-Tools CP-SAT: Allocated {qty} {res.unit} of '{res.name}' to '{req.recipient.name}'. "
-                    f"Optimized for demand fulfillment, priority ({req.priority.upper()}), "
-                    f"shelf-life safety, and proximity ({dist_km} km)."
-                )
-
-                allocations_output.append({
-                    'resource_id': res.id,
-                    'request_id': req.id,
-                    'resource_name': res.name,
-                    'request_item_name': req.item_name,
-                    'provider_name': res.provider.name,
-                    'recipient_name': req.recipient.name,
-                    'allocated_quantity': qty,
-                    'unit': res.unit,
-                    'distance_km': dist_km,
-                    'match_score': 98.0 if solver_status_str == 'OPTIMAL' else 92.0,
-                    'explanation': expl,
-                    'constraints_satisfied': meta['constraints'],
-                })
-
-    leftover = sum(float(r.available_quantity) - res_allocated_sums[r.id] for r in resources)
-    unmet = sum(float(req.remaining_quantity) - req_allocated_sums[req.id] for req in requests)
-    fulfilled_pct = (total_allocated_qty / total_initial_demand * 100.0) if total_initial_demand > 0 else 0.0
-    avg_dist = (sum(a['distance_km'] for a in allocations_output) / len(allocations_output)) if allocations_output else 0.0
-
-    metadata = {
-        'num_resources': len(resources),
-        'num_requests': len(requests),
-        'num_candidate_pairs': len(x_vars),
-        'scale_factor': SCALE_FACTOR,
-        'wall_time_s': solver.wall_time,
-        'user_time_s': solver.user_time,
-        'deterministic_time': solver.deterministic_time,
-    }
-
-    return OptimizationPlanResult(
-        solver_status=solver_status_str,
-        allocations=allocations_output,
-        total_allocated_quantity=round(total_allocated_qty, 2),
-        total_initial_demand=round(total_initial_demand, 2),
-        fulfilled_demand_pct=round(fulfilled_pct, 2),
-        unmet_demand=round(unmet, 2),
-        leftover_inventory=round(leftover, 2),
-        avg_distance_km=round(avg_dist, 2),
-        runtime_ms=round(runtime_ms, 2),
-        objective_value=round(solver.objective_value if status_code in (cp_model.OPTIMAL, cp_model.FEASIBLE) else 0.0, 2),
-        metadata=metadata,
-    )
+def solve_resource_allocation(resources, requests, time_limit_seconds=10.0, now=None):
+    """Joint CP-SAT allocation and courier assignment, with exact per-unit conservation."""
+    import math
+    from .volunteer_assignment import volunteer_candidates
+    start=time.perf_counter(); now=now or timezone.now()
+    model=cp_model.CpModel(); variables={}; used={}; meta={}; rejected=[]
+    def scaled(value): return math.floor((float(value)+1e-9)*SCALE_FACTOR)
+    for resource in resources:
+        for request in requests:
+            eligibility=evaluate_resource_request_eligibility(resource,request,now)
+            candidates,reasons=volunteer_candidates(resource,request,now) if eligibility.is_eligible else ([],eligibility.reasons_rejected)
+            if not candidates:
+                rejected.append(dict(resource_id=resource.pk,request_id=request.pk,reasons=reasons,missing_information=eligibility.missing_information)); continue
+            for candidate in candidates:
+                volunteer=candidate['volunteer']
+                limit=min(scaled(resource.available_quantity),scaled(request.remaining_quantity),scaled(candidate['capacity']))
+                if resource.unit in ['meals','kits','items','packs','portions','bottles','boxes','packages']:
+                    limit=(limit//100)*100
+                if limit<=0: continue
+                key=(resource.pk,request.pk,volunteer.pk)
+                x=model.new_int_var(0,limit,'quantity_'+'_'.join(key))
+                selected=model.new_bool_var('mission_'+'_'.join(key))
+                model.add(x<=limit*selected); model.add(x>=selected)
+                if resource.unit in ['meals','kits','items','packs','portions','bottles','boxes','packages']:
+                    whole=model.new_int_var(0,limit//100,'whole_'+'_'.join(key)); model.add(x==whole*100)
+                variables[key]=x; used[key]=selected
+                meta[key]=(resource,request,eligibility,candidate)
+    for resource in resources:
+        model.add(sum(x for (rid,_,_),x in variables.items() if rid==resource.pk)<=scaled(resource.available_quantity))
+    for request in requests:
+        terms=[x for (_,qid,_),x in variables.items() if qid==request.pk]
+        if request.allow_partial: model.add(sum(terms)<=scaled(request.remaining_quantity))
+        else:
+            full=model.new_bool_var('full_'+request.pk)
+            model.add(sum(terms)==scaled(request.remaining_quantity)*full)
+    # One courier has one mission, and a resource/request pair is a single task.
+    for vid in {key[2] for key in variables}:
+        model.add(sum(flag for key,flag in used.items() if key[2]==vid)<=1)
+    for rid,qid in {(key[0],key[1]) for key in variables}:
+        model.add(sum(flag for key,flag in used.items() if key[:2]==(rid,qid))<=1)
+    terms=[]
+    for key,x in variables.items():
+        resource,request,eligibility,candidate=meta[key]
+        priority={'urgent':1600,'high':1400,'medium':1200,'low':1000}.get(request.priority,1000)
+        # Optimize fractions of demand, not a meaningless sum of kg, meals and liters.
+        hours_left=(resource.safe_until-now).total_seconds()/3600 if resource.safe_until else float('inf')
+        expiry_bonus=200 if hours_left<=6 else 100 if hours_left<=24 else 0
+        coefficient=max(1,round((priority+expiry_bonus)*1000000/max(1,scaled(request.remaining_quantity)))-round(eligibility.distance_km*5))
+        terms.append(x*coefficient)
+    if terms: model.maximize(sum(terms))
+    solver=cp_model.CpSolver(); solver.parameters.max_time_in_seconds=time_limit_seconds; solver.parameters.num_workers=4
+    status=solver.solve(model)
+    status_name={cp_model.OPTIMAL:'OPTIMAL',cp_model.FEASIBLE:'FEASIBLE',cp_model.INFEASIBLE:'INFEASIBLE',cp_model.MODEL_INVALID:'MODEL_INVALID',cp_model.UNKNOWN:'UNKNOWN'}[status]
+    rows=[]; res_used={r.pk:0.0 for r in resources}; req_used={q.pk:0.0 for q in requests}
+    if status in [cp_model.OPTIMAL,cp_model.FEASIBLE]:
+        for key,x in variables.items():
+            value=solver.value(x)/100
+            if value<=0: continue
+            resource,request,eligibility,candidate=meta[key]
+            res_used[resource.pk]+=value; req_used[request.pk]+=value
+            rows.append(dict(resource_id=resource.pk,request_id=request.pk,resource_name=resource.name,request_item_name=request.item_name,provider_name=resource.provider.name,recipient_name=request.recipient.name,allocated_quantity=value,unit=resource.unit,distance_km=eligibility.distance_km,distance_type=eligibility.distance_type,assigned_volunteer_id=candidate['volunteer'].pk,volunteer_name=candidate['volunteer'].full_name,missing_information=candidate['missing_information'],constraints_satisfied=eligibility.constraints_satisfied,match_score=0,explanation='CP-SAT feasible allocation with a verified available courier. Missing records are reported separately.'))
+    units={r.unit for r in resources}|{q.unit for q in requests}
+    by_unit={unit:dict(supply=round(sum(r.available_quantity for r in resources if r.unit==unit),2),demand=round(sum(q.remaining_quantity for q in requests if q.unit==unit),2),allocated=round(sum(row['allocated_quantity'] for row in rows if row['unit']==unit),2)) for unit in units}
+    for data in by_unit.values():
+        data['remaining_inventory']=round(data['supply']-data['allocated'],2); data['unmet_demand']=round(data['demand']-data['allocated'],2)
+    allocated=sum(row['allocated_quantity'] for row in rows) if len(units)==1 else 0
+    demand=sum(q.remaining_quantity for q in requests) if len(units)==1 else 0
+    percent=100*sum(req_used[q.pk]/q.remaining_quantity for q in requests if q.remaining_quantity>0)/max(1,len([q for q in requests if q.remaining_quantity>0]))
+    metadata=dict(num_resources=len(resources),num_requests=len(requests),num_candidate_pairs=len({key[:2] for key in variables}),num_courier_variables=len(variables),units=by_unit,rejected_pairs=rejected,remaining_inventory={r.pk:round(r.available_quantity-res_used[r.pk],2) for r in resources},remaining_demand={q.pk:round(q.remaining_quantity-req_used[q.pk],2) for q in requests},warnings=sorted({warning for row in rows for warning in row['missing_information']}),empty_reason='No feasible resource/request/courier combination in recorded data.' if not rows else None)
+    return OptimizationPlanResult(status_name,rows,allocated,demand,percent,sum(v['unmet_demand'] for v in by_unit.values()) if len(units)==1 else 0,sum(v['remaining_inventory'] for v in by_unit.values()) if len(units)==1 else 0,sum(row['distance_km'] for row in rows)/len(rows) if rows else 0,(time.perf_counter()-start)*1000,solver.objective_value if status in [cp_model.OPTIMAL,cp_model.FEASIBLE] else 0,metadata)

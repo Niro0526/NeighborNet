@@ -1,6 +1,6 @@
 import { ResourceRequest, RequestStatus } from '../types';
 import { mockRepository } from './mockRepository';
-import { apiClient, isApiMode } from './apiClient';
+import { apiClient, isApiMode, getAllPages } from './apiClient';
 import { adaptResourceRequest } from './apiAdapters';
 
 export const requestService = {
@@ -12,9 +12,8 @@ export const requestService = {
       return mockRepository.getResourceRequests();
     }
 
-    const res = await apiClient.get<{ count: number; results: any[] } | any[]>('/resource-requests/');
-    const rawList = Array.isArray(res.data) ? res.data : (res.data?.results || []);
-    return rawList.map(adaptResourceRequest);
+    const rawList = await getAllPages('/resource-requests/');
+    return rawList.map(adaptResourceRequest).sort((a, b) => b.createdAt.localeCompare(a.createdAt) || b.id.localeCompare(a.id));
   },
 
   /**
@@ -67,6 +66,10 @@ export const requestService = {
 
     const payload = {
       item_name: requestData.itemName,
+      deliveryAddress: requestData.deliveryAddress || '',
+      delivery_latitude: requestData.deliveryLatitude ?? null,
+      delivery_longitude: requestData.deliveryLongitude ?? null,
+      allow_partial: requestData.allowPartial ?? true,
       category: String(requestData.category || 'cooked_meals').toLowerCase().replace(/[\s-]/g, '_'),
       requestedQuantity: Number(requestData.requestedQuantity),
       unit: requestData.unit || 'meals',

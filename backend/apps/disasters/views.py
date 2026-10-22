@@ -2,6 +2,7 @@ from rest_framework import viewsets, permissions, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from django.utils import timezone
+from django.db import transaction
 from .models import DisasterEvent, DisasterStatusChoices
 from .serializers import DisasterEventSerializer
 from common.permissions import IsCoordinator
@@ -41,6 +42,7 @@ class DisasterEventViewSet(viewsets.ModelViewSet):
         return Response(None)
 
     @action(detail=True, methods=['post'], permission_classes=[IsCoordinator])
+    @transaction.atomic
     def activate(self, request, pk=None):
         """Coordinators can activate emergency disaster response mode."""
         disaster = self.get_object()
@@ -48,6 +50,9 @@ class DisasterEventViewSet(viewsets.ModelViewSet):
         disaster.declared_at = timezone.now()
         disaster.declared_by = request.user
         disaster.save()
+
+        for role in ['FOOD_PROVIDER', 'RECIPIENT']:
+            send_notification(title='Disaster Emergency Activated', message=f'{disaster.title}: emergency relief is active.', role_target=role, action_url='/dashboard', event_key=f'disaster-act-{disaster.id}-{role}-{int(timezone.now().timestamp())}')
 
         ActivityLog.objects.create(
             user=request.user,
@@ -82,6 +87,7 @@ class DisasterEventViewSet(viewsets.ModelViewSet):
         }, status=status.HTTP_200_OK)
 
     @action(detail=True, methods=['post'], permission_classes=[IsCoordinator])
+    @transaction.atomic
     def resolve(self, request, pk=None):
         """Coordinators can resolve an emergency disaster event."""
         disaster = self.get_object()
@@ -89,6 +95,8 @@ class DisasterEventViewSet(viewsets.ModelViewSet):
         disaster.resolved_at = timezone.now()
         disaster.resolved_by = request.user
         disaster.save()
+        for role in ['FOOD_PROVIDER', 'RECIPIENT', 'VOLUNTEER']:
+            send_notification(title='Disaster Emergency Resolved', message=f'{disaster.title}: emergency response resolved.', role_target=role, action_url='/dashboard', event_key=f'disaster-res-{disaster.id}-{role}-{int(timezone.now().timestamp())}')
 
         ActivityLog.objects.create(
             user=request.user,

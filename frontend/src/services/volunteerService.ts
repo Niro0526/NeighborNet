@@ -1,6 +1,6 @@
 import { Volunteer, VolunteerAvailabilityStatus } from '../types';
 import { mockRepository } from './mockRepository';
-import { apiClient, isApiMode } from './apiClient';
+import { apiClient, isApiMode, getAllPages } from './apiClient';
 import { adaptVolunteer } from './apiAdapters';
 
 export const volunteerService = {
@@ -12,8 +12,7 @@ export const volunteerService = {
       return mockRepository.getVolunteers();
     }
 
-    const res = await apiClient.get<{ count: number; results: any[] } | any[]>('/volunteers/');
-    const rawList = Array.isArray(res.data) ? res.data : (res.data?.results || []);
+    const rawList = await getAllPages('/volunteers/');
     return rawList.map(adaptVolunteer);
   },
 
@@ -43,8 +42,8 @@ export const volunteerService = {
       return list.find((v) => v.userId === userId);
     }
 
-    const list = await this.getVolunteers();
-    return list.find((v) => v.userId === userId);
+    const res = await apiClient.get('/volunteers/me/');
+    return adaptVolunteer(res.data);
   },
 
   /**

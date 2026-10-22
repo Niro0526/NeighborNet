@@ -1,0 +1,129 @@
+- complementary:
+  - link "NeighborNet Food Rescue":
+    - /url: /dashboard
+    - paragraph: NeighborNet
+    - paragraph: Food Rescue
+  - button "Collapse sidebar":
+  - navigation:
+    - link "Overview":
+      - /url: /dashboard
+      - generic: Overview
+    - link "My Food":
+      - /url: /food/listings
+      - generic: My Food
+    - link "Allocations":
+      - /url: /food/allocations
+      - generic: Allocations
+    - link "Profile":
+      - /url: /profile
+      - generic: Profile
+- banner:
+  - generic: NeighborNet
+  - heading "Overview" [level=1]
+  - button "Notifications":
+    - generic: "9"
+  - button "Fathima Rizwan":
+    - generic: Fathima Rizwan
+- main:
+  - heading "Welcome back, Fathima Rizwan!" [level=1]
+  - paragraph: Track your surplus food donations, schedule volunteer pickups, and verify safe deliveries.
+  - link "Add Surplus Food":
+    - /url: /provider/add-food
+    - generic: Add Surplus Food
+  - generic: Total Food Donated
+  - generic: 4 kg
+  - paragraph: Redirected from waste
+  - generic: Pickups Completed
+  - generic: "1"
+  - paragraph: Recorded courier handovers
+  - generic: Active Listings
+  - generic: "3"
+  - paragraph: Currently listed for matching
+  - generic: Pending Pickups
+  - generic: "0"
+  - paragraph: Courier en route / reserved
+  - heading "Registered Surplus Food Listings" [level=3]
+  - paragraph: All active, reserved, and completed lots from your kitchen
+  - link "View All Listings":
+    - /url: /provider/listings
+  - generic: 10 kg
+  - heading "TRACK-20261022 Shared Bread" [level=4]
+  - paragraph: RES-D5AE00 · Created 10/22/2026, 1:40:27 PM
+  - paragraph:
+    - text: "Quantity:"
+    - generic: 10 kg
+    - text: "• Storage: Ambient"
+  - paragraph: "Safe until: 01:40 PM (10/23/2026)"
+  - generic: available
+  - link "Pickup Info":
+    - /url: /provider/pickups
+  - generic "Donation tracking RES-D5AE00":
+    - heading "Donation tracking · RES-D5AE00" [level=4]
+    - paragraph:
+      - text: Total 10 kg · Reserved 7 kg ·
+      - strong: "Available to allocate: 3 kg"
+    - paragraph: "Published: 10/22/2026, 1:40:27 PM"
+    - paragraph: Grace Home for the Elderly · ALC-873A2F
+    - paragraph: "NGO accepted 4 kg · Allocation: FULFILLED"
+    - paragraph: "Coordinator approval: Approved"
+    - paragraph: "Delivery: DELIVERED · TSK-5FAC09 · Courier: Kasun Perera"
+    - paragraph: "Pickup: Provider kitchen handover desk — tracking verification · 10/22/2026, 1:00:00 PM – 10/22/2026, 5:40:11 PM"
+    - generic "Tracking timeline · ALC-873A2F" [active]
+    - list:
+      - text: "Published:"
+      - time: 10/22/2026, 1:40:27 PM
+      - text: "NGO Accepted:"
+      - time: 10/22/2026, 1:42:18 PM
+      - text: "Coordinator Approved:"
+      - time: 10/22/2026, 1:47:50 PM
+      - text: "Volunteer Assigned:"
+      - time: 10/22/2026, 1:52:16 PM
+      - text: "Picked Up:"
+      - time: 10/22/2026, 1:54:31 PM
+      - text: "Delivered:"
+      - time: 10/22/2026, 1:56:08 PM
+      - listitem: "NGO Receipt Confirmed: Not recorded"
+    - paragraph: Suwasetha Child Development Center · ALC-A9E8D9
+    - paragraph: "NGO accepted 3 kg · Allocation: APPROVED"
+    - paragraph: "Coordinator approval: Approved"
+    - paragraph: "Delivery: AVAILABLE · TSK-83489F · Courier: Not assigned"
+    - generic "Tracking timeline · ALC-A9E8D9"
+  - generic: 2 kg
+  - heading "VERIFY-20261022-0728 Bread" [level=4]
+  - paragraph: RES-5980F3 · Created 10/22/2026, 12:55:26 PM
+  - paragraph:
+    - text: "Quantity:"
+    - generic: 2 kg
+    - text: "• Storage: Ambient"
+  - paragraph: "Safe until: 12:53 PM (10/23/2026)"
+  - generic: available
+  - link "Pickup Info":
+    - /url: /provider/pickups
+  - generic "Donation tracking RES-5980F3":
+    - heading "Donation tracking · RES-5980F3" [level=4]
+    - paragraph:
+      - text: Total 2 kg · Reserved 0 kg ·
+      - strong: "Available to allocate: 2 kg"
+    - paragraph: "Published: 10/22/2026, 12:55:26 PM"
+    - paragraph: No NGO acceptance recorded yet.
+  - generic: 200 meals
+  - heading "Eggs" [level=4]
+  - paragraph: RES-BC62CE · Created 10/22/2026, 12:34:04 PM
+  - paragraph:
+    - text: "Quantity:"
+    - generic: 200 meals
+    - text: "• Storage: Refrigerated"
+  - paragraph: "Safe until: 06:00 PM (10/26/2026)"
+  - generic: available
+  - link "Pickup Info":
+    - /url: /provider/pickups
+  - generic "Donation tracking RES-BC62CE":
+    - heading "Donation tracking · RES-BC62CE" [level=4]
+    - paragraph:
+      - text: Total 200 meals · Reserved 0 meals ·
+      - strong: "Available to allocate: 200 meals"
+    - paragraph: "Published: 10/22/2026, 12:34:04 PM"
+    - paragraph: No NGO acceptance recorded yet.
+  - text: "NeighborNet Safe Food Rescue Guidelines:"
+  - paragraph: Prepared cooked meals must be kept held at >60°C or blast chilled to <5°C prior to courier collection. Insulated thermal boxes are provided by our registered volunteers.
+- button "Submit pilot feedback":

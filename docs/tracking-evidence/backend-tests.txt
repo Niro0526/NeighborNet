@@ -1,0 +1,25 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.7, pytest-9.1.1, pluggy-1.6.0
+django: version: 6.1.2, settings: config.settings.development (from ini)
+rootdir: C:\Users\nirov\OneDrive\Desktop\Projects\Neigh\backend
+configfile: pytest.ini
+plugins: anyio-4.15.1, asyncio-1.4.0, django-4.14.0
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 61 items
+
+tests\test_auth.py ....                                                  [  6%]
+tests\test_dashboard.py ..                                               [  9%]
+tests\test_deliveries_and_allocations.py ..                              [ 13%]
+tests\test_disasters.py ..                                               [ 16%]
+tests\test_donation_tracking.py .....                                    [ 24%]
+tests\test_e2e_scenarios.py ....                                         [ 31%]
+tests\test_intelligence.py ...........                                   [ 49%]
+tests\test_permissions.py ..                                             [ 52%]
+tests\test_phase4_5_audit.py .....                                       [ 60%]
+tests\test_phase4_6_advanced.py .....                                    [ 68%]
+tests\test_phase5_production.py .....                                    [ 77%]
+tests\test_resources_and_requests.py ..                                  [ 80%]
+tests\test_role_integration_regressions.py ...                           [ 85%]
+tests\test_synthetic_data_isolation.py .........                         [100%]
+
+======================= 61 passed in 279.28s (0:04:39) ========================

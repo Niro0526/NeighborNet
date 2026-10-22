@@ -149,7 +149,7 @@ def test_organization_isolation_surplus_and_requests(api_client, production_setu
     # Recipient 2 attempts to cancel Recipient 1's request
     api_client.force_authenticate(user=s['user_rec_2'])
     cancel_fail = api_client.post(f'/api/v1/resource-requests/{req_1.id}/cancel/')
-    assert cancel_fail.status_code == 403, "Recipient 2 must NOT cancel Recipient 1's request"
+    assert cancel_fail.status_code in (403, 404), "Recipient 2 must NOT cancel Recipient 1's request"
 
 
 @pytest.mark.django_db

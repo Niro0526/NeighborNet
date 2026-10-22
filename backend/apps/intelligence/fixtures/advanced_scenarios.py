@@ -11,6 +11,8 @@ ADVANCED_SUITE_ID = "MODELX_EVAL_ADVANCED_V1"
 ADVANCED_REFERENCE_TIMESTAMP = datetime(2026, 10, 15, 12, 0, 0, tzinfo=dt_timezone.utc)
 
 def get_or_create_org(org_id: str, name: str, org_type: str, verified: bool, lat: float, lon: float) -> Organization:
+    from common.synthetic_data import require_synthetic_database
+    require_synthetic_database()
     org, _ = Organization.objects.get_or_create(
         id=org_id,
         defaults={

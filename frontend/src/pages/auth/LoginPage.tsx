@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../hooks';
 import { ShieldCheck, ArrowRight, Code, Check } from 'lucide-react';
+import { isApiMode } from '../../services/apiClient';
 
 export const LoginPage: React.FC = () => {
   const { allUsers, login } = useAuth();
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState('ravi.mendis@greenbites.lk');
-  const [password, setPassword] = useState('password123');
+  const [email, setEmail] = useState(isApiMode() ? '' : 'ravi.mendis@greenbites.lk');
+  const [password, setPassword] = useState(isApiMode() ? '' : 'password123');
   const [showDevHelper, setShowDevHelper] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
@@ -108,7 +109,7 @@ export const LoginPage: React.FC = () => {
       </div>
 
       {/* Development-Only Testing Utility */}
-      <div className="mt-4 pt-4 border-t border-[#E5EAE7]">
+      {!isApiMode() && <div className="mt-4 pt-4 border-t border-[#E5EAE7]">
         <button
           type="button"
           onClick={() => setShowDevHelper(!showDevHelper)}
@@ -151,7 +152,7 @@ export const LoginPage: React.FC = () => {
             })}
           </div>
         )}
-      </div>
+      </div>}
     </div>
   );
 };

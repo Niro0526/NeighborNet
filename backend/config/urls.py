@@ -32,6 +32,7 @@ urlpatterns = [
     path('api/v1/users/me/', CurrentUserView.as_view(), name='users-me'),
 
     # Domain Resources
+    path('api/v1/community-food/', include('apps.requests.community_urls')),
     path('api/v1/organizations/', include('apps.organizations.urls')),
     path('api/v1/resources/', include('apps.resources.urls')),
     path('api/v1/resource-requests/', include('apps.requests.urls')),

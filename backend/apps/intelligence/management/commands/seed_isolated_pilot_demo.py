@@ -30,6 +30,8 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
+        from common.synthetic_data import require_synthetic_database
+        require_synthetic_database()
         # 1. Production Safeguard
         is_production = not getattr(settings, 'DEBUG', True)
         if is_production and not options['force_demo']:

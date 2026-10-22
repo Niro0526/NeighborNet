@@ -7,10 +7,7 @@ import { DeliveryTask, Volunteer, DeliveryTaskStatus } from '../../types';
 import {
   Truck,
   CheckCircle2,
-  MapPin,
   Clock,
-  Phone,
-  AlertTriangle,
   Bike,
   Flame,
 } from 'lucide-react';
@@ -24,7 +21,7 @@ export const VolunteerDashboard: React.FC = () => {
   const { isDisasterMode, activeDisaster } = useOperational();
   const [volunteer, setVolunteer] = useState<Volunteer | null>(null);
   const [tasks, setTasks] = useState<DeliveryTask[]>([]);
-  const [isOnline, setIsOnline] = useState(true);
+  const [isOnline, setIsOnline] = useState(false);
 
   const refreshData = async () => {
     let vol = await volunteerService.getVolunteerByUserId(currentUser.id);
@@ -69,9 +66,13 @@ export const VolunteerDashboard: React.FC = () => {
 
   const toggleAvailability = async () => {
     const next = !isOnline;
-    setIsOnline(next);
     if (volunteer) {
-      await volunteerService.setAvailabilityStatus(volunteer.id, next ? 'available' : 'offline');
+      try {
+        await volunteerService.setAvailabilityStatus(volunteer.id, next ? 'available' : 'offline');
+        setIsOnline(next);
+      } catch (err: any) {
+        alert(err.message || 'Availability was not saved.');
+      }
     }
   };
 
@@ -80,13 +81,13 @@ export const VolunteerDashboard: React.FC = () => {
 
   const activeTask = tasks.find(
     (t) =>
-      (t.volunteerId === currentVolunteerId || (!t.volunteerId && t.status === 'ACCEPTED')) &&
+      t.volunteerId === currentVolunteerId &&
       t.status !== 'DELIVERED' &&
       t.status !== 'DECLINED' &&
       t.status !== 'CANCELLED'
   );
 
-  const availableTasks = tasks.filter((t) => t.status === 'AVAILABLE');
+  const availableTasks = tasks.filter((t) => t.status === 'AVAILABLE' && (!isApiMode() || t.allocationStatus==='APPROVED') && new Date(t.deliveryDeadline) > new Date());
 
   const handleTaskAction = async (taskId: string, nextStatus: DeliveryTaskStatus) => {
     try {
@@ -114,17 +115,18 @@ export const VolunteerDashboard: React.FC = () => {
             </span>
           </div>
           <p className="text-xs text-[#64748B]">
-            Vehicle: <span className="font-semibold text-[#182B25] capitalize">{volunteer?.vehicleType || 'Motorcycle'}</span> ({volunteer?.vehicleCapacityKg || 25} kg max)
+            Vehicle: <span className="font-semibold text-[#182B25] capitalize">{volunteer?.vehicleType || 'Unavailable'}</span> ({volunteer?.vehicleCapacityKg ?? 0} kg max)
           </p>
         </div>
 
         {/* Online / Offline Availability Toggle */}
         <div className="flex items-center gap-3 bg-white p-2 rounded-2xl border border-[#E5EAE7] shadow-xs">
           <span className="text-xs font-bold text-[#182B25]">
-            {isOnline ? 'Online & Available' : 'Offline'}
+            {volunteer?.status === 'busy' ? 'Busy — Delivery in Progress' : isOnline ? 'Online & Available' : 'Offline'}
           </span>
           <button
             onClick={toggleAvailability}
+            disabled={volunteer?.status === 'busy'}
             className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${
               isOnline ? 'bg-[#16866A]' : 'bg-slate-300'
             }`}
@@ -144,10 +146,10 @@ export const VolunteerDashboard: React.FC = () => {
           <Flame className="h-5 w-5 text-red-600 shrink-0 mt-0.5 animate-bounce" />
           <div className="text-xs">
             <span className="font-bold text-red-800">
-              Disaster Response Emergency Active — {activeDisaster?.title || 'Monsoon Flash Floods'}
+              Disaster Response Emergency Active — {activeDisaster?.title || 'Active emergency'}
             </span>
             <p className="text-red-700/80 mt-0.5">
-              Rapid volunteer response teams mobilized for flood-affected sectors in Lunawa and Moratuwa North. High-clearance vehicles prioritized for bulk relief distribution.
+              {activeDisaster?.description}
             </p>
           </div>
         </div>
@@ -203,6 +205,7 @@ export const VolunteerDashboard: React.FC = () => {
       )}
 
       {/* Available Tasks Section */}
+      {tasks.filter(task=>task.volunteerId===currentVolunteerId && task.status==='DELIVERED').slice(0,3).map(task=><div key={task.id} className="rounded-xl border border-[#E5EAE7] bg-white p-3 text-xs"><strong>{task.title} · {task.id}</strong><p>Delivered: {task.statusTimestamps.delivered ? new Date(task.statusTimestamps.delivered).toLocaleString() : 'Timestamp not recorded'}</p><p>NGO receipt: {task.statusTimestamps.receiptConfirmed ? new Date(task.statusTimestamps.receiptConfirmed).toLocaleString() : 'Awaiting NGO confirmation'}</p></div>)}
       <div className="rounded-2xl bg-white p-5 border border-[#E5EAE7] shadow-xs">
         <div className="flex items-center justify-between pb-3 border-b border-[#E5EAE7]">
           <div>
@@ -227,7 +230,7 @@ export const VolunteerDashboard: React.FC = () => {
                   Pickup: {t.pickupLocationName} ➔ Delivery: {t.deliveryLocationName}
                 </p>
                 <div className="mt-1 flex items-center gap-3 text-[10px] text-[#64748B]">
-                  <span>Est. {t.estimatedDistanceKm} km</span>
+                  <span>{t.estimatedDistanceKm ? `Est. ${t.estimatedDistanceKm} km` : 'Distance not recorded'}</span>
                   <span>•</span>
                   <span>~{t.estimatedDurationMin} mins transit</span>
                 </div>

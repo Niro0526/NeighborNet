@@ -54,8 +54,8 @@ export const AuthLayout: React.FC = () => {
             </p>
             <div className="pt-4 grid grid-cols-2 gap-4">
               <div className="rounded-2xl bg-white/10 p-4 backdrop-blur-sm border border-white/10">
-                <p className="text-2xl font-bold">1,240+ kg</p>
-                <p className="text-xs text-emerald-100">Surplus Rescued</p>
+                <p className="text-2xl font-bold">Food Rescue</p>
+                <p className="text-xs text-emerald-100">Surplus redistribution</p>
               </div>
               <div className="rounded-2xl bg-white/10 p-4 backdrop-blur-sm border border-white/10">
                 <p className="text-2xl font-bold">2 Modes</p>

@@ -48,7 +48,7 @@ class RegisterSerializer(serializers.ModelSerializer):
     roles = serializers.ListField(
         child=serializers.ChoiceField(choices=RoleChoices.choices),
         required=False,
-        default=['FOOD_PROVIDER']
+        default=[]
     )
     full_name = serializers.CharField(required=True)
 
@@ -63,11 +63,11 @@ class RegisterSerializer(serializers.ModelSerializer):
                 'Security restriction: Coordinator permissions cannot be self-assigned during registration. Coordinator access requires statutory board delegation.'
             )
         if not value:
-            return [RoleChoices.FOOD_PROVIDER]
+            return []
         return value
 
     def create(self, validated_data):
-        roles = validated_data.pop('roles', [RoleChoices.FOOD_PROVIDER])
+        roles = validated_data.pop('roles', [])
         user = User.objects.create_user(**validated_data)
         for role in roles:
             UserRoleAssignment.objects.create(

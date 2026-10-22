@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useTransition } from 'react';
 import { StatCard } from '../../components/common/StatCard';
 import { StatusBadge } from '../../components/common/StatusBadge';
-import { useAuth, useOperational } from '../../hooks';
+import { useAuth, useOperational, useLivePolling } from '../../hooks';
+import { useProviderScope } from '../../hooks/useProviderScope';
 import { foodService } from '../../services/foodService';
 import { requestService } from '../../services/requestService';
 import { deliveryService } from '../../services/deliveryService';
@@ -32,10 +33,16 @@ import {
   ChevronDown,
   ChevronUp,
 } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { isApiMode } from '../../services/apiClient';
+import { Link, useLocation } from 'react-router-dom';
+import { allocationService } from '../../services/allocationService';
+import { AcceptMatchedOffer, MatchedOffer } from '../../components/delivery/AcceptMatchedOffer';
 
-export const UnifiedDashboard: React.FC = () => {
-  const { currentUser, assignedRoles, isFoodProvider, isRecipient, isVolunteer, isCoordinator } = useAuth();
+export const UnifiedDashboard: React.FC<{ coordinatorRequests?: boolean }> = ({ coordinatorRequests = false }) => {
+  const { pathname } = useLocation();
+  const { currentUser, assignedRoles, isFoodProvider, isRecipient: hasRecipientRole, isVolunteer, isCoordinator } = useAuth();
+  const isRecipient = hasRecipientRole || coordinatorRequests;
+  const { providerIds, userName } = useProviderScope();
   const { isDisasterMode, activeDisaster } = useOperational();
 
   const [, startTransition] = useTransition();
@@ -45,8 +52,10 @@ export const UnifiedDashboard: React.FC = () => {
   const [requests, setRequests] = useState<ResourceRequest[]>([]);
   const [tasks, setTasks] = useState<DeliveryTask[]>([]);
   const [volunteer, setVolunteer] = useState<Volunteer | null>(null);
-  const [isOnline, setIsOnline] = useState<boolean>(true);
+  const [isOnline, setIsOnline] = useState<boolean>(false);
   const [activities, setActivities] = useState<ActivityLog[]>([]);
+  const [providerDonatedKg, setProviderDonatedKg] = useState<number | null>(null);
+  const [offers,setOffers]=useState<MatchedOffer[]>([]);
 
   // Collapsible module sections
   const [providerExpanded, setProviderExpanded] = useState<boolean>(true);
@@ -57,10 +66,15 @@ export const UnifiedDashboard: React.FC = () => {
   const [actionNotice, setActionNotice] = useState<string | null>(null);
 
   const refreshAllData = async () => {
+    if (hasRecipientRole && isApiMode()) setOffers(await allocationService.getMatchedOffers());
     // 1. Food listings
     if (isFoodProvider || isRecipient) {
       const allFood = await foodService.getFoodListings();
       setListings(allFood);
+    }
+    if (isFoodProvider && isApiMode()) {
+      const dashboard = await analyticsService.getPersonalDashboard();
+      setProviderDonatedKg(dashboard?.foodProvider?.totalDonatedKg ?? 0);
     }
 
     // 2. Resource requests
@@ -77,7 +91,7 @@ export const UnifiedDashboard: React.FC = () => {
 
     if (isVolunteer) {
       let vol = await volunteerService.getVolunteerByUserId(currentUser.id);
-      if (!vol) {
+      if (!vol && !isApiMode()) {
         vol = await volunteerService.getVolunteerById('VOL-001');
       }
       if (vol) {
@@ -86,9 +100,11 @@ export const UnifiedDashboard: React.FC = () => {
       }
     }
 
-    // 4. Activity log
-    const logs = await analyticsService.getActivityLogs();
-    setActivities(logs);
+    // Audit logs are coordinator-only in API mode.
+    if (isCoordinator) {
+      const logs = await analyticsService.getActivityLogs();
+      setActivities(logs);
+    }
   };
 
   useEffect(() => {
@@ -99,7 +115,7 @@ export const UnifiedDashboard: React.FC = () => {
           foodService.getFoodListings(),
           requestService.getResourceRequests(),
           deliveryService.getDeliveryTasks(),
-          analyticsService.getActivityLogs(),
+          isCoordinator ? analyticsService.getActivityLogs() : Promise.resolve([]),
         ]);
         if (!isMounted) return;
 
@@ -107,10 +123,11 @@ export const UnifiedDashboard: React.FC = () => {
         setRequests(allRequests);
         setTasks(allTasks);
         setActivities(logs);
+        if (hasRecipientRole && isApiMode()) setOffers(await allocationService.getMatchedOffers());
 
         if (isVolunteer) {
           let vol = await volunteerService.getVolunteerByUserId(currentUser.id);
-          if (!vol) {
+          if (!vol && !isApiMode()) {
             vol = await volunteerService.getVolunteerById('VOL-001');
           }
           if (vol && isMounted) {
@@ -128,28 +145,31 @@ export const UnifiedDashboard: React.FC = () => {
     };
   }, [currentUser.id, isVolunteer, isFoodProvider, isRecipient]);
 
+  useLivePolling({ fetcher: refreshAllData, intervalMs: 10000 });
+
   // Volunteer availability toggle
   const toggleAvailability = async () => {
+    if (volunteer?.status === 'busy') return;
     const nextStatus = !isOnline;
-    setIsOnline(nextStatus);
     if (volunteer) {
       await volunteerService.setAvailabilityStatus(volunteer.id, nextStatus ? 'available' : 'offline');
+      setIsOnline(nextStatus);
       setActionNotice(nextStatus ? 'Status updated: You are now Online and eligible for courier missions.' : 'Status updated: You are now Offline.');
       setTimeout(() => setActionNotice(null), 4000);
     }
   };
 
   // Volunteer task workflow state machine
-  const currentVolunteerId = volunteer?.id || 'VOL-001';
+  const currentVolunteerId = volunteer?.id || (isApiMode() ? '' : 'VOL-001');
   const activeTask = tasks.find(
     (t) =>
-      (t.volunteerId === currentVolunteerId || (!t.volunteerId && t.status === 'ACCEPTED')) &&
+      t.volunteerId === currentVolunteerId &&
       t.status !== 'DELIVERED' &&
       t.status !== 'DECLINED' &&
       t.status !== 'CANCELLED'
   );
 
-  const availableTasks = tasks.filter((t) => t.status === 'AVAILABLE');
+  const availableTasks = tasks.filter((t) => t.status === 'AVAILABLE' && (!isApiMode() || t.allocationStatus==='APPROVED') && new Date(t.deliveryDeadline) > new Date());
 
   const handleTaskAction = async (taskId: string, nextStatus: DeliveryTaskStatus) => {
     try {
@@ -170,8 +190,9 @@ export const UnifiedDashboard: React.FC = () => {
   // Recipient confirm receipt
   const handleConfirmReceipt = async (taskId: string) => {
     try {
-      await deliveryService.updateTaskStatus(taskId, 'DELIVERED');
-      setActionNotice('Receipt confirmed! Allocation marked as successfully delivered.');
+      const updated=await deliveryService.confirmReceipt(taskId);
+      if (!updated.statusTimestamps.receiptConfirmed) throw new Error('Receipt confirmation was not recorded.');
+      setActionNotice(`NGO receipt confirmed for ${taskId}.`);
       setTimeout(() => setActionNotice(null), 4000);
       refreshAllData();
     } catch (e: any) {
@@ -180,17 +201,21 @@ export const UnifiedDashboard: React.FC = () => {
   };
 
   // Metrics calculations
-  const myFoodListings = listings.filter((l) => l.providerId === 'ORG-001' || l.providerName.toLowerCase().includes(currentUser.name.toLowerCase()));
-  const displayListings = myFoodListings.length > 0 ? myFoodListings : listings.slice(0, 5);
+  const myFoodListings = listings.filter((listing) => {
+    if (providerIds.length > 0) return providerIds.includes(String(listing.providerId));
+    return userName.trim().length > 0 && listing.providerName.toLowerCase().includes(userName.toLowerCase());
+  });
+  const displayListings = myFoodListings.slice(0, 5);
 
-  const totalDonatedKg = displayListings
+  const totalDonatedKg = providerDonatedKg ?? myFoodListings
     .filter((l) => l.status === 'collected')
-    .reduce((acc, l) => acc + (l.unit === 'kg' ? l.quantity : l.quantity * 0.4), 0);
+    .reduce((acc, l) => acc + (l.unit === 'kg' ? l.quantity : 0), 0);
 
-  const activeProviderCount = displayListings.filter((l) => l.status === 'available' || l.status === 'reserved').length;
-  const activeRecipientRequests = requests.filter((r) => r.status === 'pending' || r.status === 'allocated');
-  const incomingDeliveries = tasks.filter((t) => t.status === 'ACCEPTED' || t.status === 'ARRIVED_PICKUP' || t.status === 'PICKED_UP');
-  const completedDeliveriesCount = volunteer?.completedDeliveriesCount || tasks.filter((t) => t.status === 'DELIVERED').length;
+  const activeProviderCount = myFoodListings.filter((l) => l.status === 'available' || l.status === 'reserved').length;
+  const myRequests = requests.filter((r) => coordinatorRequests || !isApiMode() || providerIds.includes(r.recipientId));
+  const activeRecipientRequests = myRequests.filter((r) => r.status === 'pending' || r.status === 'allocated' || r.status === 'partially_fulfilled');
+  const incomingDeliveries = tasks.filter((t) => myRequests.some((r) => r.id === t.requestId) && (['ACCEPTED', 'ARRIVED_PICKUP', 'PICKED_UP', 'ARRIVED_DELIVERY'].includes(t.status) || t.status==='DELIVERED'));
+  const completedDeliveriesCount = volunteer?.completedDeliveriesCount ?? tasks.filter((t) => t.status === 'DELIVERED' && t.volunteerId===currentVolunteerId).length;
 
   return (
     <div className="space-y-6 max-w-7xl mx-auto">
@@ -310,6 +335,7 @@ export const UnifiedDashboard: React.FC = () => {
               </Link>
               <button
                 onClick={toggleAvailability}
+                disabled={!volunteer || volunteer.status === 'busy'}
                 className={`inline-flex items-center gap-1.5 rounded-xl border px-3 py-1.5 text-xs font-semibold transition-all ${
                   isOnline
                     ? 'border-emerald-200 bg-emerald-50 text-emerald-800 hover:bg-emerald-100'
@@ -317,7 +343,7 @@ export const UnifiedDashboard: React.FC = () => {
                 }`}
               >
                 <span className={`h-2 w-2 rounded-full ${isOnline ? 'bg-emerald-500 animate-pulse' : 'bg-slate-400'}`} />
-                <span>Courier: {isOnline ? 'Online' : 'Offline'}</span>
+                <span>Courier: {!volunteer ? 'Loading profile' : volunteer.status === 'busy' ? 'Busy' : isOnline ? 'Online' : 'Offline'}</span>
               </button>
             </>
           )}
@@ -345,12 +371,11 @@ export const UnifiedDashboard: React.FC = () => {
                     Emergency Alert
                   </span>
                   <span className="text-xs font-bold text-red-900">
-                    {activeDisaster?.title || 'Monsoon Flash Floods — Colombo South & Moratuwa'}
+                    {activeDisaster?.title || 'Active emergency'}
                   </span>
                 </div>
                 <p className="mt-1 text-xs text-red-800 leading-relaxed max-w-2xl">
-                  {activeDisaster?.description || 'Severe precipitation has triggered waterlogging in Moratuwa lowlands. Verified relief kitchens and rapid volunteer dispatch are prioritized.'}{' '}
-                  High-priority demand: <strong>prepared hot meals, drinking water cans, and dry rations</strong>.
+                  {activeDisaster?.description}
                 </p>
               </div>
             </div>
@@ -378,7 +403,7 @@ export const UnifiedDashboard: React.FC = () => {
                   to="/volunteer/tasks"
                   className="rounded-xl bg-red-700 px-3.5 py-2 text-xs font-bold text-white shadow-xs hover:bg-red-800 transition-all"
                 >
-                  Relief Missions ({availableTasks.filter((t) => t.isDisasterMode).length || 2})
+                  Relief Missions ({availableTasks.filter((t) => t.isDisasterMode).length})
                 </Link>
               )}
             </div>
@@ -391,7 +416,7 @@ export const UnifiedDashboard: React.FC = () => {
         {isFoodProvider && (
           <StatCard
             title="Total Food Donated"
-            value={`${Math.round(totalDonatedKg || 120)} kg`}
+            value={`${Math.round(totalDonatedKg)} kg`}
             subtitle="Redirected from landfill"
             icon={Package}
             variant="emerald"
@@ -400,7 +425,7 @@ export const UnifiedDashboard: React.FC = () => {
         {isFoodProvider && (
           <StatCard
             title="Active Surplus Listings"
-            value={activeProviderCount || 3}
+            value={activeProviderCount}
             subtitle="Available for matching"
             icon={Clock}
             variant="amber"
@@ -409,7 +434,7 @@ export const UnifiedDashboard: React.FC = () => {
         {isRecipient && (
           <StatCard
             title="Active Requests"
-            value={activeRecipientRequests.length || 4}
+            value={activeRecipientRequests.length}
             subtitle="Pending shelter allocations"
             icon={ShoppingBag}
             variant="blue"
@@ -418,7 +443,7 @@ export const UnifiedDashboard: React.FC = () => {
         {isRecipient && (
           <StatCard
             title="Incoming Deliveries"
-            value={incomingDeliveries.length || 2}
+            value={incomingDeliveries.filter(del=>del.status!=='DELIVERED').length}
             subtitle="Couriers en route to center"
             icon={Truck}
             variant="emerald"
@@ -427,7 +452,7 @@ export const UnifiedDashboard: React.FC = () => {
         {isVolunteer && (
           <StatCard
             title="Courier Deliveries"
-            value={completedDeliveriesCount || 18}
+            value={completedDeliveriesCount}
             subtitle="Verified safe drop-offs"
             icon={CheckCircle2}
             variant="blue"
@@ -436,8 +461,8 @@ export const UnifiedDashboard: React.FC = () => {
         {isVolunteer && (
           <StatCard
             title="Available Missions"
-            value={availableTasks.length || 3}
-            subtitle={isOnline ? 'Online & eligible' : 'Status: Offline'}
+            value={availableTasks.length}
+            subtitle={!volunteer ? 'Loading courier profile' : volunteer.status === 'busy' ? 'Courier busy' : isOnline ? 'Online & eligible' : 'Status: Offline'}
             icon={HandHeart}
             variant={isOnline ? 'amber' : 'default'}
           />
@@ -658,6 +683,7 @@ export const UnifiedDashboard: React.FC = () => {
                           </span>
                         </div>
                         <h4 className="mt-2 text-xs font-bold text-[#182B25] line-clamp-1">{item.name}</h4>
+                        <p className="text-[10px] text-[#64748B]">{item.id} · Created {new Date(item.createdAt).toLocaleString()}</p>
                         <p className="text-[11px] text-[#64748B] line-clamp-1 mt-0.5">{item.storageRequirements}</p>
                       </div>
 
@@ -695,7 +721,7 @@ export const UnifiedDashboard: React.FC = () => {
                   <div>
                     <h4 className="text-xs font-bold text-[#182B25] mb-1">Environmental & Community Impact</h4>
                     <p className="text-[11px] text-[#64748B]">
-                      Your donations diverted an estimated <strong>{Math.round(totalDonatedKg || 120)} kg</strong> of food from landfill waste, avoiding ~<strong>{Math.round((totalDonatedKg || 120) * 2.5)} kg CO₂e</strong> emissions.
+                      Your donations diverted an estimated <strong>{Math.round(totalDonatedKg)} kg</strong> of food from landfill waste, avoiding ~<strong>{Math.round((totalDonatedKg) * 2.5)} kg CO₂e</strong> emissions.
                     </p>
                   </div>
                   <div className="mt-3 flex items-center justify-between pt-2 border-t border-[#E5EAE7]">
@@ -723,7 +749,7 @@ export const UnifiedDashboard: React.FC = () => {
                 <h2 className="text-base font-extrabold text-[#182B25] flex items-center gap-2">
                   NGO & Community Recipient Operations
                   <span className="rounded-full bg-blue-100 text-blue-800 px-2 py-0.5 text-[10px] font-bold">
-                    {requests.length} Requests Logged
+                    {myRequests.length} Requests Logged
                   </span>
                 </h2>
                 <p className="text-xs text-[#64748B]">Manage food requisitions, available donor surplus, and incoming couriers</p>
@@ -763,7 +789,7 @@ export const UnifiedDashboard: React.FC = () => {
                   </div>
 
                   <div className="space-y-2.5">
-                    {requests.slice(0, 3).map((req) => (
+                    {(coordinatorRequests || pathname === '/requests/my-requests' ? myRequests : myRequests.slice(0, 3)).map((req) => (
                       <div
                         key={req.id}
                         className="rounded-xl border border-[#E5EAE7] p-3 hover:bg-[#F8FAF9] transition-colors flex items-center justify-between"
@@ -771,10 +797,11 @@ export const UnifiedDashboard: React.FC = () => {
                         <div>
                           <div className="flex items-center gap-2">
                             <h4 className="text-xs font-bold text-[#182B25]">{req.itemName}</h4>
+                            <p className="text-[10px] text-[#64748B]">{req.id} · Created {new Date(req.createdAt).toLocaleString()}</p>
                             <StatusBadge status={req.priority} size="sm" />
                           </div>
                           <p className="text-[11px] text-[#64748B] mt-0.5">
-                            {req.requestedQuantity} {req.unit} • Impact: ~{req.peopleImpacted || 40} people
+                            {req.requestedQuantity} {req.unit} • Impact: {req.peopleImpacted} people
                           </p>
                         </div>
                         <StatusBadge status={req.status} size="sm" />
@@ -790,11 +817,11 @@ export const UnifiedDashboard: React.FC = () => {
                       <Truck className="h-4 w-4 text-blue-700" />
                       <h3 className="text-xs font-bold text-blue-900">Incoming Shipments</h3>
                     </div>
-                    <span className="text-[11px] font-semibold text-blue-700">{incomingDeliveries.length} in transit</span>
+                    <span className="text-[11px] font-semibold text-blue-700">{incomingDeliveries.filter(del=>del.status!=='DELIVERED').length} in transit</span>
                   </div>
 
                   <div className="space-y-2.5">
-                    {incomingDeliveries.slice(0, 2).map((del) => (
+                    {(pathname === '/requests/deliveries' ? incomingDeliveries : incomingDeliveries.slice(0, 2)).map((del) => (
                       <div key={del.id} className="rounded-xl bg-white p-3 border border-blue-100 shadow-2xs">
                         <div className="flex items-center justify-between">
                           <span className="text-xs font-bold text-[#182B25]">{del.title}</span>
@@ -803,7 +830,7 @@ export const UnifiedDashboard: React.FC = () => {
                         <p className="text-[11px] text-[#64748B] mt-1">
                           Courier: {del.volunteerName || 'Volunteer Assigned'} • {del.quantityDescription}
                         </p>
-                        {del.status === 'ARRIVED_DELIVERY' && (
+                        {del.status === 'DELIVERED' && !del.statusTimestamps.receiptConfirmed && hasRecipientRole && (
                           <button
                             onClick={() => handleConfirmReceipt(del.id)}
                             className="mt-2 w-full rounded-lg bg-emerald-600 py-1.5 text-xs font-bold text-white hover:bg-emerald-700 transition-colors"
@@ -811,6 +838,7 @@ export const UnifiedDashboard: React.FC = () => {
                             Confirm Receipt
                           </button>
                         )}
+                        {del.statusTimestamps.receiptConfirmed && <p className="text-[11px] text-[#16866A]">NGO receipt confirmed: {new Date(del.statusTimestamps.receiptConfirmed).toLocaleString()}</p>}
                       </div>
                     ))}
                   </div>
@@ -828,13 +856,15 @@ export const UnifiedDashboard: React.FC = () => {
                   </Link>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
-                  {listings.filter((f) => f.status === 'available').slice(0, 4).map((f) => (
+                  {listings.filter((f) => f.status === 'available' && (!f.safeUntil || new Date(f.safeUntil) > new Date())).slice(0, pathname === '/requests/available-food' ? undefined : 4).map((f) => (
                     <div key={f.id} className="rounded-xl border border-[#E5EAE7] p-3 bg-white hover:border-blue-300 transition-all">
                       <span className="text-[10px] font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded-md">
                         {f.category}
                       </span>
                       <h4 className="mt-1 text-xs font-bold text-[#182B25] line-clamp-1">{f.name}</h4>
-                      <p className="text-[11px] text-[#64748B] mt-0.5">{f.quantity} {f.unit} • {f.providerName}</p>
+                      <p className="text-[10px] text-[#64748B]">{f.id} · Created {new Date(f.createdAt).toLocaleString()}</p>
+                      <p className="text-[11px] text-[#64748B] mt-0.5">{f.availableQuantity ?? f.quantity} {f.unit} • {f.providerName}</p>
+                      {hasRecipientRole && isApiMode() && !f.isDisasterRelief && <AcceptMatchedOffer offers={offers.filter(o=>o.resourceId===f.id)} onAccepted={refreshAllData}/>}
                     </div>
                   ))}
                 </div>
@@ -856,10 +886,10 @@ export const UnifiedDashboard: React.FC = () => {
                 <h2 className="text-base font-extrabold text-[#182B25] flex items-center gap-2">
                   Volunteer Courier Operations
                   <span className={`rounded-full px-2 py-0.5 text-[10px] font-bold border ${isOnline ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-slate-100 text-slate-700 border-slate-200'}`}>
-                    {isOnline ? 'Active Online' : 'Offline'}
+                    {!volunteer ? 'Loading profile' : volunteer.status==='busy' ? 'Busy' : isOnline ? 'Online' : 'Offline'}
                   </span>
                 </h2>
-                <p className="text-xs text-[#64748B]">Vehicle: {volunteer?.vehicleType || 'Motorcycle'} • Food rescue transport missions</p>
+                <p className="text-xs text-[#64748B]">Vehicle: {volunteer?.vehicleType || 'Not recorded'} • Food rescue transport missions</p>
               </div>
             </div>
 
@@ -872,7 +902,7 @@ export const UnifiedDashboard: React.FC = () => {
                     : 'border-slate-300 bg-slate-100 text-slate-700'
                 }`}
               >
-                <span>{isOnline ? 'Go Offline' : 'Go Online'}</span>
+                <span>{!volunteer ? 'Loading courier profile' : volunteer.status==='busy' ? 'Courier busy' : isOnline ? 'Go Offline' : 'Go Online'}</span>
               </button>
               <button
                 onClick={() => setVolunteerExpanded(!volunteerExpanded)}
@@ -921,14 +951,14 @@ export const UnifiedDashboard: React.FC = () => {
                         </p>
                         <p className="flex items-center gap-1">
                           <MapPin className="h-3 w-3 text-blue-600 shrink-0" />
-                          <span className="truncate">To: {task.deliveryAddress}</span>
+                          <span className="truncate">To: {task.deliveryAddress || task.deliveryLocationName || 'Address available after assignment'}</span>
                         </p>
                       </div>
                     </div>
 
                     <div className="mt-3 pt-2.5 border-t border-[#E5EAE7] flex items-center justify-between">
                       <span className="text-[11px] font-medium text-[#64748B]">
-                        Est. Transit: ~{task.estimatedDurationMin || 25} mins
+                        Est. Transit: {task.estimatedDurationMin ? `~${task.estimatedDurationMin} mins` : 'Unavailable'}
                       </span>
                       <button
                         onClick={() => handleTaskAction(task.id, 'ACCEPTED')}
@@ -952,7 +982,7 @@ export const UnifiedDashboard: React.FC = () => {
             <Clock className="h-4 w-4 text-[#16866A]" />
             <h3 className="text-sm font-bold text-[#182B25]">Recent Community Activity & Audit Logs</h3>
           </div>
-          <span className="text-xs text-[#64748B]">Live In-Memory Events</span>
+          <span className="text-xs text-[#64748B]">{isApiMode() ? 'PostgreSQL activity' : 'Live In-Memory Events'}</span>
         </div>
 
         <div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">

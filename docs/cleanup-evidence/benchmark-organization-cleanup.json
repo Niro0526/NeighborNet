@@ -1,0 +1,66 @@
+{
+  "backup": "C:\\Users\\nirov\\OneDrive\\Desktop\\Projects\\Neigh\\backups\\cleanup-20261022-071517\\before-cleanup.dump",
+  "deletedOrganizations": {
+    "ADV-ORG-P2": "Colombo South Depot",
+    "EVAL-ORG-P2": "Colombo South Supermarket",
+    "ADV-ORG-R2": "Grace Elder Care",
+    "EVAL-ORG-R2": "Grace Home for Elders",
+    "EVAL-ORG-P1": "GreenBites Bakery & Cafe",
+    "EVAL-ORG-R1": "Hope Community Shelter",
+    "ADV-ORG-R1": "Hope Relief Center",
+    "ADV-ORG-P1": "Moratuwa Central Kitchen",
+    "EVAL-ORG-R3": "Salvation Relief Center",
+    "EVAL-ORG-P3": "Unity Community Kitchen"
+  },
+  "deletedCount": 10,
+  "byModel": {
+    "organizations.Organization": 10
+  },
+  "protectedBefore": {
+    "accounts.User": "1a3f8989fe9907f09323c24af8654dad5fc6c4aca4bc421f0be143dc0d079eac",
+    "accounts.UserRoleAssignment": "1dc758c81efa06c18d82eada982129164017a13410161899a148bbf170634568",
+    "organizations.OrganizationMembership": "186ad12cd29683409c67aef8331dc4f6b04d077ae2ea5ad95cd130012bf78b0e",
+    "volunteers.Volunteer": "08cca63d6847f079769c7abe6655d5159771387d3ab6d5481c568b20289bacee"
+  },
+  "protectedAfter": {
+    "accounts.User": "1a3f8989fe9907f09323c24af8654dad5fc6c4aca4bc421f0be143dc0d079eac",
+    "accounts.UserRoleAssignment": "1dc758c81efa06c18d82eada982129164017a13410161899a148bbf170634568",
+    "organizations.OrganizationMembership": "186ad12cd29683409c67aef8331dc4f6b04d077ae2ea5ad95cd130012bf78b0e",
+    "volunteers.Volunteer": "08cca63d6847f079769c7abe6655d5159771387d3ab6d5481c568b20289bacee"
+  },
+  "retainedOrganizations": [
+    {
+      "id": "ORG-001",
+      "name": "GreenBites Bakery & Cafe"
+    },
+    {
+      "id": "ORG-002",
+      "name": "Perera Grand Catering & Hotel"
+    },
+    {
+      "id": "ORG-003",
+      "name": "Grace Home for the Elderly"
+    },
+    {
+      "id": "ORG-004",
+      "name": "Suwasetha Child Development Center"
+    },
+    {
+      "id": "ORG-005",
+      "name": "Disaster Management Center (DMC) Moratuwa Unit"
+    },
+    {
+      "id": "ORG-8E58CA",
+      "name": "[DEMO] GreenBites Bakery & Kitchen"
+    },
+    {
+      "id": "ORG-D5B425",
+      "name": "[DEMO] Hope Community Center"
+    },
+    {
+      "id": "ORG-TEST-UNVERIFIED",
+      "name": "Unverified Colombo Kitchen"
+    }
+  ],
+  "provenance": "Exact primary keys and names in intelligence/fixtures/evaluation_dataset.py and advanced_scenarios.py; no dependent rows; recreated using those fixtures in neighbornet_db_benchmark."
+}

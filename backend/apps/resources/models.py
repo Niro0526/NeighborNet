@@ -47,8 +47,12 @@ class Resource(models.Model):
     quantity = models.FloatField(validators=[validate_positive_quantity])
     allocated_quantity = models.FloatField(default=0.0)
     unit = models.CharField(max_length=30, default='kg')
+    unit_weight_kg = models.FloatField(null=True, blank=True, help_text='Recorded kg per unit for courier capacity; never inferred')
     pickup_start = models.DateTimeField()
     pickup_end = models.DateTimeField()
+    pickup_address = models.CharField(max_length=300, blank=True, default='')
+    pickup_latitude = models.FloatField(null=True, blank=True)
+    pickup_longitude = models.FloatField(null=True, blank=True)
     safe_until = models.DateTimeField(null=True, blank=True, help_text='Perishable food expiry deadline')
     storage_requirements = models.CharField(
         max_length=50, choices=StorageRequirementChoices.choices, default=StorageRequirementChoices.AMBIENT

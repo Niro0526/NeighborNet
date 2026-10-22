@@ -12,6 +12,8 @@ EVALUATION_DATASET_ID = "MODELX_EVAL_BENCHMARK_V1"
 EVALUATION_DATASET_HASH = "sha256-f8a92e1040cfc34ad884ea3610ec54ea12"
 
 def get_or_create_org(org_id: str, name: str, org_type: str, verified: bool, lat: float, lon: float) -> Organization:
+    from common.synthetic_data import require_synthetic_database
+    require_synthetic_database()
     org, _ = Organization.objects.get_or_create(
         id=org_id,
         defaults={

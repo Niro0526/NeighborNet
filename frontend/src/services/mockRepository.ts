@@ -27,6 +27,7 @@ import {
   mockNotifications,
   mockActivityLogs,
 } from '../mockData';
+import { isApiMode } from './apiClient';
 
 const STORAGE_PREFIX = 'neighbornet_demo_v3_';
 const STORAGE_VERSION = 3;
@@ -56,6 +57,14 @@ class MockRepository {
   }
 
   private loadInitialState(): RepositoryState {
+    if (isApiMode()) {
+      return {
+        users: [], organizations: [], foodListings: [], resourceRequests: [], volunteers: [],
+        deliveryTasks: [], disasterEvents: [], allocations: [], aiInsights: [], notifications: [], activityLogs: [],
+        operationalMode: 'NORMAL',
+        currentUser: { id: '', name: 'Guest', fullName: 'Guest', email: '', phone: '', assignedRoles: [], status: 'active', createdAt: '' },
+      };
+    }
     try {
       const stored = localStorage.getItem(`${STORAGE_PREFIX}state`);
       if (stored) {
@@ -107,6 +116,7 @@ class MockRepository {
   }
 
   public resetToSeedData() {
+    if (isApiMode()) throw new Error('Demo data is disabled in API mode.');
     localStorage.removeItem(`${STORAGE_PREFIX}state`);
     this.state = {
       users: structuredClone(mockUsers),

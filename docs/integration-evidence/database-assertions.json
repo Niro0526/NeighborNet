@@ -1,0 +1,113 @@
+[
+  {
+    "check": "TSK-658A5B final conserved inventory and fulfillment",
+    "status": "PASS",
+    "observed": {
+      "task": "DELIVERED",
+      "allocation": "FULFILLED",
+      "request": "FULFILLED",
+      "resource": "COLLECTED",
+      "reserved": 15.0,
+      "available": 0.0,
+      "requested": 15.0,
+      "fulfilled": 15.0,
+      "courier": "dinesh.mendis@gmail.com"
+    }
+  },
+  {
+    "check": "TSK-658A5B append-only transition history",
+    "status": "PASS",
+    "observed": [
+      "ACCEPTED",
+      "ARRIVED_PICKUP",
+      "PICKED_UP",
+      "ARRIVED_DELIVERY",
+      "DELIVERED"
+    ]
+  },
+  {
+    "check": "TSK-658A5B final receipt actor is the NGO",
+    "status": "PASS",
+    "observed": "sister.mary@graceeldercare.org"
+  },
+  {
+    "check": "TSK-D03D31 final conserved inventory and fulfillment",
+    "status": "PASS",
+    "observed": {
+      "task": "DELIVERED",
+      "allocation": "FULFILLED",
+      "request": "FULFILLED",
+      "resource": "COLLECTED",
+      "reserved": 5.0,
+      "available": 0.0,
+      "requested": 5.0,
+      "fulfilled": 5.0,
+      "courier": "courier.demo@neighbornet.lk"
+    }
+  },
+  {
+    "check": "TSK-D03D31 append-only transition history",
+    "status": "PASS",
+    "observed": [
+      "ACCEPTED",
+      "DISRUPTED",
+      "ACCEPTED",
+      "ARRIVED_PICKUP",
+      "PICKED_UP",
+      "ARRIVED_DELIVERY",
+      "DELIVERED"
+    ]
+  },
+  {
+    "check": "TSK-D03D31 final receipt actor is the NGO",
+    "status": "PASS",
+    "observed": "sister.mary@graceeldercare.org"
+  },
+  {
+    "check": "No remaining active disaster",
+    "status": "PASS",
+    "observed": [
+      [
+        "DIS-392CA0",
+        "RESOLVED"
+      ],
+      [
+        "EVT-ADV-DISASTER",
+        "RESOLVED"
+      ],
+      [
+        "EVT-DISASTER-01",
+        "RESOLVED"
+      ],
+      [
+        "DIS-001",
+        "RESOLVED"
+      ]
+    ]
+  },
+  {
+    "check": "No coordinator self-registration persisted",
+    "status": "PASS",
+    "observed": 0
+  },
+  {
+    "check": "fathima@pererahotels.lk receives direct persisted audit notifications",
+    "status": "PASS",
+    "observed": 10
+  },
+  {
+    "check": "sister.mary@graceeldercare.org receives direct persisted audit notifications",
+    "status": "PASS",
+    "observed": 8
+  },
+  {
+    "check": "dinesh.mendis@gmail.com receives direct persisted audit notifications",
+    "status": "PASS",
+    "observed": 3
+  },
+  {
+    "check": "courier.demo@neighbornet.lk receives direct persisted audit notifications",
+    "status": "PASS",
+    "observed": 2
+  }
+]

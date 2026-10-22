@@ -5,6 +5,8 @@ import django
 sys.path.insert(0, os.path.abspath('backend'))
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.development')
 django.setup()
+from common.synthetic_data import require_synthetic_database
+require_synthetic_database()
 
 from apps.accounts.models import User, RoleAssignment, RoleChoices, RoleStatusChoices
 from apps.volunteers.models import Volunteer, VehicleTypeChoices, VolunteerAvailabilityChoices

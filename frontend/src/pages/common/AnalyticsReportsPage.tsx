@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   BarChart3,
   TrendingUp,
@@ -10,19 +10,15 @@ import {
   Users,
   Printer,
   RotateCcw,
-  CheckCircle2,
   Clock,
   ShieldCheck,
-  AlertTriangle,
   Flame,
-  Info,
 } from 'lucide-react';
 import { analyticsService } from '../../services/analyticsService';
 import { useLivePolling } from '../../hooks';
 
 export const AnalyticsReportsPage: React.FC = () => {
   const [data, setData] = useState<any>(null);
-  const [isLoading, setIsLoading] = useState(true);
 
   const loadData = async () => {
     try {
@@ -30,8 +26,8 @@ export const AnalyticsReportsPage: React.FC = () => {
       if (res) {
         setData(res);
       }
-    } finally {
-      setIsLoading(false);
+    } catch (error) {
+      console.error('Failed to load analytics:', error);
     }
   };
 
@@ -48,8 +44,6 @@ export const AnalyticsReportsPage: React.FC = () => {
   const totalFoodListed = normal.total_food_listed_by_unit || {};
   const totalDelivered = normal.total_delivered_by_unit || {};
   const fulfillmentByUnit = normal.fulfillment_percentages_by_unit || {};
-  const unmetDemand = normal.unmet_demand_by_unit || {};
-  const expiredWithdrawn = normal.expired_or_withdrawn_by_unit || {};
 
   const handlePrint = () => {
     window.print();

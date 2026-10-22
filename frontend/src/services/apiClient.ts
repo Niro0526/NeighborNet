@@ -153,3 +153,16 @@ apiClient.interceptors.response.use(
 );
 
 export default apiClient;
+
+// Dashboard collections must include every result, not just DRF's first page.
+export async function getAllPages(path: string): Promise<any[]> {
+  const items: any[] = [];
+  let page = 1;
+  for (;;) {
+    const res = await apiClient.get(path, { params: { page } });
+    if (Array.isArray(res.data)) return res.data;
+    items.push(...(res.data.results || []));
+    if (!res.data.next) return items;
+    page += 1;
+  }
+}

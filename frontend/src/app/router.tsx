@@ -7,13 +7,17 @@ import { RoleProtectedRoute } from '../components/common/RoleProtectedRoute';
 import { LandingPage } from '../pages/public/LandingPage';
 import { LoginPage } from '../pages/auth/LoginPage';
 import { RegisterPage } from '../pages/auth/RegisterPage';
+import { CommunityFoodPage } from '../pages/recipient/CommunityFoodPage';
 import { ForgotPasswordPage } from '../pages/auth/ForgotPasswordPage';
 
 import { UnifiedDashboard } from '../pages/dashboard/UnifiedDashboard';
+import { DashboardEntry } from '../pages/dashboard/DashboardEntry';
 import { CoordinatorDashboard } from '../pages/coordinator/CoordinatorDashboard';
 import { VolunteerDashboard } from '../pages/volunteer/VolunteerDashboard';
 import { AddFoodPage } from '../pages/provider/AddFoodPage';
 import { ProviderPickupsPage } from '../pages/provider/ProviderPickupsPage';
+import { FoodListingsPage } from '../pages/provider/FoodListingsPage';
+import { ProviderAllocationsPage } from '../pages/provider/ProviderAllocationsPage';
 import { CreateRequestPage } from '../pages/recipient/CreateRequestPage';
 import { SmartMatchingPage } from '../pages/coordinator/SmartMatchingPage';
 import { LiveMapPage } from '../pages/common/LiveMapPage';
@@ -45,9 +49,10 @@ export const router = createBrowserRouter([
     element: <DashboardLayout />,
     children: [
       // 1. Smart Unified Dashboard (Personal Workspace for all regular users)
+      { path: '/community-food', element: <CommunityFoodPage /> },
       {
         path: '/dashboard',
-        element: <UnifiedDashboard />,
+        element: <DashboardEntry />,
       },
 
       // 2. Food Provider Feature Routes (/food/*)
@@ -65,13 +70,11 @@ export const router = createBrowserRouter([
           },
           {
             path: 'listings',
-            element: (
-              <PlaceholderView
-                title="Food Listings Inventory"
-                subtitle="Manage active, reserved, and expired surplus lots with live status indicators"
-                backPath="/dashboard"
-              />
-            ),
+            element: <FoodListingsPage />,
+          },
+          {
+            path: 'allocations',
+            element: <ProviderAllocationsPage />,
           },
           {
             path: 'pickups',
@@ -79,13 +82,7 @@ export const router = createBrowserRouter([
           },
           {
             path: 'history',
-            element: (
-              <PlaceholderView
-                title="Donation History & Impact"
-                subtitle="Review total kilograms donated, carbon offset metrics, and recipient commendations"
-                backPath="/dashboard"
-              />
-            ),
+            element: <ProviderAllocationsPage />,
           },
           { index: true, element: <Navigate to="/food/listings" replace /> },
         ],
@@ -102,43 +99,19 @@ export const router = createBrowserRouter([
           },
           {
             path: 'my-requests',
-            element: (
-              <PlaceholderView
-                title="My Resource Requests"
-                subtitle="Track pending, matched, and fulfilled community requests"
-                backPath="/dashboard"
-              />
-            ),
+            element: <UnifiedDashboard />,
           },
           {
             path: 'available-food',
-            element: (
-              <PlaceholderView
-                title="Available Food Catalog"
-                subtitle="Explore available surplus lots from verified food donors in your vicinity"
-                backPath="/dashboard"
-              />
-            ),
+            element: <UnifiedDashboard />,
           },
           {
             path: 'deliveries',
-            element: (
-              <PlaceholderView
-                title="Incoming Deliveries"
-                subtitle="Live tracking of volunteer couriers transporting resources to your center"
-                backPath="/dashboard"
-              />
-            ),
+            element: <UnifiedDashboard />,
           },
           {
             path: 'history',
-            element: (
-              <PlaceholderView
-                title="Receipt History"
-                subtitle="Complete audit log of received nutrition and emergency supplies"
-                backPath="/dashboard"
-              />
-            ),
+            element: <UnifiedDashboard />,
           },
           { index: true, element: <Navigate to="/requests/my-requests" replace /> },
         ],
@@ -151,13 +124,7 @@ export const router = createBrowserRouter([
         children: [
           {
             path: 'tasks',
-            element: (
-              <PlaceholderView
-                title="Available Volunteer Tasks"
-                subtitle="Browse nearby missions matching your vehicle type and carrying capacity"
-                backPath="/dashboard"
-              />
-            ),
+            element: <VolunteerDashboard />,
           },
           {
             path: 'current-task',
@@ -188,6 +155,7 @@ export const router = createBrowserRouter([
       // 5. Deliveries Feature Routes (/deliveries/*)
       {
         path: '/deliveries',
+        element: <RoleProtectedRoute requiredRole="VOLUNTEER" title="Volunteer Courier Permission Required" />,
         children: [
           {
             path: 'active',
@@ -225,13 +193,7 @@ export const router = createBrowserRouter([
           },
           {
             path: 'resources',
-            element: (
-              <PlaceholderView
-                title="Centralized Food Resources & Inventory"
-                subtitle="Comprehensive catalog of surplus lots across all registered food providers"
-                backPath="/admin/dashboard"
-              />
-            ),
+            element: <FoodListingsPage allProviders />,
           },
           {
             path: 'inventory',
@@ -239,13 +201,7 @@ export const router = createBrowserRouter([
           },
           {
             path: 'requests',
-            element: (
-              <PlaceholderView
-                title="Community Resource Requests"
-                subtitle="Prioritize high-need shelter demands and disaster relief requisitions"
-                backPath="/admin/dashboard"
-              />
-            ),
+            element: <UnifiedDashboard coordinatorRequests />,
           },
           {
             path: 'volunteers',
@@ -271,13 +227,7 @@ export const router = createBrowserRouter([
           },
           {
             path: 'disasters',
-            element: (
-              <PlaceholderView
-                title="Disaster Emergency Management"
-                subtitle="Activate disaster protocols, delineate affected hazard zones, and mobilize emergency rations"
-                backPath="/admin/dashboard"
-              />
-            ),
+            element: <CoordinatorDashboard />,
           },
           {
             path: 'recovery',

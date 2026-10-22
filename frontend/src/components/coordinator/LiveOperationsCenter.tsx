@@ -7,7 +7,6 @@ import {
   AlertTriangle,
   Clock,
   ShieldAlert,
-  CheckCircle,
   Truck,
   Users,
   Layers,
@@ -18,7 +17,6 @@ import {
 
 export const LiveOperationsCenter: React.FC = () => {
   const [data, setData] = useState<any>(null);
-  const [isLoading, setIsLoading] = useState(true);
 
   const fetchOps = async () => {
     try {
@@ -27,7 +25,6 @@ export const LiveOperationsCenter: React.FC = () => {
         setData(ops);
       }
     } finally {
-      setIsLoading(false);
     }
   };
 

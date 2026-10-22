@@ -1,7 +1,7 @@
 from rest_framework import views, permissions, status
 from rest_framework.response import Response
 from django.utils import timezone
-from django.db.models import Sum, Q
+from django.db.models import Sum, Q, F
 
 from apps.accounts.models import RoleChoices
 from apps.resources.models import Resource, ResourceStatusChoices
@@ -56,31 +56,34 @@ class UnifiedPersonalDashboardView(views.APIView):
         # 1. Food Provider Module
         if user.is_food_provider:
             # Get listings belonging to user's organizations or created by user
-            user_org_ids = user.organization_memberships.values_list('organization_id', flat=True)
+            user_org_ids = user.organization_memberships.filter(is_active=True).values_list('organization_id', flat=True)
             my_listings_qs = Resource.objects.filter(
                 Q(provider_id__in=user_org_ids) | Q(created_by=user)
             )
 
-            total_donated = my_listings_qs.filter(status=ResourceStatusChoices.COLLECTED).aggregate(Sum('quantity'))['quantity__sum'] or 0.0
+            total_donated = DeliveryTask.objects.filter(resource__in=my_listings_qs, status='DELIVERED', unit='kg').aggregate(total=Sum('quantity'))['total'] or 0.0
 
+            provider_tasks=DeliveryTask.objects.filter(resource__in=my_listings_qs)
             pending_pickups = DeliveryTask.objects.filter(
                 resource__in=my_listings_qs,
                 status__in=[
                     DeliveryTaskStatusChoices.ACCEPTED,
                     DeliveryTaskStatusChoices.ARRIVED_PICKUP
                 ]
-            ).order_by('delivery_deadline')[:5]
+            ).order_by('delivery_deadline')
 
             response_data['foodProvider'] = {
                 'totalDonatedKg': round(total_donated, 1),
                 'activeListingsCount': my_listings_qs.filter(status=ResourceStatusChoices.AVAILABLE).count(),
+                'pendingPickupsCount': pending_pickups.count(),
+                'completedPickupsCount': provider_tasks.filter(picked_up_at__isnull=False).count(),
                 'listings': ResourceSerializer(my_listings_qs.order_by('-created_at')[:6], many=True).data,
-                'pendingPickups': DeliveryTaskSerializer(pending_pickups, many=True).data,
+                'pendingPickups': DeliveryTaskSerializer(pending_pickups[:5], many=True, context={'request':request}).data,
             }
 
         # 2. Recipient / NGO Module
         if user.is_recipient:
-            user_org_ids = user.organization_memberships.values_list('organization_id', flat=True)
+            user_org_ids = user.organization_memberships.filter(is_active=True).values_list('organization_id', flat=True)
             my_requests_qs = ResourceRequest.objects.filter(
                 Q(recipient_id__in=user_org_ids) | Q(created_by=user)
             )
@@ -102,8 +105,8 @@ class UnifiedPersonalDashboardView(views.APIView):
             response_data['recipient'] = {
                 'activeRequestsCount': my_requests_qs.filter(status__in=[RequestStatusChoices.OPEN, RequestStatusChoices.PARTIALLY_ALLOCATED]).count(),
                 'incomingDeliveriesCount': incoming_shipments.count(),
-                'requests': ResourceRequestSerializer(my_requests_qs.order_by('-created_at')[:6], many=True).data,
-                'incomingDeliveries': DeliveryTaskSerializer(incoming_shipments, many=True).data,
+                'requests': ResourceRequestSerializer(my_requests_qs.order_by('-created_at')[:6], many=True, context={'request':request}).data,
+                'incomingDeliveries': DeliveryTaskSerializer(incoming_shipments, many=True, context={'request':request}).data,
                 'availableFoodCatalog': ResourceSerializer(available_catalog, many=True).data,
             }
 
@@ -126,9 +129,9 @@ class UnifiedPersonalDashboardView(views.APIView):
 
             response_data['volunteer'] = {
                 'profile': VolunteerSerializer(volunteer, context={'request': request}).data,
-                'activeMission': DeliveryTaskSerializer(active_mission).data if active_mission else None,
-                'availableTasks': DeliveryTaskSerializer(available_missions, many=True).data,
-                'completedCount': volunteer.completed_deliveries_count,
+                'activeMission': DeliveryTaskSerializer(active_mission, context={'request':request}).data if active_mission else None,
+                'availableTasks': DeliveryTaskSerializer(available_missions, many=True, context={'request':request}).data,
+                'completedCount': DeliveryTask.objects.filter(volunteer=volunteer, status='DELIVERED').count(),
             }
 
         # 4. Coordinator Privilege Indicator
@@ -151,7 +154,7 @@ class CoordinatorDashboardView(views.APIView):
         now = timezone.now()
 
         # Operational metrics
-        total_surplus_kg = Resource.objects.filter(status=ResourceStatusChoices.AVAILABLE).aggregate(Sum('quantity'))['quantity__sum'] or 0.0
+        total_surplus_kg = Resource.objects.filter(status=ResourceStatusChoices.AVAILABLE, unit='kg').filter(Q(safe_until__isnull=True) | Q(safe_until__gt=now)).aggregate(total=Sum(F('quantity') - F('allocated_quantity')))['total'] or 0.0
         active_requests = ResourceRequest.objects.filter(status__in=[RequestStatusChoices.OPEN, RequestStatusChoices.PARTIALLY_ALLOCATED])
         urgent_requests_count = active_requests.filter(priority='urgent').count()
         volunteers_online_count = Volunteer.objects.filter(status=VolunteerAvailabilityChoices.AVAILABLE).count()

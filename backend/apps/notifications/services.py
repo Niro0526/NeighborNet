@@ -17,6 +17,24 @@ def send_notification(
     """
     Creates a database-backed notification with duplicate event protection and organization isolation.
     """
+    # Persist individual inbox entries so reading a broadcast never marks it read for others.
+    if user is None and (organization is not None or role_target):
+        from apps.accounts.models import User
+        recipients = User.objects.filter(is_active=True)
+        if organization is not None:
+            recipients = recipients.filter(organization_memberships__organization=organization, organization_memberships__is_active=True)
+            from common.organization_scope import PROVIDER_TYPES, RECIPIENT_TYPES
+            roles=['COORDINATOR']
+            if organization.type in PROVIDER_TYPES:
+                roles.append('FOOD_PROVIDER')
+            if organization.type in RECIPIENT_TYPES:
+                roles.append('RECIPIENT')
+            recipients=recipients.filter(role_assignments__role__in=roles,role_assignments__is_approved=True)
+        else:
+            recipients = recipients.filter(role_assignments__role=role_target, role_assignments__is_approved=True)
+        return [send_notification(title, message, notif_type, user=recipient, action_url=action_url,
+                                  event_key=f'{event_key}:{recipient.pk}' if event_key else '')
+                for recipient in recipients.distinct()]
     try:
         if event_key and Notification.objects.filter(event_key=event_key).exists():
             # Skip duplicate notification

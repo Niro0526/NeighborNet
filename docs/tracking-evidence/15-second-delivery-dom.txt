@@ -1,0 +1,57 @@
+- complementary:
+  - link "NeighborNet Food Rescue":
+    - /url: /dashboard
+    - paragraph: NeighborNet
+    - paragraph: Food Rescue
+  - button "Collapse sidebar":
+  - navigation:
+    - link "Overview":
+      - /url: /dashboard
+      - generic: Overview
+    - link "My Tasks":
+      - /url: /volunteer/tasks
+      - generic: My Tasks
+    - link "Availability":
+      - /url: /volunteer/current-task
+      - generic: Availability
+    - link "Profile":
+      - /url: /profile
+      - generic: Profile
+- banner:
+  - generic: NeighborNet
+  - heading "My Tasks" [level=1]
+  - button "Notifications":
+    - generic: "7"
+  - button "Kasun Perera":
+    - generic: Kasun Perera
+- main:
+  - heading "Hello, Kasun Perera!" [level=1]
+  - generic: Top Responder
+  - paragraph: "Vehicle: motorcycle (25 kg max)"
+  - generic: Online & Available
+  - button
+  - generic: Completed
+  - generic: "2"
+  - paragraph: Total successful runs
+  - generic: Courier Rating
+  - generic: 4.9 ★
+  - paragraph: Verified responder
+  - generic: Current Tasks
+  - generic: None
+  - paragraph: Ready to accept
+  - generic: Available Tasks
+  - generic: "0"
+  - paragraph: In your radius
+  - heading "No Active Deliveries Assigned" [level=3]
+  - paragraph: You are ready to accept new runs below.
+  - strong: "Delivery: TRACK-20261022 Shared Bread (3.0 kg) · TSK-83489F"
+  - paragraph: "Delivered: 10/22/2026, 1:59:46 PM"
+  - paragraph: "NGO receipt: Awaiting NGO confirmation"
+  - strong: "Delivery: TRACK-20261022 Shared Bread (4.0 kg) · TSK-5FAC09"
+  - paragraph: "Delivered: 10/22/2026, 1:56:08 PM"
+  - paragraph: "NGO receipt: 10/22/2026, 1:58:49 PM"
+  - heading "Available Volunteer Runs" [level=3]
+  - paragraph: Nearby requests matching your vehicle capacity
+  - link "View All (0)":
+    - /url: /volunteer/tasks
+- button "Submit pilot feedback":

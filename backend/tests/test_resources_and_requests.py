@@ -17,7 +17,7 @@ def test_resource_creation_and_positive_quantity_validation(client):
     UserRoleAssignment.objects.create(user=provider_user, role=RoleChoices.FOOD_PROVIDER, is_approved=True)
 
     org = Organization.objects.create(
-        name='Artisan Bakery', type=OrganizationTypeChoices.BAKERY,
+        name='Artisan Bakery', type=OrganizationTypeChoices.BAKERY, verified=True,
         contact_email='b@test.lk', contact_phone='+94 11 000 1111', address='Katubedda'
     )
     OrganizationMembership.objects.create(organization=org, user=provider_user, role=MembershipRoleChoices.OWNER)

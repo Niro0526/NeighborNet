@@ -1,0 +1,134 @@
+- banner:
+  - link:
+    - /url: /dashboard
+  - heading "Allocations" [level=1]
+  - button "Notifications":
+    - generic: "52"
+  - button "Fathima Rizwan":
+    - generic: Fathima Rizwan
+- main:
+  - heading "Allocations" [level=2]
+  - paragraph: Matches against your surplus and live pickup status.
+  - button "Refresh":
+    - text: Refresh
+  - button "Matches"
+  - button "Track pickup"
+  - heading "AUDIT-20261022 Disaster Bread" [level=3]
+  - generic: completed
+  - paragraph: 5 kg to Grace Home for the Elderly
+  - button "Track pickup":
+    - text: Track pickup
+  - heading "AUDIT-20261022 Bread Delivery" [level=3]
+  - generic: completed
+  - paragraph: 15 kg to Grace Home for the Elderly
+  - button "Track pickup":
+    - text: Track pickup
+  - heading "Fresh Surplus Veg Meal Packs" [level=3]
+  - generic: completed
+  - paragraph: 20 kg to Grace Home for the Elderly
+  - button "Track pickup":
+    - text: Track pickup
+  - heading "Fresh Surplus Veg Meal Packs" [level=3]
+  - generic: completed
+  - paragraph: 20 kg to Grace Home for the Elderly
+  - button "Track pickup":
+    - text: Track pickup
+  - heading "Fresh Surplus Veg Meal Packs" [level=3]
+  - generic: completed
+  - paragraph: 20 kg to Grace Home for the Elderly
+  - button "Track pickup":
+    - text: Track pickup
+  - heading "Fresh Surplus Veg Meal Packs" [level=3]
+  - generic: completed
+  - paragraph: 20 kg to Grace Home for the Elderly
+  - button "Track pickup":
+    - text: Track pickup
+  - heading "Fresh Surplus Veg Meal Packs" [level=3]
+  - generic: completed
+  - paragraph: 20 kg to Grace Home for the Elderly
+  - button "Track pickup":
+    - text: Track pickup
+  - heading "Fresh Surplus Veg Meal Packs" [level=3]
+  - generic: completed
+  - paragraph: 20 kg to Grace Home for the Elderly
+  - button "Track pickup":
+    - text: Track pickup
+  - heading "Fresh Surplus Veg Meal Packs" [level=3]
+  - generic: completed
+  - paragraph: 20 kg to Grace Home for the Elderly
+  - button "Track pickup":
+    - text: Track pickup
+  - heading "Fresh Surplus Veg Meal Packs" [level=3]
+  - generic: completed
+  - paragraph: 20 kg to Grace Home for the Elderly
+  - button "Track pickup":
+    - text: Track pickup
+  - heading "Fresh Surplus Veg Meal Packs" [level=3]
+  - generic: completed
+  - paragraph: 20 kg to Grace Home for the Elderly
+  - button "Track pickup":
+    - text: Track pickup
+  - heading "Fresh Surplus Veg Meal Packs" [level=3]
+  - generic: completed
+  - paragraph: 20 kg to Grace Home for the Elderly
+  - button "Track pickup":
+    - text: Track pickup
+  - heading "Fresh Surplus Veg Meal Packs" [level=3]
+  - generic: completed
+  - paragraph: 20 kg to Grace Home for the Elderly
+  - button "Track pickup":
+    - text: Track pickup
+  - heading "Steamed Rice & Dhal Banquet Packs" [level=3]
+  - generic: approved
+  - paragraph: 20 meals to Grace Home for the Elderly
+  - button "Track pickup":
+    - text: Track pickup
+  - heading "Steamed Rice & Dhal Banquet Packs" [level=3]
+  - generic: approved
+  - paragraph: 5 meals to Grace Home for the Elderly
+  - button "Track pickup":
+    - text: Track pickup
+  - heading "Fresh Surplus Veg Meal Packs" [level=3]
+  - generic: completed
+  - paragraph: 20 kg to Grace Home for the Elderly
+  - button "Track pickup":
+    - text: Track pickup
+  - heading "Fresh Surplus Veg Meal Packs" [level=3]
+  - generic: completed
+  - paragraph: 20 kg to Grace Home for the Elderly
+  - button "Track pickup":
+    - text: Track pickup
+  - heading "Fresh Surplus Veg Meal Packs" [level=3]
+  - generic: completed
+  - paragraph: 20 kg to Grace Home for the Elderly
+  - button "Track pickup":
+    - text: Track pickup
+  - heading "Fresh Surplus Veg Meal Packs" [level=3]
+  - generic: completed
+  - paragraph: 20 kg to Grace Home for the Elderly
+  - button "Track pickup":
+    - text: Track pickup
+  - heading "Fresh Surplus Veg Meal Packs" [level=3]
+  - generic: completed
+  - paragraph: 20 kg to Grace Home for the Elderly
+  - button "Track pickup":
+    - text: Track pickup
+  - heading "Fresh Surplus Veg Meal Packs" [level=3]
+  - generic: approved
+  - paragraph: 20 kg to Grace Home for the Elderly
+  - button "Track pickup":
+    - text: Track pickup
+- navigation:
+  - link "Overview":
+    - /url: /dashboard
+    - generic: Overview
+  - link "My Food":
+    - /url: /food/listings
+    - generic: My Food
+  - link "Allocations":
+    - /url: /food/allocations
+    - generic: Allocations
+  - link "Profile":
+    - /url: /profile
+    - generic: Profile
+- button "Submit pilot feedback":

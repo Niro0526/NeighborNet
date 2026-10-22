@@ -1,6 +1,6 @@
 import { SystemNotification, UserRole } from '../types';
 import { mockRepository } from './mockRepository';
-import { apiClient, isApiMode } from './apiClient';
+import { apiClient, isApiMode, getAllPages } from './apiClient';
 import { adaptNotification } from './apiAdapters';
 
 export const notificationService = {
@@ -20,8 +20,7 @@ export const notificationService = {
     }
 
     try {
-      const res = await apiClient.get<{ count: number; results: any[] } | any[]>('/notifications/');
-      const rawList = Array.isArray(res.data) ? res.data : (res.data?.results || []);
+      const rawList = await getAllPages('/notifications/');
       return rawList.map(adaptNotification);
     } catch {
       return [];
@@ -38,8 +37,8 @@ export const notificationService = {
     }
 
     try {
-      const res = await apiClient.get<{ unread_count: number }>('/notifications/unread_count/');
-      return res.data?.unread_count ?? 0;
+      const res = await apiClient.get<{ unreadCount: number }>('/notifications/unread_count/');
+      return res.data?.unreadCount ?? 0;
     } catch {
       return 0;
     }

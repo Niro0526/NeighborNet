@@ -1,0 +1,99 @@
+==============================================================================================================
+NeighborNet AI — Advanced Optimization Evaluation Suite (MODELX_EVAL_ADVANCED_V1)
+==============================================================================================================
+Suite Identifier:   MODELX_EVAL_ADVANCED_V1
+Frozen Reference:   2026-10-15 12:00:00 UTC
+Provenance:          SYNTHETIC_ADVANCED_FIXTURES (100% Deterministic Ground Truth)
+
+==============================================================================================================
+Scenario: 1. Competing Food-Expiry Deadlines
+Purpose:  Verify solver prioritizes short shelf-life perishable food (3h left) over stable food (24h left) to prevent waste.
+Dataset:  2 resources, 1 requests
+==============================================================================================================
+Total Requested Demand: 50.0 kg
+Algorithm              | Allocated    | Unmet        | Qty Ful %  | Req Ful %  | Runtime (ms)  | Conservation
+---------------------------------------------------------------------------------------------------------
+Baseline A (FCFS)      | 50.0         | 0.0          | 100.0      | 100.0      | 0.07          | PASS        
+Baseline B (Nearest)   | 50.0         | 0.0          | 100.0      | 100.0      | 0.05          | PASS        
+OR-Tools CP-SAT        | 50.0         | 0.0          | 100.0      | 100.0      | 18.57         | PASS        
+Invariant Check: PASS (Perishable 3h lot prioritized over 24h lot)
+
+==============================================================================================================
+Scenario: 2. Insufficient Volunteer Carrying Capacity
+Purpose:  Verify Stage 2 courier staging flags 150kg payload as logistically infeasible for 15kg bicycle courier.
+Dataset:  1 resources, 1 requests
+==============================================================================================================
+Total Requested Demand: 150.0 kg
+Algorithm              | Allocated    | Unmet        | Qty Ful %  | Req Ful %  | Runtime (ms)  | Conservation
+---------------------------------------------------------------------------------------------------------
+Baseline A (FCFS)      | 150.0        | 0.0          | 100.0      | 100.0      | 0.05          | PASS        
+Baseline B (Nearest)   | 150.0        | 0.0          | 100.0      | 100.0      | 0.03          | PASS        
+OR-Tools CP-SAT        | 150.0        | 0.0          | 100.0      | 100.0      | 4.72          | PASS        
+Invariant Check: PASS
+
+==============================================================================================================
+Scenario: 3. Overlapping Delivery Schedules
+Purpose:  Verify conflict resolution prevents assigning single courier to simultaneous pickup windows.
+Dataset:  2 resources, 2 requests
+==============================================================================================================
+Total Requested Demand: 60.0 kg
+Algorithm              | Allocated    | Unmet        | Qty Ful %  | Req Ful %  | Runtime (ms)  | Conservation
+---------------------------------------------------------------------------------------------------------
+Baseline A (FCFS)      | 60.0         | 0.0          | 100.0      | 100.0      | 0.10          | PASS        
+Baseline B (Nearest)   | 60.0         | 0.0          | 100.0      | 100.0      | 0.09          | PASS        
+OR-Tools CP-SAT        | 60.0         | 0.0          | 100.0      | 100.0      | 15.08         | PASS        
+Invariant Check: PASS
+
+==============================================================================================================
+Scenario: 4. Uneven Recipient Priorities
+Purpose:  Verify CP-SAT solver allocates 50kg supply to URGENT priority request over LOW priority request regardless of chronological order.
+Dataset:  1 resources, 2 requests
+==============================================================================================================
+Total Requested Demand: 100.0 kg
+Algorithm              | Allocated    | Unmet        | Qty Ful %  | Req Ful %  | Runtime (ms)  | Conservation
+---------------------------------------------------------------------------------------------------------
+Baseline A (FCFS)      | 50.0         | 50.0         | 50.0       | 50.0       | 0.09          | PASS        
+Baseline B (Nearest)   | 50.0         | 50.0         | 50.0       | 50.0       | 0.06          | PASS        
+OR-Tools CP-SAT        | 50.0         | 50.0         | 50.0       | 50.0       | 15.52         | PASS        
+Invariant Check: PASS (URGENT request allocated over LOW priority request)
+
+==============================================================================================================
+Scenario: 5. Disaster Resource Scarcity & Priority
+Purpose:  Verify CP-SAT allocates 60L available water under disaster mode constraints, leaving 40L unmet demand recorded.
+Dataset:  1 resources, 1 requests
+==============================================================================================================
+Total Requested Demand: 100.0 liters
+Algorithm              | Allocated    | Unmet        | Qty Ful %  | Req Ful %  | Runtime (ms)  | Conservation
+---------------------------------------------------------------------------------------------------------
+Baseline A (FCFS)      | 60.0         | 40.0         | 60.0       | 0.0        | 2.59          | PASS        
+Baseline B (Nearest)   | 60.0         | 40.0         | 60.0       | 0.0        | 1.38          | PASS        
+OR-Tools CP-SAT        | 60.0         | 40.0         | 60.0       | 0.0        | 15.34         | PASS        
+Invariant Check: PASS
+
+==============================================================================================================
+Scenario: 6. Volunteer Cancellation & Recovery Replanning
+Purpose:  Verify disruption engine recomputes replacement courier assignment upon volunteer cancellation.
+Dataset:  1 resources, 1 requests
+==============================================================================================================
+Total Requested Demand: 40.0 kg
+Algorithm              | Allocated    | Unmet        | Qty Ful %  | Req Ful %  | Runtime (ms)  | Conservation
+---------------------------------------------------------------------------------------------------------
+Baseline A (FCFS)      | 40.0         | 0.0          | 100.0      | 100.0      | 0.06          | PASS        
+Baseline B (Nearest)   | 40.0         | 0.0          | 100.0      | 100.0      | 0.03          | PASS        
+OR-Tools CP-SAT        | 40.0         | 0.0          | 100.0      | 100.0      | 15.29         | PASS        
+Invariant Check: PASS
+
+==============================================================================================================
+Scenario: 7. Mixed Unit Isolation & Conservation
+Purpose:  Verify strict unit isolation: kg, liters, and kits allocate in exact respective units, and boxes is rejected without cross-unit summing.
+Dataset:  3 resources, 4 requests
+==============================================================================================================
+Total Requested Demand: 50.0 kg, 30.0 liters, 20.0 kits, 10.0 boxes
+Algorithm              | Allocated    | Unmet        | Qty Ful %  | Req Ful %  | Runtime (ms)  | Conservation
+---------------------------------------------------------------------------------------------------------
+Baseline A (FCFS)      | 100.0        | 10.0         | 90.9       | 75.0       | 0.12          | PASS        
+Baseline B (Nearest)   | 100.0        | 10.0         | 90.9       | 75.0       | 0.21          | PASS        
+OR-Tools CP-SAT        | 100.0        | 10.0         | 90.9       | 75.0       | 11.93         | PASS        
+Invariant Check: PASS (Incompatible 'boxes' unit rejected, isolated kg/liters/kits allocated)
+
+[SUCCESS] Advanced Optimization Evaluation Suite (MODELX_EVAL_ADVANCED_V1) successfully executed across all 7 scenarios!

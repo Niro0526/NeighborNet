@@ -3,21 +3,18 @@ import {
   User as UserIcon,
   Building2,
   ShieldCheck,
-  Mail,
-  Phone,
   MapPin,
-  Clock,
   Edit3,
-  CheckCircle2,
   AlertTriangle,
   Save,
 } from 'lucide-react';
 import { useAuth } from '../../hooks';
 import { apiClient, isApiMode } from '../../services/apiClient';
 import { OrganizationProfile } from '../../types';
+import { MatchingPreferences } from '../../components/coordinator/MatchingPreferences';
 
 export const ProfilePage: React.FC = () => {
-  const { currentUser, assignedRoles, hasRole } = useAuth();
+  const { currentUser, assignedRoles } = useAuth();
   const [organization, setOrganization] = useState<OrganizationProfile | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [editForm, setEditForm] = useState<Partial<OrganizationProfile>>({});
@@ -25,11 +22,12 @@ export const ProfilePage: React.FC = () => {
 
   useEffect(() => {
     if (isApiMode()) {
-      apiClient.get('/organizations/').then((res) => {
+      apiClient.get('/organizations/my_organizations/').then((res) => {
         const list = Array.isArray(res.data) ? res.data : (res.data?.results || []);
         if (list.length > 0) {
-          setOrganization(list[0]);
-          setEditForm(list[0]);
+          const preferred = assignedRoles.includes('RECIPIENT') ? list.find((org: any) => ['NGO', 'SHELTER', 'FOOD_BANK', 'COMMUNITY_KITCHEN', 'RELIEF_CENTER'].includes(org.type)) || list[0] : list[0];
+          setOrganization(preferred);
+          setEditForm(preferred);
         }
       }).catch(() => {});
     }
@@ -55,6 +53,7 @@ export const ProfilePage: React.FC = () => {
 
   return (
     <div className="space-y-6 max-w-3xl mx-auto">
+      {organization?.id && assignedRoles.includes('RECIPIENT') && <MatchingPreferences organizationId={organization.id} />}
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#E5EAE7] pb-4">
         <div>

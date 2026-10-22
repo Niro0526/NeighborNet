@@ -1,6 +1,6 @@
 import { DeliveryTask, DeliveryTaskStatus } from '../types';
 import { mockRepository } from './mockRepository';
-import { apiClient, isApiMode } from './apiClient';
+import { apiClient, isApiMode, getAllPages } from './apiClient';
 import { adaptDeliveryTask } from './apiAdapters';
 
 const VALID_TRANSITIONS: Record<DeliveryTaskStatus, DeliveryTaskStatus[]> = {
@@ -16,6 +16,11 @@ const VALID_TRANSITIONS: Record<DeliveryTaskStatus, DeliveryTaskStatus[]> = {
 };
 
 export const deliveryService = {
+  async confirmReceipt(taskId: string): Promise<DeliveryTask> {
+    if (!isApiMode()) throw new Error('Verified receipt confirmation requires API mode.');
+    const response=await apiClient.post(`/delivery-tasks/${taskId}/confirm_receipt/`);
+    return adaptDeliveryTask(response.data.task);
+  },
   /**
    * Fetches delivery tasks across all states.
    */
@@ -25,8 +30,7 @@ export const deliveryService = {
     }
 
     try {
-      const res = await apiClient.get<{ count: number; results: any[] } | any[]>('/delivery-tasks/');
-      const rawList = Array.isArray(res.data) ? res.data : (res.data?.results || []);
+      const rawList = await getAllPages('/delivery-tasks/');
       return rawList.map(adaptDeliveryTask);
     } catch {
       return [];
@@ -118,7 +122,7 @@ export const deliveryService = {
         reason: extraData?.disruptionReason || 'Route hazard or heavy flooding encountered',
       });
     } else {
-      res = await apiClient.get(`/delivery-tasks/${taskId}/`);
+      throw new Error(`Unsupported delivery action: ${newStatus}`);
     }
 
     const taskData = res.data?.task || res.data;

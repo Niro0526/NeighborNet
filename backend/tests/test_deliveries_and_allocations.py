@@ -18,8 +18,8 @@ def test_allocation_atomic_and_no_overallocation(client):
     coord = User.objects.create_user(email='c@test.lk', password='pw')
     UserRoleAssignment.objects.create(user=coord, role=RoleChoices.COORDINATOR, is_approved=True)
 
-    org_provider = Organization.objects.create(name='Donor Org', type=OrganizationTypeChoices.BAKERY, contact_email='d@test.lk', contact_phone='1', address='Moratuwa')
-    org_recipient = Organization.objects.create(name='Shelter Org', type=OrganizationTypeChoices.SHELTER, contact_email='s@test.lk', contact_phone='2', address='Moratuwa')
+    org_provider = Organization.objects.create(name='Donor Org', type=OrganizationTypeChoices.BAKERY, verified=True, contact_email='d@test.lk', contact_phone='1', address='Moratuwa')
+    org_recipient = Organization.objects.create(name='Shelter Org', type=OrganizationTypeChoices.SHELTER, verified=True, contact_email='s@test.lk', contact_phone='2', address='Moratuwa')
 
     now = timezone.now()
     resource = Resource.objects.create(
@@ -68,7 +68,7 @@ def test_allocation_atomic_and_no_overallocation(client):
 def test_delivery_state_machine_lifecycle(client):
     vol_user = User.objects.create_user(email='v@test.lk', password='pw', full_name='Courier Dinesh')
     UserRoleAssignment.objects.create(user=vol_user, role=RoleChoices.VOLUNTEER, is_approved=True)
-    volunteer = Volunteer.objects.create(user=vol_user, status=VolunteerAvailabilityChoices.AVAILABLE)
+    volunteer = Volunteer.objects.create(user=vol_user, status=VolunteerAvailabilityChoices.AVAILABLE, verified=True)
 
     org_provider = Organization.objects.create(name='D Org', type=OrganizationTypeChoices.BAKERY, contact_email='d@test.lk', contact_phone='1', address='Moratuwa')
     org_recipient = Organization.objects.create(name='R Org', type=OrganizationTypeChoices.SHELTER, contact_email='r@test.lk', contact_phone='2', address='Moratuwa')
@@ -77,8 +77,9 @@ def test_delivery_state_machine_lifecycle(client):
     res = Resource.objects.create(provider=org_provider, name='Bread', category=ResourceCategoryChoices.BAKERY, quantity=10.0, pickup_start=now, pickup_end=now+timedelta(hours=2))
     req = ResourceRequest.objects.create(recipient=org_recipient, item_name='Bread', category=ResourceCategoryChoices.BAKERY, requested_quantity=10.0, urgency_deadline=now+timedelta(hours=2))
 
+    allocation = Allocation.objects.create(resource=res, request=req, allocated_quantity=10, status='APPROVED')
     task = DeliveryTask.objects.create(
-        resource=res, request=req, title='Deliver Bread', cargo_description='10kg Bread',
+        allocation=allocation, resource=res, request=req, title='Deliver Bread', cargo_description='10kg Bread',
         quantity=10.0, pickup_address=org_provider.address, delivery_address=org_recipient.address,
         delivery_deadline=now+timedelta(hours=2), status=DeliveryTaskStatusChoices.AVAILABLE
     )
@@ -87,7 +88,7 @@ def test_delivery_state_machine_lifecycle(client):
 
     # Cannot jump directly from AVAILABLE to DELIVERED
     jump_resp = client.post(f'/api/v1/delivery-tasks/{task.id}/delivered/')
-    assert jump_resp.status_code == 400
+    assert jump_resp.status_code == 403  # An unassigned courier cannot mutate the task.
 
     # 1. Accept Task
     accept_resp = client.post(f'/api/v1/delivery-tasks/{task.id}/accept/')

@@ -14,6 +14,9 @@
 >>>>>>> 485c297 (Initial commit - NeighborNet AI)
 secrets/
 
+# Local database backups (contain private application data)
+backups/
+
 # Python & Django
 __pycache__/
 *.py[cod]

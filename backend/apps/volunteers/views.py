@@ -10,6 +10,32 @@ from apps.audit.models import ActivityLog, AuditCategoryChoices
 from apps.notifications.services import send_notification
 
 class VolunteerViewSet(viewsets.ModelViewSet):
+    http_method_names = ['get', 'post', 'head', 'options']
+
+    @action(detail=True, methods=['post'], permission_classes=[IsCoordinator])
+    def capabilities(self, request, pk=None):
+        from django.db import transaction
+        allowed = {'transport_storage', 'travel_speed_kmh', 'vehicleCapacityKg'}
+        if set(request.data) - allowed:
+            return Response({'detail': 'Only recorded transport storage, speed and capacity can be changed here.'}, status=400)
+        with transaction.atomic():
+            volunteer = Volunteer.objects.select_for_update().get(pk=self.get_object().pk)
+            serializer = self.get_serializer(volunteer, data=request.data, partial=True)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            ActivityLog.objects.create(user=request.user, user_name=request.user.name, user_role='COORDINATOR', action='COURIER_CAPABILITIES_RECORDED', details=f'Recorded transport capabilities for {volunteer.pk}.', category='ADMIN')
+            return Response(serializer.data)
+
+    def get_permissions(self):
+        if self.action in ['me', 'toggle_availability']:
+            return [IsVolunteer()]
+        if self.action == 'create':
+            return [IsCoordinator()]
+        return super().get_permissions()
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        return qs if self.request.user.is_coordinator else qs.filter(user=self.request.user)
     queryset = Volunteer.objects.all().select_related('user')
     serializer_class = VolunteerSerializer
     filterset_fields = ['status', 'vehicle_type', 'verified']
@@ -42,7 +68,11 @@ class VolunteerViewSet(viewsets.ModelViewSet):
     def toggle_availability(self, request):
         """Toggle online/offline status."""
         volunteer, _ = Volunteer.objects.get_or_create(user=request.user)
-        next_status = VolunteerAvailabilityChoices.OFFLINE if volunteer.status == VolunteerAvailabilityChoices.AVAILABLE else VolunteerAvailabilityChoices.AVAILABLE
+        if volunteer.status == VolunteerAvailabilityChoices.BUSY:
+            return Response({'detail': 'Complete the active delivery before changing availability.'}, status=400)
+        next_status = request.data.get('status') or (VolunteerAvailabilityChoices.OFFLINE if volunteer.status == VolunteerAvailabilityChoices.AVAILABLE else VolunteerAvailabilityChoices.AVAILABLE)
+        if next_status not in [VolunteerAvailabilityChoices.AVAILABLE, VolunteerAvailabilityChoices.OFFLINE]:
+            return Response({'detail': 'Invalid availability status.'}, status=400)
         volunteer.status = next_status
         volunteer.save()
 

@@ -1,0 +1,133 @@
+- banner:
+  - link:
+    - /url: /dashboard
+  - heading "Smart Matching" [level=1]
+  - button "Notifications":
+    - generic: "3"
+  - button "Dr. Kaveen Jayawardena":
+    - generic: Dr. Kaveen Jayawardena
+- main:
+  - heading "AI Intelligence & Smart Optimization Engine" [level=1]
+  - text: Phase 4 Intelligence Active
+  - paragraph: Deterministic constraint screening, Google OR-Tools multi-criteria optimization, courier logistics, and atomic disruption recovery
+  - button "Refresh State":
+    - generic: Refresh State
+  - heading "NGO acceptances awaiting approval (0)" [level=3]
+  - status: Allocation ALC-A9E8D9 approved and saved.
+  - paragraph: No pending NGO acceptances.
+  - button "Candidate Screening 2":
+    - generic: Candidate Screening
+    - generic: "2"
+  - button "OR-Tools Optimizer":
+    - generic: OR-Tools Optimizer
+  - button "Approval & Allocations 1":
+    - generic: Approval & Allocations
+    - generic: "1"
+  - button "Disruption Recovery":
+    - generic: Disruption Recovery
+  - button "Data Intelligence & Benchmarks":
+    - generic: Data Intelligence & Benchmarks
+  - generic: Recommendation Batches
+  - generic: 1 runs
+  - button "#OPT-2DBD APPLIED ORTOOLS_CPSAT 4 allocations 10% fulfilled":
+    - generic: "#OPT-2DBD"
+    - generic: APPLIED
+    - generic: ORTOOLS_CPSAT
+    - generic: 4 allocations
+    - generic: 10% fulfilled
+  - 'heading "Batch #OPT-2DBD" [level=3]'
+  - generic: APPLIED
+  - generic: NORMAL MODE
+  - paragraph: Solved via ORTOOLS_CPSAT in 146.85ms with status OPTIMAL
+  - generic: Committed to Active Allocations
+  - text: Total Allocated
+  - generic: 265.0 kg
+  - text: Fulfillment Rate
+  - generic: 9.8%
+  - text: Unmet Demand
+  - generic: 2450.0 kg
+  - text: Allocations Count
+  - generic: 4 pairs
+  - heading "Recommended Allocation Pairs" [level=4]
+  - table:
+    - rowgroup:
+      - row "Resource (Donor) Recipient Request Allocated Qty Courier Feasibility Deterministic Explanation":
+        - columnheader "Resource (Donor)"
+        - columnheader "Recipient Request"
+        - columnheader "Allocated Qty"
+        - columnheader "Courier Feasibility"
+        - columnheader "Deterministic Explanation"
+    - rowgroup:
+      - 'row "Potable Drinking Water Cans (5L Units) GreenBites Bakery & Cafe Emergency Potable Water 500L Grace Home for the Elderly 150 liters 1.71 km (straight_line_haversine) Logistics Warning: Cargo load (150.0 liters) exceeds vehicle capacities of currently available volunteers. Allocate 150.0 liters of ''Potable Drinking Water Cans (5L Units)'' to ''Grace Home for the Elderly''. Matches verified category requirements with feasible timing, shelf-life safety, and geographic proximity of 1.71 km. Volunteer courier unassigned (pending staging)."':
+        - cell "Potable Drinking Water Cans (5L Units) GreenBites Bakery & Cafe":
+          - generic: Potable Drinking Water Cans (5L Units)
+          - generic: GreenBites Bakery & Cafe
+        - cell "Emergency Potable Water 500L Grace Home for the Elderly":
+          - generic: Emergency Potable Water 500L
+          - generic: Grace Home for the Elderly
+        - cell "150 liters 1.71 km (straight_line_haversine)":
+          - generic: 150 liters
+          - generic: 1.71 km (straight_line_haversine)
+        - 'cell "Logistics Warning: Cargo load (150.0 liters) exceeds vehicle capacities of currently available volunteers."':
+          - generic: "Logistics Warning: Cargo load (150.0 liters) exceeds vehicle capacities of currently available volunteers."
+        - cell "Allocate 150.0 liters of 'Potable Drinking Water Cans (5L Units)' to 'Grace Home for the Elderly'. Matches verified category requirements with feasible timing, shelf-life safety, and geographic proximity of 1.71 km. Volunteer courier unassigned (pending staging).":
+          - generic: Allocate 150.0 liters of 'Potable Drinking Water Cans (5L Units)' to 'Grace Home for the Elderly'. Matches verified category requirements with feasible timing, shelf-life safety, and geographic proximity of 1.71 km. Volunteer courier unassigned (pending staging).
+      - 'row "Rice & Curry Packets Unverified Colombo Kitchen Cooked Meals Requisition Unverified Colombo Kitchen 20 kg 0 km (straight_line_haversine) Ravi Mendis Verified Courier Ravi Mendis (Van / Light Truck, capacity: 150.0 kg) assigned. Pickup staging distance: 15.42 km. Allocate 20.0 kg of ''Rice & Curry Packets'' to ''Unverified Colombo Kitchen''. Matches verified category requirements with feasible timing, shelf-life safety, and geographic proximity of 0.0 km. Volunteer courier ''Ravi Mendis'' assigned."':
+        - cell "Rice & Curry Packets Unverified Colombo Kitchen":
+          - generic: Rice & Curry Packets
+          - generic: Unverified Colombo Kitchen
+        - cell "Cooked Meals Requisition Unverified Colombo Kitchen":
+          - generic: Cooked Meals Requisition
+          - generic: Unverified Colombo Kitchen
+        - cell "20 kg 0 km (straight_line_haversine)":
+          - generic: 20 kg
+          - generic: 0 km (straight_line_haversine)
+        - 'cell "Ravi Mendis Verified Courier Ravi Mendis (Van / Light Truck, capacity: 150.0 kg) assigned. Pickup staging distance: 15.42 km."':
+          - generic: Ravi Mendis
+          - generic: "Verified Courier Ravi Mendis (Van / Light Truck, capacity: 150.0 kg) assigned. Pickup staging distance: 15.42 km."
+        - cell "Allocate 20.0 kg of 'Rice & Curry Packets' to 'Unverified Colombo Kitchen'. Matches verified category requirements with feasible timing, shelf-life safety, and geographic proximity of 0.0 km. Volunteer courier 'Ravi Mendis' assigned.":
+          - generic: Allocate 20.0 kg of 'Rice & Curry Packets' to 'Unverified Colombo Kitchen'. Matches verified category requirements with feasible timing, shelf-life safety, and geographic proximity of 0.0 km. Volunteer courier 'Ravi Mendis' assigned.
+      - 'row "Rice & Curry Packets Unverified Colombo Kitchen Cooked Meals Requisition Unverified Colombo Kitchen 5 kg 0 km (straight_line_haversine) Dinesh Mendis Verified Courier Dinesh Mendis (Motorcycle / Scooter, capacity: 25.0 kg) assigned. Pickup staging distance: 15.42 km. Allocate 5.0 kg of ''Rice & Curry Packets'' to ''Unverified Colombo Kitchen''. Matches verified category requirements with feasible timing, shelf-life safety, and geographic proximity of 0.0 km. Volunteer courier ''Dinesh Mendis'' assigned."':
+        - cell "Rice & Curry Packets Unverified Colombo Kitchen":
+          - generic: Rice & Curry Packets
+          - generic: Unverified Colombo Kitchen
+        - cell "Cooked Meals Requisition Unverified Colombo Kitchen":
+          - generic: Cooked Meals Requisition
+          - generic: Unverified Colombo Kitchen
+        - cell "5 kg 0 km (straight_line_haversine)":
+          - generic: 5 kg
+          - generic: 0 km (straight_line_haversine)
+        - 'cell "Dinesh Mendis Verified Courier Dinesh Mendis (Motorcycle / Scooter, capacity: 25.0 kg) assigned. Pickup staging distance: 15.42 km."':
+          - generic: Dinesh Mendis
+          - generic: "Verified Courier Dinesh Mendis (Motorcycle / Scooter, capacity: 25.0 kg) assigned. Pickup staging distance: 15.42 km."
+        - cell "Allocate 5.0 kg of 'Rice & Curry Packets' to 'Unverified Colombo Kitchen'. Matches verified category requirements with feasible timing, shelf-life safety, and geographic proximity of 0.0 km. Volunteer courier 'Dinesh Mendis' assigned.":
+          - generic: Allocate 5.0 kg of 'Rice & Curry Packets' to 'Unverified Colombo Kitchen'. Matches verified category requirements with feasible timing, shelf-life safety, and geographic proximity of 0.0 km. Volunteer courier 'Dinesh Mendis' assigned.
+      - 'row "Rice & Curry Packets Unverified Colombo Kitchen Cooked Meals Requisition Unverified Colombo Kitchen 5 kg 0 km (straight_line_haversine) Malik Farook Verified Courier Malik Farook (Van / Light Truck, capacity: 120.0 kg) assigned. Pickup staging distance: 15.42 km. Allocate 5.0 kg of ''Rice & Curry Packets'' to ''Unverified Colombo Kitchen''. Matches verified category requirements with feasible timing, shelf-life safety, and geographic proximity of 0.0 km. Volunteer courier ''Malik Farook'' assigned."':
+        - cell "Rice & Curry Packets Unverified Colombo Kitchen":
+          - generic: Rice & Curry Packets
+          - generic: Unverified Colombo Kitchen
+        - cell "Cooked Meals Requisition Unverified Colombo Kitchen":
+          - generic: Cooked Meals Requisition
+          - generic: Unverified Colombo Kitchen
+        - cell "5 kg 0 km (straight_line_haversine)":
+          - generic: 5 kg
+          - generic: 0 km (straight_line_haversine)
+        - 'cell "Malik Farook Verified Courier Malik Farook (Van / Light Truck, capacity: 120.0 kg) assigned. Pickup staging distance: 15.42 km."':
+          - generic: Malik Farook
+          - generic: "Verified Courier Malik Farook (Van / Light Truck, capacity: 120.0 kg) assigned. Pickup staging distance: 15.42 km."
+        - cell "Allocate 5.0 kg of 'Rice & Curry Packets' to 'Unverified Colombo Kitchen'. Matches verified category requirements with feasible timing, shelf-life safety, and geographic proximity of 0.0 km. Volunteer courier 'Malik Farook' assigned.":
+          - generic: Allocate 5.0 kg of 'Rice & Curry Packets' to 'Unverified Colombo Kitchen'. Matches verified category requirements with feasible timing, shelf-life safety, and geographic proximity of 0.0 km. Volunteer courier 'Malik Farook' assigned.
+- navigation:
+  - link "Overview":
+    - /url: /admin/dashboard
+    - generic: Overview
+  - link "Smart Matching":
+    - /url: /admin/matching
+    - generic: Smart Matching
+  - link "Disaster":
+    - /url: /admin/disasters
+    - generic: Disaster
+  - link "Profile":
+    - /url: /profile
+    - generic: Profile
+- button "Submit pilot feedback":

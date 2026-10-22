@@ -5,22 +5,37 @@ from django.utils import timezone
 from .models import Resource, ResourceStatusChoices
 from .serializers import ResourceSerializer
 from common.permissions import IsFoodProvider, IsCoordinator
+from common.permissions import OrganizationResourcePermission
 from apps.audit.models import ActivityLog, AuditCategoryChoices
 
 from apps.notifications.services import send_notification
 
 class ResourceViewSet(viewsets.ModelViewSet):
+    ordering = ['-created_at', '-id']
+    permission_classes = [OrganizationResourcePermission]
     queryset = Resource.objects.all().select_related('provider')
     serializer_class = ResourceSerializer
     filterset_fields = ['category', 'status', 'is_disaster_relief', 'provider']
     search_fields = ['name', 'provider__name', 'safety_notes']
     ordering_fields = ['created_at', 'safe_until', 'quantity']
 
+    @action(detail=True, methods=['get'])
+    def tracking(self, request, pk=None):
+        resource=self.get_object()
+        owner=request.user.is_food_provider and resource.provider.memberships.filter(user=request.user,is_active=True).exists()
+        if not (owner or request.user.is_coordinator):
+            from rest_framework.exceptions import PermissionDenied
+            raise PermissionDenied('Donation tracking is restricted to the provider organization and coordinators.')
+        if resource.is_disaster_relief:
+            return Response({'detail':'This tracking view is for Normal Food Rescue donations.'},status=400)
+        from apps.deliveries.tracking import donation_tracking
+        return Response(donation_tracking(resource))
+
     def get_queryset(self):
         qs = super().get_queryset()
         # By default for regular listings, mark and exclude expired food from available listings
         status_param = self.request.query_params.get('status')
-        if status_param == 'AVAILABLE':
+        if self.request.method == 'GET':
             # Auto-expire perishable food whose safe-until has passed
             expired_res = Resource.objects.filter(
                 status=ResourceStatusChoices.AVAILABLE,
@@ -36,7 +51,8 @@ class ResourceViewSet(viewsets.ModelViewSet):
                     event_key=f"res-expired-{r.id}"
                 )
             expired_res.update(status=ResourceStatusChoices.EXPIRED)
-            return qs.filter(status=ResourceStatusChoices.AVAILABLE)
+            if status_param == 'AVAILABLE':
+                return qs.filter(status=ResourceStatusChoices.AVAILABLE)
         return qs
 
     def perform_create(self, serializer):
@@ -72,6 +88,8 @@ class ResourceViewSet(viewsets.ModelViewSet):
     def withdraw(self, request, pk=None):
         """Withdraw a resource lot from active distribution."""
         resource = self.get_object()
+        if resource.allocated_quantity > 0:
+            return Response({'detail': 'Allocated inventory cannot be withdrawn.'}, status=400)
         # Security: check membership or coordinator
         is_member = resource.provider.memberships.filter(user=request.user, is_active=True).exists()
         if not (is_member or request.user.is_coordinator):

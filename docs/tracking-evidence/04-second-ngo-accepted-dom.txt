@@ -1,0 +1,113 @@
+- banner:
+  - link:
+    - /url: /dashboard
+  - heading "Overview" [level=1]
+  - button "Notifications":
+    - generic: "4"
+  - button "Anuki Bandara":
+    - generic: Anuki Bandara
+- main:
+  - generic: Personalized Dashboard
+  - generic: •
+  - generic: Recipient NGO
+  - generic: Volunteer Courier
+  - heading "Welcome back, Anuki Bandara!" [level=1]
+  - paragraph: anuki.b@suwasetha.org • Your unified workspace automatically connects all your authorized community capabilities without switching accounts.
+  - generic: "Quick Actions:"
+  - link "Create Resource Request":
+    - /url: /requests/create
+    - generic: Create Resource Request
+  - link "Browse Available Food":
+    - /url: /requests/available-food
+    - generic: Browse Available Food
+  - link "Browse Tasks (1)":
+    - /url: /volunteer/tasks
+    - generic: Browse Tasks (1)
+  - 'button "Courier: Busy" [disabled]':
+    - generic: "Courier: Busy"
+  - generic: Active Requests
+  - generic: "2"
+  - paragraph: Pending shelter allocations
+  - generic: Incoming Deliveries
+  - generic: "0"
+  - paragraph: Couriers en route to center
+  - generic: Courier Deliveries
+  - generic: "0"
+  - paragraph: Verified safe drop-offs
+  - generic: Available Missions
+  - generic: "1"
+  - paragraph: Delivery in progress
+  - heading "NGO & Community Recipient Operations 2 Requests Logged" [level=2]:
+    - text: NGO & Community Recipient Operations
+    - generic: 2 Requests Logged
+  - paragraph: Manage food requisitions, available donor surplus, and incoming couriers
+  - link "Create Request":
+    - /url: /requests/create
+    - generic: Create Request
+  - button:
+  - heading "My Active Requests (2)" [level=3]
+  - link "View all":
+    - /url: /requests/my-requests
+  - heading "TRACK-20261022 Suwasetha Bread" [level=4]
+  - paragraph: REQ-781765 · Created 10/22/2026, 1:43:36 PM
+  - generic: high
+  - paragraph: "3 kg • Impact: 6 people"
+  - generic: allocated
+  - heading "Emergency Drinking Water & Biscuits" [level=4]
+  - paragraph: REQ-002 · Created 10/10/2026, 8:52:03 PM
+  - generic: urgent
+  - paragraph: "100 liters • Impact: 120 people"
+  - generic: pending
+  - heading "Incoming Shipments" [level=3]
+  - generic: 0 in transit
+  - heading "Surplus Food Available in Moratuwa Area" [level=3]
+  - link "Browse full catalog":
+    - /url: /requests/available-food
+  - text: bakery
+  - heading "TRACK-20261022 Shared Bread" [level=4]
+  - paragraph: RES-D5AE00 · Created 10/22/2026, 1:40:27 PM
+  - paragraph: 3 kg • Perera Grand Catering & Hotel
+  - status: "ALC-A9E8D9: NGO acceptance saved; awaiting Coordinator approval."
+  - text: bakery
+  - heading "VERIFY-20261022-0728 Bread" [level=4]
+  - paragraph: RES-5980F3 · Created 10/22/2026, 12:55:26 PM
+  - paragraph: 2 kg • Perera Grand Catering & Hotel
+  - text: dairy
+  - heading "Eggs" [level=4]
+  - paragraph: RES-BC62CE · Created 10/22/2026, 12:34:04 PM
+  - paragraph: 200 meals • Perera Grand Catering & Hotel
+  - heading "Volunteer Courier Operations Active Online" [level=2]:
+    - text: Volunteer Courier Operations
+    - generic: Active Online
+  - paragraph: "Vehicle: car • Food rescue transport missions"
+  - button "Go Offline":
+    - generic: Go Offline
+  - button:
+  - heading "Available Transport Missions (1)" [level=3]
+  - link "View map & details":
+    - /url: /volunteer/tasks
+  - generic: 3.0 kg
+  - generic: high
+  - 'heading "Delivery: TRACK-20261022 Shared Bread (3.0 kg)" [level=4]'
+  - paragraph:
+    - generic: "From: Provider kitchen handover desk — tracking verification"
+  - paragraph:
+    - generic: "To: 15 Ferry Road, Ratmalana"
+  - generic: "Est. Transit: ~25 mins"
+  - button "Accept Mission"
+  - heading "Recent Community Activity & Audit Logs" [level=3]
+  - generic: PostgreSQL activity
+- navigation:
+  - link "Overview":
+    - /url: /dashboard
+    - generic: Overview
+  - link "Requests":
+    - /url: /requests/my-requests
+    - generic: Requests
+  - link "Deliveries":
+    - /url: /requests/deliveries
+    - generic: Deliveries
+  - link "Profile":
+    - /url: /profile
+    - generic: Profile
+- button "Submit pilot feedback":

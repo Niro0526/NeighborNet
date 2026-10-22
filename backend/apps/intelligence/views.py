@@ -1,6 +1,7 @@
 from rest_framework import views, status, permissions
 from rest_framework.response import Response
 from django.utils import timezone
+from django.db import transaction
 from common.permissions import IsCoordinator
 from apps.resources.models import Resource, ResourceStatusChoices
 from apps.requests.models import ResourceRequest, RequestStatusChoices
@@ -30,63 +31,51 @@ from apps.intelligence.services.analytics import (
 )
 
 class EligibleMatchesView(views.APIView):
-    """
-    GET /api/v1/intelligence/matches/
-    Evaluates and lists eligible matching pairs across live available resources and open requests.
-    """
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsCoordinator]
 
     def get(self, request):
+        from apps.intelligence.services.volunteer_assignment import volunteer_candidates
+        mode = request.query_params.get('mode', 'NORMAL')
+        if mode not in ['NORMAL', 'DISASTER']:
+            return Response({'detail': 'Select NORMAL or DISASTER.'}, status=400)
+        relief = mode == 'DISASTER'
         now = timezone.now()
-        resources = Resource.objects.filter(
-            status=ResourceStatusChoices.AVAILABLE,
-            pickup_end__gt=now
-        ).select_related('provider')
-
-        reqs = ResourceRequest.objects.filter(
-            status__in=[RequestStatusChoices.OPEN, RequestStatusChoices.PARTIALLY_ALLOCATED]
-        ).select_related('recipient')
-
-        matches = []
+        resources = list(Resource.objects.filter(is_disaster_relief=relief).select_related('provider'))
+        reqs = list(ResourceRequest.objects.filter(is_disaster_relief=relief, status__in=['OPEN', 'PARTIALLY_ALLOCATED']).select_related('recipient', 'created_by'))
+        matches = []; rejected = []
         for res in resources:
             for req in reqs:
-                elig = evaluate_resource_request_eligibility(res, req, now=now)
-                if elig.is_eligible:
-                    matches.append({
-                        'resource_id': res.id,
-                        'resource_name': res.name,
-                        'provider_name': res.provider.name,
-                        'request_id': req.id,
-                        'request_item_name': req.item_name,
-                        'recipient_name': req.recipient.name,
-                        'category': res.category,
-                        'available_quantity': res.available_quantity,
-                        'remaining_quantity': req.remaining_quantity,
-                        'compatible_quantity': elig.compatible_quantity,
-                        'unit': res.unit,
-                        'distance_km': elig.distance_km,
-                        'priority': req.priority,
-                        'is_disaster_relief': req.is_disaster_relief,
-                        'constraints_satisfied': elig.constraints_satisfied,
-                    })
-
-        # Sort by priority and proximity
-        matches.sort(key=lambda m: (0 if m['is_disaster_relief'] else 1, m['distance_km']))
-
-        return Response({
-            'success': True,
-            'total_matches_count': len(matches),
-            'matches': matches,
-        }, status=status.HTTP_200_OK)
+                elig = evaluate_resource_request_eligibility(res, req, now)
+                candidates, logistics_reasons = volunteer_candidates(res, req, now) if elig.is_eligible else ([], [])
+                row = dict(resource_id=res.pk, resource_name=res.name, provider_name=res.provider.name,
+                           request_id=req.pk, request_item_name=req.item_name, recipient_name=req.recipient.name,
+                           category=res.category, available_quantity=res.available_quantity, remaining_quantity=req.remaining_quantity,
+                           compatible_quantity=min(elig.compatible_quantity, max((v['capacity'] for v in candidates), default=0)),
+                           unit=res.unit, request_unit=req.unit, distance_km=elig.distance_km, distance_type=elig.distance_type,
+                           priority=req.priority, is_disaster_relief=req.is_disaster_relief,
+                           constraints_satisfied=elig.constraints_satisfied,
+                           missing_information=sorted(set(elig.missing_information + [w for v in candidates for w in v['missing_information']])),
+                           reasons_rejected=elig.reasons_rejected + logistics_reasons if not candidates else elig.reasons_rejected,
+                           volunteers=[dict(id=v['volunteer'].pk, name=v['volunteer'].full_name, capacity=v['capacity']) for v in candidates])
+                if res.unit in ['meals','kits','items','packs','portions','bottles','boxes','packages']:
+                    import math
+                    row['compatible_quantity'] = math.floor(row['compatible_quantity'])
+                (matches if elig.is_eligible and candidates else rejected).append(row)
+        matches.sort(key=lambda row: (row['distance_km'] if row['distance_km'] is not None else float('inf'), row['resource_id'], row['request_id']))
+        return Response(dict(success=True, mode=mode, total_matches_count=len(matches), matches=matches, rejected_pairs=rejected,
+                             inventory=[dict(id=r.pk, name=r.name, unit=r.unit, available=r.available_quantity, reserved=r.allocated_quantity, status=r.status) for r in resources],
+                             demand=[dict(id=q.pk, name=q.item_name, recipient=q.recipient.name, unit=q.unit, remaining=q.remaining_quantity, status=q.status) for q in reqs],
+                             empty_reason='No open NGO requests in this mode.' if not reqs else 'No supply records in this mode.' if not resources else 'No feasible recorded pairs. See rejection reasons.' if not matches else None))
 
 class RunOptimizationView(views.APIView):
     """
     POST /api/v1/intelligence/optimize/
     Executes OR-Tools CP-SAT optimizer or Baselines (FCFS / Nearest),
-    performs two-stage volunteer feasibility assignment, and saves a RecommendationBatch.
+    jointly enforces volunteer feasibility, and saves a RecommendationBatch.
     """
     permission_classes = [IsCoordinator]
 
+    @transaction.atomic
     def post(self, request):
         serializer = OptimizeRequestSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -106,67 +95,24 @@ class RunOptimizationView(views.APIView):
             status__in=[RequestStatusChoices.OPEN, RequestStatusChoices.PARTIALLY_ALLOCATED]
         ).select_related('recipient')
 
-        if mode == OperatingModeChoices.DISASTER:
-            req_qs = req_qs.filter(is_disaster_relief=True)
+        resources = [r for r in resources if r.is_disaster_relief == (mode == OperatingModeChoices.DISASTER)]
+        req_qs = req_qs.filter(is_disaster_relief=(mode == OperatingModeChoices.DISASTER))
 
         requests_list = list(req_qs)
 
-        if not resources or not requests_list:
-            return Response({
-                'success': True,
-                'message': 'No available resources or open requests found for optimization.',
-                'batch': None,
-            }, status=status.HTTP_200_OK)
+        if method != IntelligenceMethodChoices.ORTOOLS_CPSAT:
+            return Response({'detail': 'Use ORTOOLS_CPSAT for dispatchable plans. Baselines remain available for offline evaluation.'}, status=400)
 
-        # Run selected engine
-        assigned_courier_ids = set()
-
-        if method == IntelligenceMethodChoices.BASELINE_FCFS:
-            res_plan = run_fcfs_baseline(resources, requests_list, now=now)
-            batch = RecommendationBatch.objects.create(
-                mode=mode,
-                method=method,
-                status=RecommendationStatusChoices.PENDING_APPROVAL,
-                created_by=request.user,
-                solver_status='FEASIBLE' if res_plan.allocations else 'INFEASIBLE',
-                runtime_ms=res_plan.runtime_ms,
-                total_allocated_quantity=res_plan.total_allocated_quantity,
-                fulfilled_demand_pct=res_plan.fulfilled_demand_pct,
-                unmet_demand=res_plan.unmet_demand,
-                solver_metadata=res_plan.to_dict(),
-            )
-            raw_allocs = res_plan.allocations
-        elif method == IntelligenceMethodChoices.BASELINE_NEAREST:
-            res_plan = run_nearest_baseline(resources, requests_list, now=now)
-            batch = RecommendationBatch.objects.create(
-                mode=mode,
-                method=method,
-                status=RecommendationStatusChoices.PENDING_APPROVAL,
-                created_by=request.user,
-                solver_status='FEASIBLE' if res_plan.allocations else 'INFEASIBLE',
-                runtime_ms=res_plan.runtime_ms,
-                total_allocated_quantity=res_plan.total_allocated_quantity,
-                fulfilled_demand_pct=res_plan.fulfilled_demand_pct,
-                unmet_demand=res_plan.unmet_demand,
-                solver_metadata=res_plan.to_dict(),
-            )
-            raw_allocs = res_plan.allocations
-        else:
-            # Default: OR-Tools CP-SAT
-            res_plan = solve_resource_allocation(resources, requests_list, time_limit_seconds=time_limit, now=now)
-            batch = RecommendationBatch.objects.create(
-                mode=mode,
-                method=IntelligenceMethodChoices.ORTOOLS_CPSAT,
-                status=RecommendationStatusChoices.PENDING_APPROVAL,
-                created_by=request.user,
-                solver_status=res_plan.solver_status,
-                runtime_ms=res_plan.runtime_ms,
-                total_allocated_quantity=res_plan.total_allocated_quantity,
-                fulfilled_demand_pct=res_plan.fulfilled_demand_pct,
-                unmet_demand=res_plan.unmet_demand,
-                solver_metadata=res_plan.metadata,
-            )
-            raw_allocs = res_plan.allocations
+        res_plan = solve_resource_allocation(resources, requests_list, time_limit_seconds=time_limit, now=now)
+        batch = RecommendationBatch.objects.create(
+            mode=mode, method=IntelligenceMethodChoices.ORTOOLS_CPSAT,
+            status=RecommendationStatusChoices.PENDING_APPROVAL, created_by=request.user,
+            solver_status=res_plan.solver_status, runtime_ms=res_plan.runtime_ms,
+            total_allocated_quantity=res_plan.total_allocated_quantity,
+            fulfilled_demand_pct=res_plan.fulfilled_demand_pct, unmet_demand=res_plan.unmet_demand,
+            solver_metadata=res_plan.metadata,
+        )
+        raw_allocs = res_plan.allocations
 
         # Create OptimizationRecommendation children with Volunteer matching
         res_by_id = {r.id: r for r in resources}
@@ -179,13 +125,8 @@ class RunOptimizationView(views.APIView):
             if not res_obj or not req_obj:
                 continue
 
-            # Second-stage volunteer feasibility validation
-            vol_match = match_volunteer_for_allocation(
-                resource=res_obj,
-                request=req_obj,
-                allocated_quantity=item_dict['allocated_quantity'],
-                assigned_volunteer_ids=assigned_courier_ids
-            )
+            from apps.volunteers.models import Volunteer
+            volunteer = Volunteer.objects.get(pk=item_dict['assigned_volunteer_id'])
 
             # Build explainable recommendation metadata
             expl_dict = format_allocation_explanation(
@@ -197,7 +138,7 @@ class RunOptimizationView(views.APIView):
                 priority=req_obj.priority,
                 solver_status=batch.solver_status,
                 constraints_satisfied=item_dict.get('constraints_satisfied', []),
-                volunteer_name=vol_match.volunteer.full_name if vol_match.volunteer else None
+                volunteer_name=volunteer.full_name
             )
 
             OptimizationRecommendation.objects.create(
@@ -208,11 +149,12 @@ class RunOptimizationView(views.APIView):
                 unit=item_dict.get('unit', res_obj.unit),
                 estimated_distance_km=item_dict.get('distance_km', 0.0),
                 deadline_urgency=req_obj.priority,
-                match_score=item_dict.get('match_score', 95.0),
+                match_score=0,
                 explanation=expl_dict['summary'],
                 suggested_action=expl_dict['suggested_action'],
-                assigned_volunteer=vol_match.volunteer,
-                volunteer_feasibility_notes=vol_match.notes,
+                assigned_volunteer=volunteer,
+                volunteer_feasibility_notes=' '.join(item_dict.get('missing_information', [])),
+                distance_type=item_dict.get('distance_type', 'straight_line_haversine'),
                 constraints_satisfied=item_dict.get('constraints_satisfied', []),
                 status=RecommendationStatusChoices.PENDING_APPROVAL,
             )
@@ -229,7 +171,7 @@ class RecommendationBatchListView(views.APIView):
     GET /api/v1/intelligence/recommendations/
     Lists generated recommendation batches.
     """
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsCoordinator]
 
     def get(self, request):
         batches = RecommendationBatch.objects.all()[:50]
@@ -245,7 +187,7 @@ class RecommendationBatchDetailView(views.APIView):
     GET /api/v1/intelligence/recommendations/{id}/
     Detail of single recommendation batch with all recommendation line items.
     """
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsCoordinator]
 
     def get(self, request, pk):
         batch = RecommendationBatch.objects.filter(id=pk).first()

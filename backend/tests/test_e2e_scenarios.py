@@ -6,6 +6,9 @@ import pytest
 import requests
 import json
 import sys
+import os
+from datetime import timedelta
+from django.utils import timezone
 from django.core.management import call_command
 from rest_framework.test import APIClient
 from rest_framework.utils.encoders import JSONEncoder
@@ -17,7 +20,7 @@ def is_live_server_up(url="http://localhost:5173/api/v1/auth/csrf/"):
     except Exception:
         return False
 
-USE_LIVE = is_live_server_up()
+USE_LIVE = os.environ.get('NEIGHBORNET_LIVE_TESTS') == '1' and is_live_server_up()
 BASE_URL = "http://localhost:5173/api/v1" if USE_LIVE else "/api/v1"
 
 class WrappedResponse:
@@ -116,9 +119,9 @@ def test_scenario_a_food_rescue():
         "unit": "kg",
         "dietaryTags": ["Vegetarian", "Halal"],
         "storageRequirements": "Ambient",
-        "pickupStart": "2026-10-10T12:00:00Z",
-        "pickupEnd": "2026-10-11T18:00:00Z",
-        "safeUntil": "2026-10-11T20:00:00Z",
+        "pickupStart": timezone.now().isoformat(),
+        "pickupEnd": (timezone.now() + timedelta(hours=4)).isoformat(),
+        "safeUntil": (timezone.now() + timedelta(hours=8)).isoformat(),
     }
     r = s_provider.post(f"{BASE_URL}/resources/", json=food_payload)
     assert r.status_code == 201, f"Create food listing failed: {r.status_code} {r.text}"
@@ -137,7 +140,7 @@ def test_scenario_a_food_rescue():
         "requestedQuantity": 20.0,
         "unit": "kg",
         "priority": "high",
-        "urgencyDeadline": "2026-10-11T14:00:00Z",
+        "urgencyDeadline": (timezone.now() + timedelta(hours=4)).isoformat(),
         "peopleImpacted": 40,
     }
     r = s_recipient.post(f"{BASE_URL}/resource-requests/", json=req_payload)
@@ -276,7 +279,7 @@ def test_scenario_c_disaster_response():
         "priority": "urgent",
         "disasterEventId": disaster_id,
         "isDisasterRelief": True,
-        "urgencyDeadline": "2026-10-12T12:00:00Z",
+        "urgencyDeadline": (timezone.now() + timedelta(hours=4)).isoformat(),
         "peopleImpacted": 120,
     }
     r = s_rec.post(f"{BASE_URL}/resource-requests/", json=em_payload)

@@ -21,7 +21,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return isApiMode() ? GUEST_FALLBACK_USER : mockRepository.getCurrentUser();
   });
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [allUsers, setAllUsers] = useState<User[]>(mockRepository.getUsers());
+  const [allUsers, setAllUsers] = useState<User[]>(() => isApiMode() ? [] : mockRepository.getUsers());
 
   // Session restoration on mount
   useEffect(() => {
@@ -81,6 +81,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const switchUser = useCallback(
     async (userId: string) => {
+      if (isApiMode()) return;
       const target = allUsers.find((u) => u.id === userId);
       if (target) {
         if (!isApiMode()) {
