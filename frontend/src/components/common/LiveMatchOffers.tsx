@@ -1,0 +1,12 @@
+import { useEffect, useState } from 'react';
+import { apiClient, isApiMode } from '../../services/apiClient';
+
+type Offer = { id:string; resourceName:string; recipientName:string; allocated_quantity:number; unit:string; estimated_distance_km:number; explanation:string; constraints_satisfied:string[]; logistics:string; ngo_response:string; response_reason:string; status:string };
+export function LiveMatchOffers({ recipient=false, coordinator=false }: { recipient?:boolean; coordinator?:boolean }) {
+  const [offers,setOffers]=useState<Offer[]>([]); const [error,setError]=useState('');
+  const load=async()=>{ if (!isApiMode()) return; try { const r=await apiClient.get('/intelligence/offers/'); setOffers(r.data.results); } catch (e:any) { setError(e.message); } };
+  useEffect(()=>{load(); const t=setInterval(load,10000); return()=>clearInterval(t)},[]);
+  if (!isApiMode()) return null;
+  const visible=offers.filter(o=>coordinator || (recipient ? o.recipientName : true));
+  return <section className="rounded-2xl border border-[#E5EAE7] bg-white p-4"><div className="flex justify-between"><h2 className="font-bold text-[#182B25]">Live smart-match offers</h2><span className="text-xs text-slate-500">PostgreSQL + OR-Tools</span></div>{error&&<p className="mt-2 text-xs text-red-700">{error}</p>}{!visible.length?<p className="mt-2 text-sm text-slate-500">No current offers. New eligible surplus is matched automatically after it is published.</p>:<div className="mt-3 space-y-2">{visible.map(o=><article key={o.id} className="rounded-lg border p-3 text-sm"><p className="font-semibold">{o.resourceName} → {o.recipientName}: {o.allocated_quantity} {o.unit}</p><p>{o.estimated_distance_km} km · {o.logistics === 'VOLUNTEER' ? 'Volunteer-deliverable' : 'Pickup only'} · NGO: {o.ngo_response}</p><p className="text-xs text-slate-600">{o.explanation}</p>{recipient&&o.ngo_response==='PENDING'&&<div className="mt-2 flex gap-2"><button className="rounded bg-[#16866A] px-3 py-1 text-xs text-white" onClick={()=>apiClient.post(`/intelligence/offers/${o.id}/respond/`,{response:'ACCEPTED'}).then(load)}>Accept</button><button className="rounded border px-3 py-1 text-xs" onClick={()=>{const reason=window.prompt('Reason for declining (optional)')||'';apiClient.post(`/intelligence/offers/${o.id}/respond/`,{response:'DECLINED',reason}).then(load)}}>Decline</button></div>}<details className="mt-1 text-xs"><summary>Matching reasons</summary>{o.constraints_satisfied.map(x=><p key={x}>{x}</p>)}</details></article>)}</div>}</section>;
+}

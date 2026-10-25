@@ -8,6 +8,7 @@ import { ResourceRequest, FoodListing, DeliveryTask } from '../../types';
 import { PlusCircle, ShoppingBag, Truck, CheckCircle2, Clock, MapPin, Flame } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useAuth, useOperational } from '../../hooks';
+import { LiveMatchOffers } from '../../components/common/LiveMatchOffers';
 
 export const RecipientDashboard: React.FC = () => {
   const { currentUser } = useAuth();
@@ -55,6 +56,7 @@ export const RecipientDashboard: React.FC = () => {
           </Link>
         }
       />
+      <LiveMatchOffers recipient />
 
       {/* Disaster Mode Contextual Notice */}
       {isDisasterMode && (

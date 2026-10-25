@@ -21,7 +21,7 @@ class OptimizationRecommendationSerializer(serializers.ModelSerializer):
             'allocated_quantity', 'unit', 'estimated_distance_km', 'distance_type',
             'deadline_urgency', 'match_score', 'explanation', 'suggested_action',
             'assigned_volunteer', 'volunteerName', 'volunteer_feasibility_notes',
-            'constraints_satisfied', 'status', 'createdAllocationId', 'created_at'
+            'constraints_satisfied', 'status', 'ngo_response', 'response_reason', 'responded_at', 'logistics', 'createdAllocationId', 'created_at'
         ]
         read_only_fields = ['id', 'created_at']
 

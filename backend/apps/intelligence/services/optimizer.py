@@ -52,7 +52,7 @@ class OptimizationPlanResult:
             'metadata': self.metadata,
         }
 
-def solve_resource_allocation(resources, requests, time_limit_seconds=10.0, now=None):
+def solve_resource_allocation(resources, requests, time_limit_seconds=10.0, now=None, include_pickup=False, excluded_pairs=None, excluded_volunteers=None):
     """Joint CP-SAT allocation and courier assignment, with exact per-unit conservation."""
     import math
     from .volunteer_assignment import volunteer_candidates
@@ -61,8 +61,13 @@ def solve_resource_allocation(resources, requests, time_limit_seconds=10.0, now=
     def scaled(value): return math.floor((float(value)+1e-9)*SCALE_FACTOR)
     for resource in resources:
         for request in requests:
+            if (resource.pk, request.pk) in (excluded_pairs or set()):
+                continue
             eligibility=evaluate_resource_request_eligibility(resource,request,now)
             candidates,reasons=volunteer_candidates(resource,request,now) if eligibility.is_eligible else ([],eligibility.reasons_rejected)
+            candidates = [c for c in candidates if c['volunteer'].pk not in (excluded_volunteers or set())]
+            if include_pickup and eligibility.is_eligible:
+                candidates.append(dict(volunteer=None, capacity=eligibility.compatible_quantity, missing_information=['NGO must arrange pickup before the safe-use deadline.']))
             if not candidates:
                 rejected.append(dict(resource_id=resource.pk,request_id=request.pk,reasons=reasons,missing_information=eligibility.missing_information)); continue
             for candidate in candidates:
@@ -71,7 +76,7 @@ def solve_resource_allocation(resources, requests, time_limit_seconds=10.0, now=
                 if resource.unit in ['meals','kits','items','packs','portions','bottles','boxes','packages']:
                     limit=(limit//100)*100
                 if limit<=0: continue
-                key=(resource.pk,request.pk,volunteer.pk)
+                key=(resource.pk,request.pk,volunteer.pk if volunteer else 'PICKUP_'+resource.pk+'_'+request.pk)
                 x=model.new_int_var(0,limit,'quantity_'+'_'.join(key))
                 selected=model.new_bool_var('mission_'+'_'.join(key))
                 model.add(x<=limit*selected); model.add(x>=selected)
@@ -100,6 +105,8 @@ def solve_resource_allocation(resources, requests, time_limit_seconds=10.0, now=
         hours_left=(resource.safe_until-now).total_seconds()/3600 if resource.safe_until else float('inf')
         expiry_bonus=200 if hours_left<=6 else 100 if hours_left<=24 else 0
         coefficient=max(1,round((priority+expiry_bonus)*1000000/max(1,scaled(request.remaining_quantity)))-round(eligibility.distance_km*5))
+        if candidate['volunteer']:
+            coefficient += 1  # Prefer a feasible courier when quantities are otherwise equal.
         terms.append(x*coefficient)
     if terms: model.maximize(sum(terms))
     solver=cp_model.CpSolver(); solver.parameters.max_time_in_seconds=time_limit_seconds; solver.parameters.num_workers=4
@@ -112,7 +119,7 @@ def solve_resource_allocation(resources, requests, time_limit_seconds=10.0, now=
             if value<=0: continue
             resource,request,eligibility,candidate=meta[key]
             res_used[resource.pk]+=value; req_used[request.pk]+=value
-            rows.append(dict(resource_id=resource.pk,request_id=request.pk,resource_name=resource.name,request_item_name=request.item_name,provider_name=resource.provider.name,recipient_name=request.recipient.name,allocated_quantity=value,unit=resource.unit,distance_km=eligibility.distance_km,distance_type=eligibility.distance_type,assigned_volunteer_id=candidate['volunteer'].pk,volunteer_name=candidate['volunteer'].full_name,missing_information=candidate['missing_information'],constraints_satisfied=eligibility.constraints_satisfied,match_score=0,explanation='CP-SAT feasible allocation with a verified available courier. Missing records are reported separately.'))
+            rows.append(dict(resource_id=resource.pk,request_id=request.pk,resource_name=resource.name,request_item_name=request.item_name,provider_name=resource.provider.name,recipient_name=request.recipient.name,allocated_quantity=value,unit=resource.unit,distance_km=eligibility.distance_km,distance_type=eligibility.distance_type,assigned_volunteer_id=candidate['volunteer'].pk if candidate['volunteer'] else None,volunteer_name=candidate['volunteer'].full_name if candidate['volunteer'] else None,missing_information=candidate['missing_information'],constraints_satisfied=eligibility.constraints_satisfied,match_score=0,explanation='CP-SAT feasible recommendation. NGO acceptance and coordinator approval are required.'))
     units={r.unit for r in resources}|{q.unit for q in requests}
     by_unit={unit:dict(supply=round(sum(r.available_quantity for r in resources if r.unit==unit),2),demand=round(sum(q.remaining_quantity for q in requests if q.unit==unit),2),allocated=round(sum(row['allocated_quantity'] for row in rows if row['unit']==unit),2)) for unit in units}
     for data in by_unit.values():

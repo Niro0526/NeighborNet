@@ -27,8 +27,9 @@ def approve_recommendation_batch(batch_id: str, user) -> RecommendationBatch:
 
     if batch.status not in [RecommendationStatusChoices.PENDING_APPROVAL, RecommendationStatusChoices.DRAFT]:
         raise ValueError('Only a pending plan can be approved and committed.')
-    if batch.solver_status not in ['OPTIMAL', 'FEASIBLE'] or not batch.recommendations.exists():
-        raise ValueError('The solver produced no feasible allocations to approve.')
+    accepted = batch.recommendations.filter(ngo_response='ACCEPTED')
+    if batch.solver_status not in ['OPTIMAL', 'FEASIBLE'] or not accepted.exists():
+        raise ValueError('At least one NGO must accept a feasible offer before approval.')
 
     batch.status = RecommendationStatusChoices.APPROVED
     batch.approved_by = user
@@ -36,7 +37,7 @@ def approve_recommendation_batch(batch_id: str, user) -> RecommendationBatch:
     batch.save(update_fields=['status', 'approved_by', 'approved_at'])
 
     # Update individual recommendations
-    batch.recommendations.update(status=RecommendationStatusChoices.APPROVED)
+    accepted.update(status=RecommendationStatusChoices.APPROVED)
 
     ActivityLog.objects.create(
         user=user,
@@ -47,8 +48,6 @@ def approve_recommendation_batch(batch_id: str, user) -> RecommendationBatch:
         category=AuditCategoryChoices.ADMIN
     )
 
-    apply_recommendation_batch(batch.pk, user)
-    batch.refresh_from_db()
     return batch
 
 @transaction.atomic
@@ -99,7 +98,7 @@ def apply_recommendation_batch(batch_id: str, user) -> Dict[str, Any]:
     if batch.status != RecommendationStatusChoices.APPROVED:
         raise ValueError(f"Batch '{batch_id}' is in status '{batch.status}' (must be APPROVED to apply).")
 
-    recommendations = list(batch.recommendations.select_related('resource', 'request', 'assigned_volunteer').order_by('resource_id', 'request_id', 'id'))
+    recommendations = list(batch.recommendations.filter(status=RecommendationStatusChoices.APPROVED, ngo_response='ACCEPTED').select_related('resource', 'request', 'assigned_volunteer').order_by('resource_id', 'request_id', 'id'))
     if not recommendations:
         raise ValueError(f"Batch '{batch_id}' contains no recommended allocations to commit.")
     if len({(r.resource_id, r.request_id) for r in recommendations}) != len(recommendations):
@@ -163,11 +162,12 @@ def apply_recommendation_batch(batch_id: str, user) -> Dict[str, Any]:
         if not eligibility.is_eligible:
             raise ValueError('Stale or incompatible recommendation: '+'; '.join(eligibility.reasons_rejected))
         from .volunteer_assignment import volunteer_candidates
-        candidates, reasons = volunteer_candidates(resource, req)
-        candidate = next((c for c in candidates if c['volunteer'].pk == rec.assigned_volunteer_id and c['capacity'] >= rec.allocated_quantity), None)
-        if not candidate or rec.assigned_volunteer_id in assigned:
-            raise ValueError('Assigned volunteer is no longer feasible or is duplicated in this plan. '+'; '.join(reasons))
-        assigned.add(rec.assigned_volunteer_id)
+        if rec.assigned_volunteer_id:
+            candidates, reasons = volunteer_candidates(resource, req)
+            candidate = next((c for c in candidates if c['volunteer'].pk == rec.assigned_volunteer_id and c['capacity'] >= rec.allocated_quantity), None)
+            if not candidate or rec.assigned_volunteer_id in assigned:
+                raise ValueError('Assigned volunteer is no longer feasible or is duplicated in this plan. '+'; '.join(reasons))
+            assigned.add(rec.assigned_volunteer_id)
         if resource.is_disaster_relief or req.is_disaster_relief:
             from apps.disasters.models import DisasterEvent
             event_id = resource.disaster_event_id or req.disaster_event_id
@@ -204,9 +204,10 @@ def apply_recommendation_batch(batch_id: str, user) -> Dict[str, Any]:
         committed_allocations.append(alloc)
 
         # 6. Assign volunteer if designated
-        volunteer = locked_volunteers[rec.assigned_volunteer_id]
-        volunteer.status = VolunteerAvailabilityChoices.BUSY
-        volunteer.save(update_fields=['status'])
+        volunteer = locked_volunteers.get(rec.assigned_volunteer_id)
+        if volunteer:
+            volunteer.status = VolunteerAvailabilityChoices.BUSY
+            volunteer.save(update_fields=['status'])
 
         # 7. Create corresponding DeliveryTask
         task = DeliveryTask.objects.create(
@@ -236,7 +237,8 @@ def apply_recommendation_batch(batch_id: str, user) -> Dict[str, Any]:
         DeliveryStatusEvent.objects.create(delivery_task=task, from_status='INITIAL', to_status=task.status, changed_by=user, notes=f'Coordinator applied plan {batch.id}.')
         for organization in [resource.provider, req.recipient]:
             send_notification(title='Allocation Approved', message=f'{task.title}: {task.status}.', organization=organization, action_url='/dashboard', event_key=f'plan-{alloc.id}-{organization.pk}')
-        send_notification(title='Delivery Mission Assigned' if volunteer else 'New Delivery Mission Available', message=task.title, user=volunteer.user if volunteer else None, role_target='' if volunteer else 'VOLUNTEER', action_url='/volunteer/active', event_key=f'plan-task-{task.id}')
+        if volunteer:
+            send_notification(title='Delivery Mission Assigned', message=task.title, user=volunteer.user, action_url='/volunteer/active', event_key=f'plan-task-{task.id}')
         created_tasks.append(task)
 
     # 8. Finalize batch state

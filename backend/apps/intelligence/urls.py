@@ -13,6 +13,8 @@ from .views import (
     DataIntelligenceAnalyticsView,
     VerifiedImpactAnalyticsView,
     EvaluationsListView,
+    OfferListView,
+    OfferResponseView,
 )
 
 urlpatterns = [
@@ -28,6 +30,8 @@ urlpatterns = [
     path('recommendations/<str:pk>/approve/', ApproveBatchView.as_view(), name='intelligence-recommendations-approve'),
     path('recommendations/<str:pk>/reject/', RejectBatchView.as_view(), name='intelligence-recommendations-reject'),
     path('recommendations/<str:pk>/apply/', ApplyBatchView.as_view(), name='intelligence-recommendations-apply'),
+    path('offers/', OfferListView.as_view(), name='intelligence-offers'),
+    path('offers/<str:pk>/respond/', OfferResponseView.as_view(), name='intelligence-offer-respond'),
 
     # Disruption Recovery
     path('recovery/preview/', RecoveryPreviewView.as_view(), name='intelligence-recovery-preview'),

@@ -23,6 +23,7 @@ import { Link } from 'react-router-dom';
 import { isApiMode } from '../../services/apiClient';
 
 import { LiveOperationsCenter } from '../../components/coordinator/LiveOperationsCenter';
+import { LiveMatchOffers } from '../../components/common/LiveMatchOffers';
 
 export const CoordinatorDashboard: React.FC = () => {
   const { isDisasterMode, activeDisaster } = useOperational();
@@ -104,6 +105,7 @@ export const CoordinatorDashboard: React.FC = () => {
           </div>
         }
       />
+      <LiveMatchOffers coordinator />
 
       <div className="flex flex-col gap-3 rounded-xl border border-[#E5EAE7] bg-white px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
         <div>

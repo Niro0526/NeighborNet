@@ -22,6 +22,7 @@ class IntelligenceMethodChoices(models.TextChoices):
     BASELINE_NEAREST = 'BASELINE_NEAREST', 'Baseline B: Nearest Compatible Match'
 
 class RecommendationStatusChoices(models.TextChoices):
+    SUPERSEDED = 'SUPERSEDED', 'Superseded by a newer plan'
     DRAFT = 'DRAFT', 'Draft Plan'
     PENDING_APPROVAL = 'PENDING_APPROVAL', 'Pending Coordinator Approval'
     APPROVED = 'APPROVED', 'Approved by Coordinator'
@@ -103,9 +104,15 @@ class OptimizationRecommendation(models.Model):
         'deliveries.Allocation', on_delete=models.SET_NULL, null=True, blank=True, related_name='source_recommendation'
     )
     created_at = models.DateTimeField(auto_now_add=True)
+    ngo_response = models.CharField(max_length=20, default='PENDING', choices=[('PENDING', 'Awaiting NGO'), ('ACCEPTED', 'Accepted'), ('DECLINED', 'Declined')])
+    response_reason = models.TextField(blank=True)
+    responded_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name='matching_responses')
+    responded_at = models.DateTimeField(null=True, blank=True)
+    logistics = models.CharField(max_length=20, default='VOLUNTEER', choices=[('VOLUNTEER', 'Volunteer delivery'), ('PICKUP_ONLY', 'NGO pickup')])
 
     class Meta:
         ordering = ['-created_at']
+        constraints = [models.UniqueConstraint(fields=['resource', 'request'], condition=models.Q(status__in=['PENDING_APPROVAL', 'APPROVED']), name='unique_active_matching_offer')]
 
     def __str__(self):
         return f"{self.id}: {self.resource.name} -> {self.request.item_name} ({self.allocated_quantity} {self.unit})"

@@ -12,6 +12,7 @@ import { analyticsService } from '../../services/analyticsService';
 import { useLivePolling } from '../../hooks';
 import { isApiMode } from '../../services/apiClient';
 import { DonationTracking } from '../../components/delivery/DonationTracking';
+import { LiveMatchOffers } from '../../components/common/LiveMatchOffers';
 
 export const ProviderDashboard: React.FC = () => {
   const { currentUser } = useAuth();
@@ -76,6 +77,7 @@ export const ProviderDashboard: React.FC = () => {
           </Link>
         }
       />
+      <LiveMatchOffers />
 
       {error && (
         <div className="rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-xs font-semibold text-red-700">

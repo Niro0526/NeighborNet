@@ -339,3 +339,43 @@ class EvaluationsListView(views.APIView):
             'results': serializer.data,
         }, status=status.HTTP_200_OK)
 
+
+class OfferListView(views.APIView):
+    """Live, organization-scoped offers for provider and recipient dashboards."""
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        qs = OptimizationRecommendation.objects.select_related('resource__provider', 'request__recipient', 'assigned_volunteer')
+        if request.user.is_coordinator:
+            pass
+        else:
+            orgs = request.user.organization_memberships.filter(is_active=True).values_list('organization_id', flat=True)
+            qs = qs.filter(resource__provider_id__in=orgs) | qs.filter(request__recipient_id__in=orgs)
+        return Response({'results': OptimizationRecommendationSerializer(qs.order_by('-created_at')[:100], many=True).data})
+
+
+class OfferResponseView(views.APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    @transaction.atomic
+    def post(self, request, pk):
+        response = request.data.get('response')
+        reason = request.data.get('reason', '').strip()
+        if response not in ['ACCEPTED', 'DECLINED']:
+            return Response({'detail': 'response must be ACCEPTED or DECLINED.'}, status=400)
+        offer = OptimizationRecommendation.objects.select_for_update().select_related('request__recipient').filter(pk=pk).first()
+        if not offer:
+            return Response({'detail': 'Offer not found.'}, status=404)
+        if not request.user.organization_memberships.filter(organization=offer.request.recipient, is_active=True).exists():
+            return Response({'detail': 'Only the recipient NGO may respond to this offer.'}, status=403)
+        if offer.status != RecommendationStatusChoices.PENDING_APPROVAL or offer.ngo_response != 'PENDING':
+            return Response({'detail': 'This offer is no longer awaiting a response.'}, status=409)
+        offer.ngo_response, offer.response_reason, offer.responded_by, offer.responded_at = response, reason, request.user, timezone.now()
+        offer.save(update_fields=['ngo_response', 'response_reason', 'responded_by', 'responded_at'])
+        if response == 'DECLINED':
+            offer.status = RecommendationStatusChoices.SUPERSEDED
+            offer.save(update_fields=['status'])
+            from apps.intelligence.services.automatic_matching import schedule_matching
+            schedule_matching(offer.resource, request.user)
+        return Response(OptimizationRecommendationSerializer(offer).data)
+
